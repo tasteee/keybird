@@ -1,0 +1,7 @@
+.ChordBoard {
+	z-index: 101;
+	width: 100%;
+}
+
+.ChordBoard[data-isexpanded='true'] {
+}

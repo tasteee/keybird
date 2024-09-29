@@ -1,0 +1,1097 @@
+[
+	{
+		"name": "fifth",
+		"intervals": ["1P", "5P"],
+		"symbols": ["5"]
+	},
+	{
+		"name": "suspended fourth",
+		"intervals": ["1P", "4P", "5P"],
+		"symbols": ["sus4", "sus"]
+	},
+	{
+		"name": "suspended fourth seventh",
+		"intervals": ["1P", "4P", "5P", "7m"],
+		"symbols": ["7sus4", "7sus"]
+	},
+	{
+		"name": "augmented",
+		"intervals": ["1P", "3M", "5A"],
+		"symbols": ["aug", "+", "+5", "^#5"]
+	},
+	{
+		"name": "major seventh flat sixth",
+		"intervals": ["1P", "3M", "6m", "7M"],
+		"symbols": ["M7b6", "^7b6"]
+	},
+	{
+		"name": "augmented seventh",
+		"intervals": ["1P", "3M", "5A", "7M"],
+		"symbols": ["maj7#5", "maj7+5", "+maj7", "^7#5"]
+	},
+	{
+		"name": "major",
+		"intervals": ["1P", "3M", "5P"],
+		"symbols": ["M", "^", "", "maj"]
+	},
+	{
+		"name": "major seventh",
+		"intervals": ["1P", "3M", "5P", "7M"],
+		"symbols": ["maj7", "Δ", "ma7", "M7", "Maj7", "^7"]
+	},
+	{
+		"name": "dominant seventh",
+		"intervals": ["1P", "3M", "5P", "7m"],
+		"symbols": ["7", "dom"]
+	},
+	{
+		"name": "sixth",
+		"intervals": ["1P", "3M", "5P", "6M"],
+		"symbols": ["6", "add6", "add13", "M6"]
+	},
+	{
+		"name": "major seventh sharp eleventh",
+		"intervals": ["1P", "3M", "5P", "7M", "11A"],
+		"symbols": ["maj#4", "Δ#4", "Δ#11", "M7#11", "^7#11", "maj7#11"]
+	},
+	{
+		"name": "lydian dominant seventh",
+		"intervals": ["1P", "3M", "5P", "7m", "11A"],
+		"symbols": ["7#11", "7#4"]
+	},
+	{
+		"name": "minor augmented",
+		"intervals": ["1P", "3m", "5A"],
+		"symbols": ["m#5", "-#5", "m+"]
+	},
+	{
+		"name": "minor",
+		"intervals": ["1P", "3m", "5P"],
+		"symbols": ["m", "min", "-"]
+	},
+	{
+		"name": "minor/major seventh",
+		"intervals": ["1P", "3m", "5P", "7M"],
+		"symbols": ["m/ma7", "m/maj7", "mM7", "mMaj7", "m/M7", "-Δ7", "mΔ", "-^7", "-maj7"]
+	},
+	{
+		"name": "minor seventh",
+		"intervals": ["1P", "3m", "5P", "7m"],
+		"symbols": ["m7", "min7", "mi7", "-7"]
+	},
+	{
+		"name": "minor sixth",
+		"intervals": ["1P", "3m", "5P", "6M"],
+		"symbols": ["m6", "-6"]
+	},
+	{
+		"name": "diminished",
+		"intervals": ["1P", "3m", "5d"],
+		"symbols": ["dim", "°", "o"]
+	},
+	{
+		"name": "half-diminished",
+		"intervals": ["1P", "3m", "5d", "7m"],
+		"symbols": ["m7b5", "ø", "-7b5", "h7", "h"]
+	},
+	{
+		"name": "diminished seventh",
+		"intervals": ["1P", "3m", "5d", "7d"],
+		"symbols": ["dim7", "°7", "o7"]
+	},
+	{
+		"name": "dominant sharp ninth",
+		"intervals": ["1P", "3M", "5P", "7m", "9A"],
+		"symbols": ["7#9"]
+	},
+	{
+		"name": "suspended second",
+		"intervals": ["1P", "2M", "5P"],
+		"symbols": ["sus2"]
+	},
+	{
+		"name": "eleventh",
+		"intervals": ["1P", "5P", "7m", "9M", "11P"],
+		"symbols": ["11"]
+	},
+	{
+		"name": "major ninth",
+		"intervals": ["1P", "3M", "5P", "7M", "9M"],
+		"symbols": ["maj9", "Δ9", "^9"]
+	},
+	{
+		"name": "dominant ninth",
+		"intervals": ["1P", "3M", "5P", "7m", "9M"],
+		"symbols": ["9"]
+	},
+	{
+		"name": "sixth added ninth",
+		"intervals": ["1P", "3M", "5P", "6M", "9M"],
+		"symbols": ["6add9", "6/9", "69", "M69"]
+	},
+	{
+		"name": "major thirteenth",
+		"intervals": ["1P", "3M", "5P", "7M", "9M", "13M"],
+		"symbols": ["maj13", "Maj13", "^13"]
+	},
+	{
+		"name": "dominant thirteenth",
+		"intervals": ["1P", "3M", "5P", "7m", "9M", "13M"],
+		"symbols": ["13"]
+	},
+	{
+		"name": "major sharp eleventh (lydian)",
+		"intervals": ["1P", "3M", "5P", "7M", "9M", "11A"],
+		"symbols": ["maj9#11", "Δ9#11", "^9#11"]
+	},
+	{
+		"name": "minor/major ninth",
+		"intervals": ["1P", "3m", "5P", "7M", "9M"],
+		"symbols": ["mM9", "mMaj9", "-^9"]
+	},
+	{
+		"name": "minor ninth",
+		"intervals": ["1P", "3m", "5P", "7m", "9M"],
+		"symbols": ["m9", "-9"]
+	},
+	{
+		"name": "minor thirteenth",
+		"intervals": ["1P", "3m", "5P", "7m", "9M", "13M"],
+		"symbols": ["m13", "-13"]
+	},
+	{
+		"name": "minor eleventh",
+		"intervals": ["1P", "3m", "5P", "7m", "9M", "11P"],
+		"symbols": ["m11", "-11"]
+	},
+	{
+		"name": "suspended fourth flat ninth",
+		"intervals": ["1P", "4P", "5P", "7m", "9m"],
+		"symbols": ["b9sus", "phryg", "7b9sus", "7b9sus4"]
+	},
+	{
+		"name": "altered",
+		"intervals": ["1P", "3M", "7m", "9m"],
+		"symbols": ["alt7"]
+	},
+	{
+		"name": "dominant flat ninth",
+		"intervals": ["1P", "3M", "5P", "7m", "9m"],
+		"symbols": ["7b9"]
+	},
+	{
+		"name": "dominant seventh (no third)",
+		"intervals": ["1P", "5P", "7m"],
+		"symbols": ["7(no3)"]
+	},
+	{
+		"name": "major eleventh",
+		"intervals": ["1P", "3M", "5P", "7M", "9M", "11P"],
+		"symbols": ["maj11"]
+	},
+	{
+		"name": "no fifth",
+		"intervals": ["1P", "3M", "7M"],
+		"symbols": ["no5", "maj7(no5)", "(no5)"]
+	},
+	{
+		"name": "added eleventh",
+		"intervals": ["1P", "3M", "5P", "11P"],
+		"symbols": ["add11"]
+	},
+	{
+		"name": "minor",
+		"intervals": ["1P", "3m", "5P"],
+		"symbols": ["m", "min"]
+	},
+	{
+		"name": "suspended second",
+		"intervals": ["1P", "2M", "5P"],
+		"symbols": ["sus2"]
+	},
+	{
+		"name": "suspended fourth",
+		"intervals": ["1P", "4P", "5P"],
+		"symbols": ["sus4"]
+	},
+	{
+		"name": "minor seventh",
+		"intervals": ["1P", "3m", "5P", "7m"],
+		"symbols": ["m7", "min7"]
+	},
+	{
+		"name": "minor eleventh",
+		"intervals": ["1P", "3m", "5P", "7m", "9M", "11P"],
+		"symbols": ["m11", "min11"]
+	},
+	{
+		"name": "minor eleventh flat thirteenth",
+		"intervals": ["1P", "3m", "5P", "7m", "9M", "11P", "13m"],
+		"symbols": ["m11♭13", "min11♭13"]
+	},
+	{
+		"name": "dominant seventh suspended second",
+		"intervals": ["1P", "2M", "5P", "7m"],
+		"symbols": ["7sus2"]
+	},
+	{
+		"name": "dominant seventh suspended fourth",
+		"intervals": ["1P", "4P", "5P", "7m"],
+		"symbols": ["7sus4"]
+	},
+	{
+		"name": "minor ninth",
+		"intervals": ["1P", "3m", "5P", "7m", "9M"],
+		"symbols": ["m9", "min9"]
+	},
+	{
+		"name": "minor added ninth and eleventh",
+		"intervals": ["1P", "3m", "5P", "9M", "11P"],
+		"symbols": ["madd9add11", "minadd9add11"]
+	},
+	{
+		"name": "minor added ninth",
+		"intervals": ["1P", "3m", "5P", "9M"],
+		"symbols": ["madd9", "minadd9"]
+	},
+	{
+		"name": "minor (no fifth) added ninth",
+		"intervals": ["1P", "3m", "9M"],
+		"symbols": ["m(no5)add9", "min(no5)add9"]
+	},
+	{
+		"name": "minor added eleventh",
+		"intervals": ["1P", "3m", "5P", "11P"],
+		"symbols": ["madd11", "minadd11"]
+	},
+	{
+		"name": "dominant ninth suspended fourth",
+		"intervals": ["1P", "4P", "5P", "7m", "9M"],
+		"symbols": ["9sus4"]
+	},
+	{
+		"name": "minor (no fifth)",
+		"intervals": ["1P", "3m"],
+		"symbols": ["m(no5)", "min(no5)"]
+	},
+	{
+		"name": "diminished",
+		"intervals": ["1P", "3m", "5d"],
+		"symbols": ["dim", "°"]
+	},
+	{
+		"name": "minor seventh flat five",
+		"intervals": ["1P", "3m", "5d", "7m"],
+		"symbols": ["m7♭5", "min7♭5"]
+	},
+	{
+		"name": "minor seventh flat five flat ninth",
+		"intervals": ["1P", "3m", "5d", "7m", "9m"],
+		"symbols": ["m7♭5♭9", "min7♭5♭9"]
+	},
+	{
+		"name": "minor eleventh flat five flat ninth",
+		"intervals": ["1P", "3m", "5d", "7m", "9m", "11P"],
+		"symbols": ["m11♭5♭9", "min11♭5♭9"]
+	},
+	{
+		"name": "diminished sharp fifth",
+		"intervals": ["1P", "3m", "5A"],
+		"symbols": ["dim♯5", "°♯5"]
+	},
+	{
+		"name": "diminished flat ninth",
+		"intervals": ["1P", "3m", "5d", "9m"],
+		"symbols": ["dim♭9", "°♭9"]
+	},
+	{
+		"name": "diminished flat ninth eleventh",
+		"intervals": ["1P", "3m", "5d", "9m", "11P"],
+		"symbols": ["dim♭9add11", "°♭9add11"]
+	},
+	{
+		"name": "diminished flat ninth eleventh flat thirteenth",
+		"intervals": ["1P", "3m", "5d", "9m", "11P", "13m"],
+		"symbols": ["dim♭9add11♭13", "°♭9add11♭13"]
+	},
+	{
+		"name": "major",
+		"intervals": ["1P", "3M", "5P"],
+		"symbols": ["M", "maj"]
+	},
+	{
+		"name": "major seventh",
+		"intervals": ["1P", "3M", "5P", "7M"],
+		"symbols": ["maj7", "M7"]
+	},
+	{
+		"name": "major seventh suspended second",
+		"intervals": ["1P", "2M", "5P", "7M"],
+		"symbols": ["maj7sus2"]
+	},
+	{
+		"name": "major seventh suspended fourth",
+		"intervals": ["1P", "4P", "5P", "7M"],
+		"symbols": ["maj7sus4"]
+	},
+	{
+		"name": "major seventh suspended second thirteenth",
+		"intervals": ["1P", "2M", "5P", "7M", "13M"],
+		"symbols": ["maj7sus2add13"]
+	},
+	{
+		"name": "major added thirteenth",
+		"intervals": ["1P", "3M", "5P", "13M"],
+		"symbols": ["Madd13", "majadd13"]
+	},
+	{
+		"name": "major ninth",
+		"intervals": ["1P", "3M", "5P", "7M", "9M"],
+		"symbols": ["maj9", "M9"]
+	},
+	{
+		"name": "major ninth suspended fourth",
+		"intervals": ["1P", "4P", "5P", "7M", "9M"],
+		"symbols": ["maj9sus4"]
+	},
+	{
+		"name": "major added ninth",
+		"intervals": ["1P", "3M", "5P", "9M"],
+		"symbols": ["Madd9", "majadd9"]
+	},
+	{
+		"name": "major added eleventh",
+		"intervals": ["1P", "3M", "5P", "11P"],
+		"symbols": ["Madd11", "majadd11"]
+	},
+	{
+		"name": "major thirteenth",
+		"intervals": ["1P", "3M", "5P", "7M", "9M", "13M"],
+		"symbols": ["maj13", "M13"]
+	},
+	{
+		"name": "major seventh sharp eleventh",
+		"intervals": ["1P", "3M", "5P", "7M", "11A"],
+		"symbols": ["maj7♯11", "M7♯11"]
+	},
+	{
+		"name": "major seventh (no third)",
+		"intervals": ["1P", "5P", "7M"],
+		"symbols": ["maj7(no3)", "M7(no3)"]
+	},
+	{
+		"name": "major (no fifth)",
+		"intervals": ["1P", "3M"],
+		"symbols": ["M(no5)", "maj(no5)"]
+	},
+	{
+		"name": "sixth suspended fourth",
+		"intervals": ["1P", "4P", "5P", "6M"],
+		"symbols": ["6sus4"]
+	},
+	{
+		"name": "sixth suspended second",
+		"intervals": ["1P", "2M", "5P", "6M"],
+		"symbols": ["6sus2"]
+	},
+	{
+		"name": "minor sixth",
+		"intervals": ["1P", "3m", "5P", "6M"],
+		"symbols": ["m6", "min6"]
+	},
+	{
+		"name": "minor thirteenth",
+		"intervals": ["1P", "3m", "5P", "7m", "9M", "13M"],
+		"symbols": ["m13", "min13"]
+	},
+	{
+		"name": "minor thirteenth suspended fourth",
+		"intervals": ["1P", "4P", "5P", "7m", "9M", "13M"],
+		"symbols": ["m13sus4", "min13sus4"]
+	},
+	{
+		"name": "minor seventh flat nine",
+		"intervals": ["1P", "3m", "5P", "7m", "9m"],
+		"symbols": ["m7♭9", "min7♭9"]
+	},
+	{
+		"name": "minor eleventh flat nine",
+		"intervals": ["1P", "3m", "5P", "7m", "9m", "11P"],
+		"symbols": ["m11♭9", "min11♭9"]
+	},
+	{
+		"name": "minor eleventh flat nine flat thirteenth",
+		"intervals": ["1P", "3m", "5P", "7m", "9m", "11P", "13m"],
+		"symbols": ["m11♭9♭13", "min11♭9♭13"]
+	},
+	{
+		"name": "minor added thirteenth",
+		"intervals": ["1P", "3m", "5P", "13M"],
+		"symbols": ["madd13", "minadd13"]
+	},
+	{
+		"name": "minor sixth eleventh",
+		"intervals": ["1P", "3m", "5P", "6M", "11P"],
+		"symbols": ["m6add11", "min6add11"]
+	},
+	{
+		"name": "minor sixth ninth",
+		"intervals": ["1P", "3m", "5P", "6M", "9M"],
+		"symbols": ["m6add9", "min6add9"]
+	},
+	{
+		"name": "dominant thirteenth",
+		"intervals": ["1P", "3M", "5P", "7m", "9M", "13M"],
+		"symbols": ["13"]
+	},
+	{
+		"name": "dominant thirteenth suspended fourth",
+		"intervals": ["1P", "4P", "5P", "7m", "9M", "13M"],
+		"symbols": ["13sus4"]
+	},
+	{
+		"name": "dominant seventh",
+		"intervals": ["1P", "3M", "5P", "7m"],
+		"symbols": ["7"]
+	},
+	{
+		"name": "dominant seventh sharp ninth",
+		"intervals": ["1P", "3M", "5P", "7m", "9A"],
+		"symbols": ["7♯9"]
+	},
+	{
+		"name": "dominant seventh flat ninth",
+		"intervals": ["1P", "3M", "5P", "7m", "9m"],
+		"symbols": ["7♭9"]
+	},
+	{
+		"name": "dominant seventh sharp eleventh",
+		"intervals": ["1P", "3M", "5P", "7m", "11A"],
+		"symbols": ["7♯11"]
+	},
+	{
+		"name": "dominant seventh flat fifth",
+		"intervals": ["1P", "3M", "5d", "7m"],
+		"symbols": ["7♭5"]
+	},
+	{
+		"name": "dominant seventh sharp fifth",
+		"intervals": ["1P", "3M", "5A", "7m"],
+		"symbols": ["7♯5"]
+	},
+	{
+		"name": "dominant seventh flat ninth flat thirteenth",
+		"intervals": ["1P", "3M", "5P", "7m", "9m", "13m"],
+		"symbols": ["7♭9♭13"]
+	},
+	{
+		"name": "dominant seventh flat ninth sharp thirteenth",
+		"intervals": ["1P", "3M", "5P", "7m", "9m", "13A"],
+		"symbols": ["7♭9♯13"]
+	},
+	{
+		"name": "dominant seventh sharp ninth sharp thirteenth",
+		"intervals": ["1P", "3M", "5P", "7m", "9A", "13A"],
+		"symbols": ["7♯9♯13"]
+	},
+	{
+		"name": "dominant seventh sharp ninth flat thirteenth",
+		"intervals": ["1P", "3M", "5P", "7m", "9A", "13m"],
+		"symbols": ["7♯9♭13"]
+	},
+	{
+		"name": "dominant seventh flat fifth flat ninth",
+		"intervals": ["1P", "3M", "5d", "7m", "9m"],
+		"symbols": ["7♭5♭9"]
+	},
+	{
+		"name": "dominant seventh flat fifth sharp ninth",
+		"intervals": ["1P", "3M", "5d", "7m", "9A"],
+		"symbols": ["7♭5♯9"]
+	},
+	{
+		"name": "dominant seventh sharp fifth sharp ninth",
+		"intervals": ["1P", "3M", "5A", "7m", "9A"],
+		"symbols": ["7♯5♯9"]
+	},
+	{
+		"name": "dominant seventh sharp fifth flat ninth",
+		"intervals": ["1P", "3M", "5A", "7m", "9m"],
+		"symbols": ["7♯5♭9"]
+	},
+	{
+		"name": "dominant ninth",
+		"intervals": ["1P", "3M", "5P", "7m", "9M"],
+		"symbols": ["9"]
+	},
+	{
+		"name": "dominant ninth sharp eleventh",
+		"intervals": ["1P", "3M", "5P", "7m", "9M", "11A"],
+		"symbols": ["9♯11"]
+	},
+	{
+		"name": "dominant ninth flat fifth",
+		"intervals": ["1P", "3M", "5d", "7m", "9M"],
+		"symbols": ["9♭5"]
+	},
+	{
+		"name": "dominant ninth sharp fifth",
+		"intervals": ["1P", "3M", "5A", "7m", "9M"],
+		"symbols": ["9♯5"]
+	},
+	{
+		"name": "dominant ninth flat thirteenth",
+		"intervals": ["1P", "3M", "5P", "7m", "9M", "13m"],
+		"symbols": ["9♭13"]
+	},
+	{
+		"name": "dominant ninth sharp thirteenth",
+		"intervals": ["1P", "3M", "5P", "7m", "9M", "13A"],
+		"symbols": ["9♯13"]
+	},
+	{
+		"name": "dominant thirteenth sharp eleventh",
+		"intervals": ["1P", "3M", "5P", "7m", "9M", "11A", "13M"],
+		"symbols": ["13♯11"]
+	},
+	{
+		"name": "dominant thirteenth flat ninth",
+		"intervals": ["1P", "3M", "5P", "7m", "9m", "13M"],
+		"symbols": ["13♭9"]
+	},
+	{
+		"name": "dominant thirteenth sharp ninth",
+		"intervals": ["1P", "3M", "5P", "7m", "9A", "13M"],
+		"symbols": ["13♯9"]
+	},
+	{
+		"name": "dominant thirteenth sharp fifth",
+		"intervals": ["1P", "3M", "5A", "7m", "9M", "13M"],
+		"symbols": ["13♯5"]
+	},
+	{
+		"name": "dominant thirteenth flat fifth",
+		"intervals": ["1P", "3M", "5d", "7m", "9M", "13M"],
+		"symbols": ["13♭5"]
+	},
+	{
+		"name": "dominant thirteenth flat ninth sharp eleventh",
+		"intervals": ["1P", "3M", "5P", "7m", "9m", "11A", "13M"],
+		"symbols": ["13♭9♯11"]
+	},
+	{
+		"name": "dominant thirteenth flat ninth flat thirteenth",
+		"intervals": ["1P", "3M", "5P", "7m", "9m", "13m"],
+		"symbols": ["13♭9♭13"]
+	},
+	{
+		"name": "dominant thirteenth sharp ninth flat thirteenth",
+		"intervals": ["1P", "3M", "5P", "7m", "9A", "13m"],
+		"symbols": ["13♯9♭13"]
+	},
+	{
+		"name": "diminished seventh",
+		"intervals": ["1P", "3m", "5d", "7d"],
+		"symbols": ["dim7", "°7"]
+	},
+	{
+		"name": "half-diminished seventh",
+		"intervals": ["1P", "3m", "5d", "7m"],
+		"symbols": ["ø7", "m7♭5", "min7♭5"]
+	},
+	{
+		"name": "half-diminished ninth",
+		"intervals": ["1P", "3m", "5d", "7m", "9M"],
+		"symbols": ["ø9", "m9♭5", "min9♭5"]
+	},
+	{
+		"name": "half-diminished eleventh",
+		"intervals": ["1P", "3m", "5d", "7m", "9M", "11P"],
+		"symbols": ["ø11", "m11♭5", "min11♭5"]
+	},
+	{
+		"name": "half-diminished thirteenth",
+		"intervals": ["1P", "3m", "5d", "7m", "9M", "13M"],
+		"symbols": ["ø13", "m13♭5", "min13♭5"]
+	},
+	{
+		"name": "augmented major seventh",
+		"intervals": ["1P", "3M", "5A", "7M"],
+		"symbols": ["maj7♯5", "maj7aug", "maj7+", "M7♯5"]
+	},
+	{
+		"name": "augmented",
+		"intervals": ["1P", "3M", "5A"],
+		"symbols": ["aug", "+", "+5", "aug5"]
+	},
+	{
+		"name": "augmented dominant seventh",
+		"intervals": ["1P", "3M", "5A", "7m"],
+		"symbols": ["7♯5", "7aug", "7+", "7♭13"]
+	},
+	{
+		"name": "augmented ninth",
+		"intervals": ["1P", "3M", "5A", "7m", "9M"],
+		"symbols": ["9♯5", "9+", "9aug"]
+	},
+	{
+		"name": "augmented eleventh",
+		"intervals": ["1P", "3M", "5A", "7m", "9M", "11P"],
+		"symbols": ["11♯5", "11+", "11aug"]
+	},
+	{
+		"name": "augmented thirteenth",
+		"intervals": ["1P", "3M", "5A", "7m", "9M", "13M"],
+		"symbols": ["13♯5", "13+", "13aug"]
+	},
+	{
+		"name": "seventh flat fifth",
+		"intervals": ["1P", "3M", "5d", "7m"],
+		"symbols": ["7♭5"]
+	},
+	{
+		"name": "seventh sharp fifth",
+		"intervals": ["1P", "3M", "5A", "7m"],
+		"symbols": ["7♯5"]
+	},
+	{
+		"name": "ninth flat fifth",
+		"intervals": ["1P", "3M", "5d", "7m", "9M"],
+		"symbols": ["9♭5"]
+	},
+	{
+		"name": "ninth sharp fifth",
+		"intervals": ["1P", "3M", "5A", "7m", "9M"],
+		"symbols": ["9♯5"]
+	},
+	{
+		"name": "eleventh flat fifth",
+		"intervals": ["1P", "3M", "5d", "7m", "9M", "11P"],
+		"symbols": ["11♭5"]
+	},
+	{
+		"name": "eleventh sharp fifth",
+		"intervals": ["1P", "3M", "5A", "7m", "9M", "11P"],
+		"symbols": ["11♯5"]
+	},
+	{
+		"name": "thirteenth flat fifth",
+		"intervals": ["1P", "3M", "5d", "7m", "9M", "13M"],
+		"symbols": ["13♭5"]
+	},
+	{
+		"name": "thirteenth sharp fifth",
+		"intervals": ["1P", "3M", "5A", "7m", "9M", "13M"],
+		"symbols": ["13♯5"]
+	},
+	{
+		"name": "augmented major ninth",
+		"intervals": ["1P", "3M", "5A", "7M", "9M"],
+		"symbols": ["maj9♯5"]
+	},
+	{
+		"name": "augmented major eleventh",
+		"intervals": ["1P", "3M", "5A", "7M", "9M", "11P"],
+		"symbols": ["maj11♯5"]
+	},
+	{
+		"name": "augmented major thirteenth",
+		"intervals": ["1P", "3M", "5A", "7M", "9M", "13M"],
+		"symbols": ["maj13♯5"]
+	},
+	{
+		"name": "eleventh",
+		"intervals": ["1P", "5P", "7m", "9M", "11P"],
+		"symbols": ["11"]
+	},
+	{
+		"name": "dominant seventh sharp ninth",
+		"intervals": ["1P", "3M", "5P", "7m", "9A"],
+		"symbols": ["7♯9"]
+	},
+	{
+		"name": "dominant seventh sharp eleventh",
+		"intervals": ["1P", "3M", "5P", "7m", "11A"],
+		"symbols": ["7♯11"]
+	},
+	{
+		"name": "dominant seventh flat ninth sharp thirteenth",
+		"intervals": ["1P", "3M", "5P", "7m", "9m", "13A"],
+		"symbols": ["7♭9♯13"]
+	},
+	{
+		"name": "dominant seventh flat ninth flat thirteenth",
+		"intervals": ["1P", "3M", "5P", "7m", "9m", "13m"],
+		"symbols": ["7♭9♭13"]
+	},
+	{
+		"name": "dominant seventh sharp ninth sharp thirteenth",
+		"intervals": ["1P", "3M", "5P", "7m", "9A", "13A"],
+		"symbols": ["7♯9♯13"]
+	},
+	{
+		"name": "dominant seventh sharp ninth flat thirteenth",
+		"intervals": ["1P", "3M", "5P", "7m", "9A", "13m"],
+		"symbols": ["7♯9♭13"]
+	},
+	{
+		"name": "dominant seventh flat fifth flat ninth",
+		"intervals": ["1P", "3M", "5d", "7m", "9m"],
+		"symbols": ["7♭5♭9"]
+	},
+	{
+		"name": "dominant seventh flat fifth sharp ninth",
+		"intervals": ["1P", "3M", "5d", "7m", "9A"],
+		"symbols": ["7♭5♯9"]
+	},
+	{
+		"name": "dominant seventh sharp fifth sharp ninth",
+		"intervals": ["1P", "3M", "5A", "7m", "9A"],
+		"symbols": ["7♯5♯9"]
+	},
+	{
+		"name": "dominant seventh sharp fifth flat ninth",
+		"intervals": ["1P", "3M", "5A", "7m", "9m"],
+		"symbols": ["7♯5♭9"]
+	},
+	{
+		"name": "dominant ninth sharp eleventh",
+		"intervals": ["1P", "3M", "5P", "7m", "9M", "11A"],
+		"symbols": ["9♯11"]
+	},
+	{
+		"name": "dominant ninth flat fifth",
+		"intervals": ["1P", "3M", "5d", "7m", "9M"],
+		"symbols": ["9♭5"]
+	},
+	{
+		"name": "dominant ninth sharp fifth",
+		"intervals": ["1P", "3M", "5A", "7m", "9M"],
+		"symbols": ["9♯5"]
+	},
+	{
+		"name": "dominant ninth flat thirteenth",
+		"intervals": ["1P", "3M", "5P", "7m", "9M", "13m"],
+		"symbols": ["9♭13"]
+	},
+	{
+		"name": "dominant ninth sharp thirteenth",
+		"intervals": ["1P", "3M", "5P", "7m", "9M", "13A"],
+		"symbols": ["9♯13"]
+	},
+	{
+		"name": "dominant thirteenth sharp eleventh",
+		"intervals": ["1P", "3M", "5P", "7m", "9M", "11A", "13M"],
+		"symbols": ["13♯11"]
+	},
+	{
+		"name": "dominant thirteenth flat ninth",
+		"intervals": ["1P", "3M", "5P", "7m", "9m", "13M"],
+		"symbols": ["13♭9"]
+	},
+	{
+		"name": "dominant thirteenth sharp ninth",
+		"intervals": ["1P", "3M", "5P", "7m", "9A", "13M"],
+		"symbols": ["13♯9"]
+	},
+	{
+		"name": "dominant thirteenth sharp fifth",
+		"intervals": ["1P", "3M", "5A", "7m", "9M", "13M"],
+		"symbols": ["13♯5"]
+	},
+	{
+		"name": "dominant thirteenth flat fifth",
+		"intervals": ["1P", "3M", "5d", "7m", "9M", "13M"],
+		"symbols": ["13♭5"]
+	},
+	{
+		"name": "dominant thirteenth flat ninth sharp eleventh",
+		"intervals": ["1P", "3M", "5P", "7m", "9m", "11A", "13M"],
+		"symbols": ["13♭9♯11"]
+	},
+	{
+		"name": "dominant thirteenth flat ninth flat thirteenth",
+		"intervals": ["1P", "3M", "5P", "7m", "9m", "13m"],
+		"symbols": ["13♭9♭13"]
+	},
+	{
+		"name": "dominant thirteenth sharp ninth flat thirteenth",
+		"intervals": ["1P", "3M", "5P", "7m", "9A", "13m"],
+		"symbols": ["13♯9♭13"]
+	},
+	{
+		"name": "minor",
+		"intervals": ["1P", "3m", "5P"],
+		"symbols": ["m"]
+	},
+	{
+		"name": "major",
+		"intervals": ["1P", "3M", "5P"],
+		"symbols": ["maj"]
+	},
+	{
+		"name": "major seventh",
+		"intervals": ["1P", "3M", "5P", "7M"],
+		"symbols": ["maj7"]
+	},
+	{
+		"name": "dominant seventh",
+		"intervals": ["1P", "3M", "5P", "7m"],
+		"symbols": ["7"]
+	},
+	{
+		"name": "diminished seventh",
+		"intervals": ["1P", "3m", "5d", "7d"],
+		"symbols": ["dim7"]
+	},
+	{
+		"name": "augmented",
+		"intervals": ["1P", "3M", "5A"],
+		"symbols": ["aug"]
+	},
+	{
+		"name": "suspended fourth",
+		"intervals": ["1P", "4P", "5P"],
+		"symbols": ["sus4"]
+	},
+	{
+		"name": "Augmented Major Seventh Suspended Fourth",
+		"intervals": ["1P", "4P", "5A", "7M"],
+		"symbols": ["M7#5sus4"]
+	},
+	{
+		"name": "Augmented Seventh Suspended Fourth",
+		"intervals": ["1P", "4P", "5A", "7m"],
+		"symbols": ["7#5sus4"]
+	},
+	{
+		"name": "Major Seventh Suspended Fourth",
+		"intervals": ["1P", "4P", "5P", "7M"],
+		"symbols": ["M7sus4"]
+	},
+	{
+		"name": "Dominant Seventh No Fifth",
+		"intervals": ["1P", "3M", "7m"],
+		"symbols": ["7no5"]
+	},
+	{
+		"name": "Augmented Seventh",
+		"intervals": ["1P", "3M", "5A", "7m"],
+		"symbols": ["7#5", "+7", "7+", "7aug", "aug7"]
+	},
+	{
+		"name": "Dominant Seventh Flat Thirteen",
+		"intervals": ["1P", "3M", "7m", "13m"],
+		"symbols": ["7b13"]
+	},
+	{
+		"name": "Dominant Seventh Add Sixth",
+		"intervals": ["1P", "3M", "5P", "7m", "13M"],
+		"symbols": ["7add6", "67", "7add13"]
+	},
+	{
+		"name": "Dominant Seventh Flat Sixth",
+		"intervals": ["1P", "3M", "5P", "6m", "7m"],
+		"symbols": ["7b6"]
+	},
+	{
+		"name": "Major Flat Fifth",
+		"intervals": ["1P", "3M", "5d"],
+		"symbols": ["Mb5"]
+	},
+	{
+		"name": "Major Seventh Flat Fifth",
+		"intervals": ["1P", "3M", "5d", "7M"],
+		"symbols": ["M7b5"]
+	},
+	{
+		"name": "Dominant Seventh Flat Fifth",
+		"intervals": ["1P", "3M", "5d", "7m"],
+		"symbols": ["7b5"]
+	},
+	{
+		"name": "Major Sixth Sharp Eleventh",
+		"intervals": ["1P", "3M", "5P", "6M", "11A"],
+		"symbols": ["M6#11", "M6b5", "6#11", "6b5"]
+	},
+	{
+		"name": "Dominant Seventh Sharp Eleventh Flat Thirteen",
+		"intervals": ["1P", "3M", "5P", "7m", "11A", "13m"],
+		"symbols": ["7#11b13", "7b5b13"]
+	},
+	{
+		"name": "Minor Flat Sixth Major Seventh",
+		"intervals": ["1P", "3m", "6m", "7M"],
+		"symbols": ["mb6M7"]
+	},
+	{
+		"name": "Minor Seventh Sharp Fifth",
+		"intervals": ["1P", "3m", "6m", "7m"],
+		"symbols": ["m7#5"]
+	},
+	{
+		"name": "Minor Major seventh",
+		"intervals": ["1P", "3m", "5P", "7M"],
+		"symbols": ["mmaj7", "minmaj7"]
+	},
+	{
+		"name": "Minor Major Seventh Flat Sixth",
+		"intervals": ["1P", "3m", "5P", "6m", "7M"],
+		"symbols": ["mMaj7b6"]
+	},
+	{
+		"name": "Diminished Major Seventh",
+		"intervals": ["1P", "3m", "5d", "7M"],
+		"symbols": ["oM7"]
+	},
+	{
+		"name": "Diminished Seventh Major Seventh",
+		"intervals": ["1P", "3m", "5d", "6M", "7M"],
+		"symbols": ["o7M7"]
+	},
+	{
+		"name": "Quartal",
+		"intervals": ["1P", "4P", "7m", "10m"],
+		"symbols": ["4", "quartal"]
+	},
+	{
+		"name": "Minor Add Fourth",
+		"intervals": ["1P", "3m", "4P", "5P"],
+		"symbols": ["madd4"]
+	},
+	{
+		"name": "Minor Seventh Add Eleventh",
+		"intervals": ["1P", "3m", "5P", "7m", "11P"],
+		"symbols": ["m7add11", "m7add4"]
+	},
+	{
+		"name": "Augmented Add Sharp Ninth",
+		"intervals": ["1P", "3M", "5A", "9A"],
+		"symbols": ["+add#9"]
+	},
+	{
+		"name": "Augmented Seventh Sharp Ninth",
+		"intervals": ["1P", "3M", "5A", "7m", "9A"],
+		"symbols": ["7#5#9", "7#9#5", "7alt"]
+	},
+	{
+		"name": "Dominant Thirteen Sharp Ninth",
+		"intervals": ["1P", "3M", "5P", "7m", "9A", "13M"],
+		"symbols": ["13#9"]
+	},
+	{
+		"name": "Dominant Seventh Sharp Ninth Flat Thirteen",
+		"intervals": ["1P", "3M", "5P", "7m", "9A", "13m"],
+		"symbols": ["7#9b13"]
+	},
+	{
+		"name": "Major Seventh Sharp Ninth Sharp Eleventh",
+		"intervals": ["1P", "3M", "5P", "7M", "9A", "11A"],
+		"symbols": ["maj7#9#11"]
+	},
+	{
+		"name": "Dominant Seventh Sharp Ninth Sharp Eleventh",
+		"intervals": ["1P", "3M", "5P", "7m", "9A", "11A"],
+		"symbols": ["7#9#11", "7b5#9", "7#9b5"]
+	},
+	{
+		"name": "Dominant Thirteen Sharp Ninth Sharp Eleventh",
+		"intervals": ["1P", "3M", "5P", "7m", "9A", "11A", "13M"],
+		"symbols": ["13#9#11"]
+	},
+	{
+		"name": "Dominant Seventh Sharp Ninth Sharp Eleventh Flat Thirteen",
+		"intervals": ["1P", "3M", "5P", "7m", "9A", "11A", "13m"],
+		"symbols": ["7#9#11b13"]
+	},
+	{
+		"name": "Augmented Major Ninth Suspended Fourth",
+		"intervals": ["1P", "4P", "5A", "7M", "9M"],
+		"symbols": ["M9#5sus4"]
+	},
+	{
+		"name": "Suspended Fourth Add Ninth",
+		"intervals": ["1P", "2M", "4P", "5P"],
+		"symbols": ["sus24", "sus4add9"]
+	},
+	{
+		"name": "Major Ninth Suspended Fourth",
+		"intervals": ["1P", "4P", "5P", "7M", "9M"],
+		"symbols": ["M9sus4"]
+	},
+	{
+		"name": "Ninth Suspended Fourth",
+		"intervals": ["1P", "4P", "5P", "7m", "9M"],
+		"symbols": ["9sus4", "9sus"]
+	},
+	{
+		"name": "Thirteenth Suspended Fourth",
+		"intervals": ["1P", "4P", "5P", "7m", "9M", "13M"],
+		"symbols": ["13sus4", "13sus"]
+	},
+	{
+		"name": "Dominant Ninth No Fifth",
+		"intervals": ["1P", "3M", "7m", "9M"],
+		"symbols": ["9no5"]
+	},
+	{
+		"name": "Dominant Thirteenth No Fifth",
+		"intervals": ["1P", "3M", "7m", "9M", "13M"],
+		"symbols": ["13no5"]
+	},
+	{
+		"name": "Augmented Add Ninth",
+		"intervals": ["1P", "3M", "5A", "9M"],
+		"symbols": ["M#5add9", "+add9"]
+	},
+	{
+		"name": "Major Ninth Augmented Fifth",
+		"intervals": ["1P", "3M", "5A", "7M", "9M"],
+		"symbols": ["maj9#5", "Maj9#5"]
+	},
+	{
+		"name": "Dominant Ninth Augmented Fifth",
+		"intervals": ["1P", "3M", "5A", "7m", "9M"],
+		"symbols": ["9#5", "9+"]
+	},
+	{
+		"name": "Dominant Ninth Flat Thirteen",
+		"intervals": ["1P", "3M", "7m", "9M", "13m"],
+		"symbols": ["9b13"]
+	},
+	{
+		"name": "Major Add Ninth",
+		"intervals": ["1P", "3M", "5P", "9M"],
+		"symbols": ["Madd9", "2", "add9", "add2"]
+	},
+	{
+		"name": "Major Seventh Add Thirteenth",
+		"intervals": ["1P", "3M", "5P", "6M", "7M", "9M"],
+		"symbols": ["M7add13"]
+	},
+	{
+		"name": "Major Ninth Flat Fifth",
+		"intervals": ["1P", "3M", "5d", "7M", "9M"],
+		"symbols": ["M9b5"]
+	},
+	{
+		"name": "Dominant Ninth Flat Fifth",
+		"intervals": ["1P", "3M", "5d", "7m", "9M"],
+		"symbols": ["9b5"]
+	},
+	{
+		"name": "Dominant Thirteenth Flat Fifth",
+		"intervals": ["1P", "3M", "5d", "6M", "7m", "9M"],
+		"symbols": ["13b5"]
+	},
+	{
+		"name": "Dominant Ninth Augmented Fifth Sharp Eleventh",
+		"intervals": ["1P", "3M", "5A", "7m", "9M", "11A"],
+		"symbols": ["9#5#11"]
+	},
+	{
+		"name": "Dominant Ninth Sharp Eleventh",
+		"intervals": ["1P", "3M", "5P", "7m", "9M", "11A"],
+		"symbols": ["9#11", "9+4", "9#4"]
+	}
+]
