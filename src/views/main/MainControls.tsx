@@ -1,19 +1,20 @@
 import { Button, Select, Text } from '@radix-ui/themes'
 import { Flex } from '#/components/layout/Flex'
-import { useOutputStore, useScaleStore } from './store'
+import { $output, $project } from '#/stores'
+import { KEYS } from '#/constants/keys'
 
 export const OutputTypeSelect = () => {
-	const { selectedType, setSelectedOutputType } = useOutputStore()
-	const text = selectedType === 'instrument' ? 'Instrument' : 'MIDI Output'
+	const { outputType } = $output.use()
+	const text = outputType === 'instrument' ? 'Instrument' : 'MIDI Output'
 
 	const handleChange = (value: string) => {
-		setSelectedOutputType(value)
+		$output.set.lookup('outputType', value)
 	}
 
 	return (
-		<Select.Root value={selectedType} onValueChange={handleChange}>
-			<Select.Trigger>
-				<Text>Output Type: {text}</Text>
+		<Select.Root size="1" value={outputType} onValueChange={handleChange}>
+			<Select.Trigger variant="soft">
+				<Text>Output: {text}</Text>
 			</Select.Trigger>
 			<Select.Content>
 				<Select.Item value="midi">MIDI Port</Select.Item>
@@ -24,19 +25,19 @@ export const OutputTypeSelect = () => {
 }
 
 export const InstrumentSelect = () => {
-	const { loadedInstrumentNames, selectedInstrumentName, setSelectedInstrumentName } = useOutputStore()
+	const { instrumentIds, selectedInstrumentName } = $output.use()
 
 	const handleChange = (instrumentName: string) => {
-		setSelectedInstrumentName(instrumentName)
+		$output.set.lookup('selectedInstrumentName', instrumentName)
 	}
 
 	return (
-		<Select.Root value={selectedInstrumentName} onValueChange={handleChange}>
-			<Select.Trigger>
+		<Select.Root size="1" value={selectedInstrumentName} onValueChange={handleChange}>
+			<Select.Trigger variant="soft">
 				<Text>Instrument: {selectedInstrumentName}</Text>
 			</Select.Trigger>
 			<Select.Content>
-				{loadedInstrumentNames.map((name) => (
+				{instrumentIds.map((name) => (
 					<Select.Item key={name} value={name}>
 						{name}
 					</Select.Item>
@@ -47,29 +48,23 @@ export const InstrumentSelect = () => {
 }
 
 export const MidiOutputSelect = () => {
-	const {
-		selectedType,
-		midiDeviceNames,
-		selectedMidiOutputDeviceName,
-		isMidiEnabled,
-		isMidiReady,
-		setSelectedMidiOutputDeviceName
-	} = useOutputStore()
-	const isMidiOutputSelected = selectedType === 'midi'
-	const isDisabled = !isMidiEnabled || !isMidiReady || !isMidiOutputSelected
-	const value = isDisabled ? 'Disabled' : selectedMidiOutputDeviceName
+	const { outputType, midiOutputNames, midiOutputName, isMidiEnabled } = $output.use()
+
+	const isMidiOutputSelected = outputType === 'midi'
+	const isDisabled = !isMidiEnabled || !isMidiOutputSelected
+	const value = isDisabled ? 'Disabled' : midiOutputName
 
 	const handleChange = (newMidiOutputName: string) => {
-		setSelectedMidiOutputDeviceName(newMidiOutputName)
+		$output.set.lookup('midiOutputName', newMidiOutputName)
 	}
 
 	return (
-		<Select.Root value={value} onValueChange={handleChange}>
-			<Select.Trigger>
+		<Select.Root size="1" value={value} onValueChange={handleChange}>
+			<Select.Trigger variant="soft">
 				<Text>MIDI Output: {value}</Text>
 			</Select.Trigger>
 			<Select.Content position="popper">
-				{midiDeviceNames.map((name) => (
+				{midiOutputNames.map((name) => (
 					<Select.Item key={name} value={name}>
 						{name}
 					</Select.Item>
@@ -80,15 +75,15 @@ export const MidiOutputSelect = () => {
 }
 
 export const BaseOctaveController = () => {
-	const { baseOctave, setBaseOctave } = useScaleStore()
+	const baseOctave = $project.use.lookup('baseOctave') as number
 	const value = String(baseOctave)
 
 	const handleChange = (newOctave: string) => {
-		setBaseOctave(Number(newOctave))
+		$project.set.lookup('baseOctave', Number(newOctave))
 	}
 
 	return (
-		<Select.Root value={value} onValueChange={handleChange}>
+		<Select.Root size="1" value={value} onValueChange={handleChange}>
 			<Select.Trigger>
 				<Text>Octave {baseOctave}</Text>
 			</Select.Trigger>
@@ -104,21 +99,21 @@ export const BaseOctaveController = () => {
 }
 
 export const KeyNameSelect = () => {
-	const { key, setKey } = useScaleStore()
+	const scaleRootNote = $project.use.lookup<string>('scaleRootNote')
 
 	const handleChange = (newRootNote: string) => {
-		setKey(newRootNote)
+		$project.set.lookup('scaleRootNote', newRootNote)
 	}
 
 	return (
-		<Select.Root size="2" value={key} onValueChange={handleChange}>
+		<Select.Root size="1" value={scaleRootNote} onValueChange={handleChange}>
 			<Select.Trigger>
-				<Text>Key: {key}</Text>
+				<Text>Key: {scaleRootNote}</Text>
 			</Select.Trigger>
-			<Select.Content position="popper">
-				{['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'].map((note) => (
-					<Select.Item key={note} value={note}>
-						{note}
+			<Select.Content position="popper" variant="soft">
+				{KEYS.all.map((key) => (
+					<Select.Item key={key} value={key}>
+						{key}
 					</Select.Item>
 				))}
 			</Select.Content>
@@ -127,16 +122,16 @@ export const KeyNameSelect = () => {
 }
 
 export const ScaleTypeSelect = () => {
-	const { type, setType } = useScaleStore()
+	const scaleType = $project.use.lookup<string>('scaleType')
 
 	const handleChange = (newScaleType: string) => {
-		setType(newScaleType)
+		$project.set.lookup('scaleType', newScaleType)
 	}
 
 	return (
-		<Select.Root size="2" value={type} onValueChange={handleChange}>
-			<Select.Trigger>
-				<Text>Scale: {type}</Text>
+		<Select.Root size="1" value={scaleType} onValueChange={handleChange} color="violet">
+			<Select.Trigger color="violet">
+				<Text>Scale: {scaleType}</Text>
 			</Select.Trigger>
 			<Select.Content position="popper">
 				<Select.Item value="major">major</Select.Item>
@@ -149,28 +144,42 @@ export const ScaleTypeSelect = () => {
 export const GlobalControlsRow = () => {
 	return (
 		<Flex.Row pl="4" gap="2">
-			<BaseOctaveController />
 			<KeyNameSelect />
 			<ScaleTypeSelect />
+			<BaseOctaveController />
 		</Flex.Row>
 	)
 }
 
 export const OutputControlsRow = () => {
-	const { selectedType } = useOutputStore()
-	const isInstrumentSelected = selectedType === 'instrument'
+	const { outputType } = $output.use()
+	const isInstrumentSelected = outputType === 'instrument'
 
 	return (
-		<Flex.Row pr="4" gap="2">
+		<Flex.Row
+			px="4"
+			height="32px"
+			gap="2"
+			bg="--sand-4"
+			width="100%"
+			align="center"
+			style={{ position: 'fixed', bottom: 0, left: 0 }}
+		>
+			<DotIndicator />
 			<OutputTypeSelect />
 			{isInstrumentSelected ? <InstrumentSelect /> : <MidiOutputSelect />}
 		</Flex.Row>
 	)
 }
 
+const DotIndicator = (props) => {
+	const background = $output.use.lookup('isOutputActive') ? 'var(--grass-9)' : 'var(--red-9)'
+	return <span className="DotIndicator" style={{ marginRight: 4, '--dotColor': background }} {...props} />
+}
+
 export const MainControls = () => {
 	return (
-		<Flex.Row justify="between" className="MainControls" p="2">
+		<Flex.Row justify="between" className="MainControls" px="1">
 			<GlobalControlsRow />
 			<OutputControlsRow />
 		</Flex.Row>

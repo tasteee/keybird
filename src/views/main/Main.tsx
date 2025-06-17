@@ -1,7 +1,7 @@
 import './Main.css'
 
 import { Flex } from '#/components/layout/Flex'
-import { MainControls } from './MainControls'
+import { MainControls, OutputControlsRow } from './MainControls'
 import { PatternEditor } from './PatternEditor'
 import { Route, Switch } from 'wouter'
 import { ChordBrowser } from './ChordBrowser'
@@ -9,7 +9,7 @@ import { ChordProgression } from './ChordProgression'
 
 const MainRouter = () => {
 	return (
-		<Flex.Column p="2" className="MainRouter">
+		<Flex.Column className="MainRouter">
 			<Switch>
 				<Route path="/" component={ChordBrowser} />
 				<Route path="/patternEditor" component={PatternEditor} />
@@ -20,10 +20,10 @@ const MainRouter = () => {
 
 export const Main = () => {
 	return (
-		<Flex.Column data-testid="MainView" className="MainView">
+		<Flex.Column data-testid="MainView" className="MainView" pb="32px" height="100%">
 			<MainRouter />
 			<ChordProgression />
-			<MainControls />
+			<OutputControlsRow />
 		</Flex.Column>
 	)
 }

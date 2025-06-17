@@ -11,7 +11,7 @@
 .ContextMenuContent,
 .ContextMenuSubContent {
 	min-width: 220px;
-	background-color: var(--gray-1);
+	background-color: var(--sand-1);
 	overflow: hidden;
 	padding: 5px;
 	box-shadow:
@@ -25,7 +25,7 @@
 .ContextMenuSubTrigger {
 	font-size: 13px;
 	line-height: 1;
-	color: var(--violet-11);
+	color: var(--sand-11);
 	/* border-radius: 3px; */
 	display: flex;
 	align-items: center;
@@ -37,34 +37,34 @@
 	/* outline: none; */
 }
 .ContextMenuSubTrigger[data-state='open'] {
-	background-color: var(--violet-4);
-	color: var(--violet-11);
+	background-color: var(--sand-4);
+	color: var(--sand-11);
 }
 .ContextMenuItem[data-disabled],
 .ContextMenuCheckboxItem[data-disabled],
 .ContextMenuRadioItem[data-disabled],
 .ContextMenuSubTrigger[data-disabled] {
-	color: var(--mauve-8);
+	color: var(--sand-8);
 	pointer-events: 'none';
 }
 .ContextMenuItem[data-highlighted],
 .ContextMenuCheckboxItem[data-highlighted],
 .ContextMenuRadioItem[data-highlighted],
 .ContextMenuSubTrigger[data-highlighted] {
-	background-color: var(--violet-9);
-	color: var(--violet-1);
+	background-color: var(--sand-9);
+	color: var(--sand-1);
 }
 
 .ContextMenuLabel {
 	padding-left: 25px;
 	font-size: 12px;
 	line-height: 25px;
-	color: var(--mauve-11);
+	color: var(--sand-11);
 }
 
 .ContextMenuSeparator {
 	height: 1px;
-	background-color: var(--violet-6);
+	background-color: var(--sand-6);
 	margin: 5px;
 }
 
@@ -80,11 +80,11 @@
 .RightSlot {
 	margin-left: auto;
 	padding-left: 20px;
-	color: var(--mauve-11);
+	color: var(--sand-11);
 }
 [data-highlighted] > .RightSlot {
 	color: white;
 }
 [data-disabled] .RightSlot {
-	color: var(--mauve-8);
+	color: var(--sand-8);
 }

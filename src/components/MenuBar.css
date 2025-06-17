@@ -1,55 +1,46 @@
-.TopBar img.Logo {
-	max-width: 80px;
-	opacity: 0.8;
-}
-
-.MainMenuBar {
-	justify-content: center;
-	width: 100vw;
-	background: var(--sand-2);
-}
-
-.MainMenuBarLink {
-	cursor: pointer;
-}
-
-.MainMenuBar .MainMenuBarRow {
+/* styles.css */
+button {
+	all: unset;
 }
 
 .MenubarRoot {
-	max-height: 36px;
 	display: flex;
-	padding: 4px;
+	background-color: var(--sand-2) !important;
+	padding: 3px;
 	border-radius: 6px;
-	outline: none;
-	background: var(--sand-1);
-	overflow: hidden;
+	box-shadow: none;
+	scale: 0.8;
 }
 
 .MenubarTrigger {
-	padding: 8px 16px;
+	padding: 8px 12px;
+	outline: none;
 	user-select: none;
+	font-weight: 500;
+	line-height: 1;
 	border-radius: 4px;
+	color: var(--sand-12) !important;
+	font-size: 13px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	gap: 2px;
 }
 
 .MenubarTrigger[data-highlighted],
 .MenubarTrigger[data-state='open'] {
-}
-
-:root {
-	--mainMenuBarShadow0: 0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2);
+	background-color: var(--sand-4) !important;
 }
 
 .MenubarContent,
 .MenubarSubContent {
 	min-width: 220px;
-	background-color: black;
+	background-color: var(--sand-1) !important;
 	border-radius: 6px;
 	padding: 5px;
-	box-shadow: var(--mainMenuBarShadow0);
+	box-shadow:
+		0px 10px 38px -10px rgba(22, 23, 24, 0.15),
+		0px 10px 20px -15px rgba(22, 23, 24, 0.1);
 	animation-duration: 400ms;
 	animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 	will-change: transform, opacity;
@@ -62,7 +53,7 @@
 	all: unset;
 	font-size: 13px;
 	line-height: 1;
-	color: var(--sand-11);
+	color: var(--sand-12) !important;
 	border-radius: 4px;
 	display: flex;
 	align-items: center;
@@ -81,23 +72,23 @@
 
 .MenubarItem[data-state='open'],
 .MenubarSubTrigger[data-state='open'] {
-	background-color: var(--sand-4);
-	color: var(--sand-11);
+	background-color: var(--sand-4) !important;
+	color: var(--sand-12) !important;
 }
 
 .MenubarItem[data-highlighted],
 .MenubarSubTrigger[data-highlighted],
 .MenubarCheckboxItem[data-highlighted],
 .MenubarRadioItem[data-highlighted] {
-	background-image: linear-gradient(135deg, var(--sand-3) 0%, var(--sand-4) 100%);
-	color: var(--sand-11) !important;
+	background-image: linear-gradient(135deg, var(--sand-8) 0%, var(--sand-10) 100%);
+	color: var(--sand-1) !important;
 }
 
 .MenubarItem[data-disabled],
 .MenubarSubTrigger[data-disabled],
 .MenubarCheckboxItem[data-disabled],
 .MenubarRadioItem[data-disabled] {
-	color: var(--sand-8);
+	color: var(--sand-8) !important;
 	pointer-events: none;
 }
 
@@ -112,25 +103,26 @@
 
 .MenubarSeparator {
 	height: 1px;
-	background-color: var(--sand-6);
+	background-color: var(--sand-6) !important;
 	margin: 5px;
 }
 
 .RightSlot {
 	margin-left: auto;
 	padding-left: 20px;
-	color: var(--sand-9);
+	color: var(--sand-10) !important;
+}
+
+#Root div.MenubarItem[data-highlighted] {
+	color: white !important;
+	background-color: linear-gradient(135deg, var(--sand-8) 0%, var(--sand-9) 100%) !important;
 }
 
 [data-highlighted] > .RightSlot {
 	color: white;
+	background-color: var(--sand-9) !important;
 }
 
 [data-disabled] > .RightSlot {
-	color: var(--sand-8);
-}
-
-.TopBar {
-	background: var(--sand-3);
-	box-shadow: inset 0px -1px 2px var(--sand-5);
+	color: var(--sand-8) !important;
 }

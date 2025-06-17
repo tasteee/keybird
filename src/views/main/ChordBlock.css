@@ -41,7 +41,7 @@
 	width: 10px;
 	height: 10px;
 	border-radius: 50%;
-	background-color: var(--gray-9);
+	background-color: var(--sand-9);
 }
 
 .addIcon {
@@ -51,6 +51,6 @@
 .ChordBlock {
 	width: 240px;
 	height: 130px;
-	border: 1px solid var(--gray-9);
+	border: 1px solid var(--sand-9);
 	border-radius: 4px;
 }

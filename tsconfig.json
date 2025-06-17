@@ -17,7 +17,7 @@
 			"#stores/*": ["src/stores/*"],
 			"#types/*": ["src/types/*"],
 			"#configuration/*": ["src/configuration/*"],
-			"#constants/*": ["src/constants/*"],
+			"#constants/*": ["src/configuration/keyboard/constants/*"],
 			"#views/*": ["src/views/*"]
 		}
 	}

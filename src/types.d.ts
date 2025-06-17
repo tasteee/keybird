@@ -225,3 +225,48 @@ type KeyCodeAndRowT = {
 	keyCode: string
 	row: number
 }
+
+type MappingStrategyT =
+	| 'direct' // N0->chord[0], N1->chord[1], etc.
+	| 'cyclic' // Wrap around: if chord has 3 notes, N3->chord[0]
+	| 'octave-cycle' // N3 in 3-note chord -> chord[0] + octave
+	| 'voice-leading' // Choose closest available chord tone
+
+type NoteRoleT =
+	| 'root'
+	| 'third'
+	| 'fifth'
+	| 'seventh'
+	| 'tension9'
+	| 'tension11'
+	| 'tension13'
+	| 'bass'
+	| 'melody'
+	| 'inner'
+
+type StrategicEntityT = {
+	mappingStrategy?: MappingStrategyT
+	fallbackBehavior?: 'skip' | 'transpose' | 'substitute'
+	voicePreference?: 'low' | 'mid' | 'high' | 'any'
+	minVelocity?: number // 0-127
+	maxVelocity?: number // 0-127
+}
+
+type SignalT = StrategicEntityT & {
+	id: string
+	noteId: string
+	startDivision: number
+	endDivision: number
+}
+
+type SignalRowT = StrategicEntityT & {
+	id: string
+	label: string
+	signals: SignalT[]
+	isEnabled: boolean
+	color: string
+	hint: string
+	accessory: string
+}
+
+type SignalRowsT = Record<string, SignalRowT>

@@ -4,13 +4,13 @@ export const GrayTheme = (props) => {
 	return (
 		<RadixTheme
 			data-testid="GrayTheme"
-			className="GrayTheme gray"
+			className="GrayTheme sandTheme sand"
 			appearance="dark"
-			accentColor="gray"
-			grayColor="gray"
+			accentColor="sand"
+			grayColor="sand"
 			panelBackground="solid"
-			scaling="100%"
-			radius="medium"
+			scaling="90%"
+			radius="small"
 			{...props}
 		/>
 	)

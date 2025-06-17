@@ -1,5 +1,4 @@
 import { create } from 'zustand'
-import { buildEmptySignalsState } from '#/utilities/buildEmptySignalsState'
 import APP_CONFIG from '#/configuration/app.config.json'
 import { theory } from '#/utilities/toner'
 import { nanoid } from 'nanoid'
@@ -49,15 +48,6 @@ type ChordProgressionStateT = {
 	addChord: (chordSymbol: string, modifiers: any) => void
 	removeChord: (chordId: string) => void
 	updateChord: (chordId: string, updates: any) => void
-}
-
-type PatternEditorStateT = {
-	signalRows: any
-	signalCellWidth: number | null
-	reset: () => void
-	cellWidth: (cellWidth: number) => void
-	removeSignal: (noteId: string, signalId: string) => void
-	addSignal: (noteId: string, signal: any) => void
 }
 
 type ChordBrowserStateT = {
@@ -211,31 +201,6 @@ export const useChordProgressionStore = create<ChordProgressionStateT>((set, get
 	updateChord: (chordId, updates) =>
 		set((state) => ({
 			chords: state.chords.map((chord) => (chord.id === chordId ? { ...chord, ...updates } : chord))
-		}))
-}))
-
-export const usePatternEditorStore = create<PatternEditorStateT>((set, get) => ({
-	signalRows: buildEmptySignalsState(),
-	signalCellWidth: null,
-	reset: () =>
-		set({
-			signalRows: buildEmptySignalsState(),
-			signalCellWidth: null
-		}),
-	cellWidth: (cellWidth) => set({ signalCellWidth: cellWidth }),
-	removeSignal: (noteId, signalId) =>
-		set((state) => ({
-			signalRows: {
-				...state.signalRows,
-				[noteId]: state.signalRows[noteId].filter((signal: any) => signal.id !== signalId)
-			}
-		})),
-	addSignal: (noteId, signal) =>
-		set((state) => ({
-			signalRows: {
-				...state.signalRows,
-				[noteId]: [...state.signalRows[noteId], signal]
-			}
 		}))
 }))
 

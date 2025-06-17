@@ -8,6 +8,7 @@ type PropsT = FlexProps & {
 	height?: string | number
 	style?: React.CSSProperties
 	className?: string
+	bg?: string
 	as?: string
 }
 
@@ -17,13 +18,16 @@ type CreateFlexBoxOptionsT = {
 }
 
 const getStyle = (props: PropsT) => {
-	const { width, height, style } = props
-	if (!width && !height) return style
-	if (!style) return { width, height }
+	const { width, height, style, bg } = props
+	if (!width && !height && !bg) return style
+
+	const background = bg && (bg.startsWith('--') ? `var(${bg})` : bg)
+	if (!style) return { width, height, background }
 
 	const _style: React.CSSProperties = { ...style }
 	if (width) _style.width = width
 	if (height) _style.height = height
+	if (background) _style.background = background
 	return _style
 }
 

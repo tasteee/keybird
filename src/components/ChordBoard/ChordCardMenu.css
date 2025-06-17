@@ -11,7 +11,7 @@
 .MenuContent,
 .MenuSubContent {
 	min-width: 220px;
-	background-color: var(--gray-1);
+	background-color: var(--sand-1);
 	/* border-radius: 6px; */
 	overflow: hidden;
 	padding: 5px;
@@ -26,7 +26,7 @@
 .MenuSubTrigger {
 	font-size: 13px;
 	line-height: 1;
-	color: var(--violet-11);
+	color: var(--sand-11);
 	/* border-radius: 3px; */
 	display: flex;
 	align-items: center;
@@ -38,34 +38,34 @@
 	/* outline: none; */
 }
 .MenuSubTrigger[data-state='open'] {
-	background-color: var(--violet-4);
-	color: var(--violet-11);
+	background-color: var(--sand-4);
+	color: var(--sand-11);
 }
 .MenuItem[data-disabled],
 .MenuCheckboxItem[data-disabled],
 .MenuRadioItem[data-disabled],
 .MenuSubTrigger[data-disabled] {
-	color: var(--mauve-8);
+	color: var(--sand-8);
 	pointer-events: 'none';
 }
 .MenuItem[data-highlighted],
 .MenuCheckboxItem[data-highlighted],
 .MenuRadioItem[data-highlighted],
 .MenuSubTrigger[data-highlighted] {
-	background-color: var(--violet-9);
-	color: var(--violet-1);
+	background-color: var(--sand-9);
+	color: var(--sand-1);
 }
 
 .MenuLabel {
 	padding-left: 25px;
 	font-size: 12px;
 	line-height: 25px;
-	color: var(--mauve-11);
+	color: var(--sand-11);
 }
 
 .MenuSeparator {
 	height: 1px;
-	background-color: var(--violet-6);
+	background-color: var(--sand-6);
 	margin: 5px;
 }
 
@@ -81,11 +81,11 @@
 .RightSlot {
 	margin-left: auto;
 	padding-left: 20px;
-	color: var(--mauve-11);
+	color: var(--sand-11);
 }
 [data-highlighted] > .RightSlot {
 	color: white;
 }
 [data-disabled] .RightSlot {
-	color: var(--mauve-8);
+	color: var(--sand-8);
 }

@@ -6,6 +6,16 @@ import filterObject from 'just-filter-object'
 import { chords } from '../configuration/theory'
 import keyMapLayoutsConfig from '../configuration/default.keymaps.json'
 
+export const useKeySelect = (store: any, key: string) => {
+	return store.use((state) => state[key])
+}
+
+export const createUseKeySelect = (store: any) => {
+	return (key: string) => {
+		return useKeySelect(store, key)
+	}
+}
+
 const getFunctionalKeyConfigsMap = (configs: KeyConfigMapT) => {
 	const checkIsEntryFunctional = (_, config: KeyConfigT) => config.isFunctional
 	return filterObject(configs, checkIsEntryFunctional)

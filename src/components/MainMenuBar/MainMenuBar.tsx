@@ -1,6 +1,6 @@
 import './MainMenuBar.css'
 import { Flex } from '#/components/layout/Flex'
-import { Link } from '@radix-ui/themes'
+import { Text, Box, Link, Tabs } from '@radix-ui/themes'
 import { useLocation } from 'wouter'
 import { Spacer } from '../layout/Spacer'
 
@@ -39,5 +39,20 @@ export const MainMenuBar = () => {
 				</Flex.Row>
 			</Flex.Row>
 		</Flex.Column>
+	)
+}
+
+export const TopBar = () => {
+	return (
+		<Flex.Row className="TopBar" align="center" px="4" gap="2">
+			<img src="/images/keybirdLogo.svg" className="Logo" style={{ maxWidth: 80 }} />
+			<Tabs.Root defaultValue="account" onValueChange={(value) => console.log('Tab changed to:', value)}>
+				<Tabs.List highContrast color="gray" className="TopBarTabs">
+					<Tabs.Trigger value="account">Chords</Tabs.Trigger>
+					<Tabs.Trigger value="documents">Patterns</Tabs.Trigger>
+					<Tabs.Trigger value="settings">Settings</Tabs.Trigger>
+				</Tabs.List>
+			</Tabs.Root>
+		</Flex.Row>
 	)
 }
