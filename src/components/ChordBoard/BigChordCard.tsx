@@ -23,7 +23,7 @@ export const BigChordCard = React.memo((props: PropsT) => {
 	const isPlayingClassName = isPlaying && 'ChordCardPlaying'
 	const className = classcat(['BigChordCard', isPlayingClassName])
 	const chord = useChord(props.chordName)
-	const color = appConfig.tonicColors[chord.tonic]
+	const color = appConfig.rootNoteColors[chord.tonic]
 
 	const onMouseDown = () => {
 		store.addPlayingChordName(props.chordName)

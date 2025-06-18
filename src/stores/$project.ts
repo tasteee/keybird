@@ -10,6 +10,7 @@ const createProject = () => {
 		bpm: 93,
 		scaleRootNote: 'F#',
 		scaleType: 'minor',
+		scaleSymbol: 'F# minor',
 		ppqResolution: 96,
 		timeingNumerator: 4,
 		timeingDenominator: 4,

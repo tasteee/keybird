@@ -1,15 +1,17 @@
-.rowLabelsColumn {
-	max-width: 40px;
-	background: var(--sand-2);
-	box-shadow: var(--shadow-29);
-	z-index: 10; /* Fixed typo: use z-index, not zUndex */
-	position: sticky;
-	left: 0;
-	padding-left: 8px;
-	padding-right: 8px;
-}
+.PatternEditor {
+	.rowLabelsColumn {
+		max-width: 40px;
+		background: var(--sand-2);
+		box-shadow: var(--shadow-29);
+		z-index: 10;
+		position: sticky;
+		left: 0;
+		padding-left: 8px;
+		padding-right: 8px;
+	}
 
-.rowLabelBox {
-	width: 100%;
-	height: 32px;
+	.rowLabelBox {
+		width: 100%;
+		height: 32px;
+	}
 }

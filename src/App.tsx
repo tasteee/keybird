@@ -9,24 +9,24 @@ import './styles/fonts.css'
 import { GrayTheme } from './components/layout/Themes'
 import { Route, Switch, useLocation } from 'wouter'
 import { Main } from './views/main/Main'
-import { MainMenuBar, TopBar } from './components/MainMenuBar/MainMenuBar'
+import { TopBar } from './components/MainMenuBar/TopBar'
 import { Flex } from '#/components/layout/Flex'
-import { RecoilRoot } from 'recoil'
+import './modules/scales'
 
 export const App = () => {
 	const [location] = useLocation()
 
 	return (
 		<GrayTheme id="App" data-testid="App" className="App">
-			<main>
-				<Flex.Column data-testid="Router" data-location={location} height="100%">
+			<Flex.Column asChild data-testid="Router" data-location={location} height="100%">
+				<main>
 					<TopBar />
 					<Switch>
 						<Route component={Main} />
 					</Switch>
 					<GlowPixels />
-				</Flex.Column>
-			</main>
+				</main>
+			</Flex.Column>
 		</GrayTheme>
 	)
 }

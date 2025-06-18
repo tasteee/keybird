@@ -91,7 +91,7 @@ main {
 	z-index: 100000;
 	top: 80px;
 	left: 50%;
-	box-shadow: 50px 20px 500px 200px #47cf7305;
+	box-shadow: 50px 20px 500px 200px hsl(139deg 59% 55% / 3%);
 }
 
 .pixel1 {
@@ -100,7 +100,7 @@ main {
 	z-index: 100000;
 	bottom: 300px;
 	right: 280px;
-	box-shadow: 50px 20px 500px 200px #f202ff05;
+	box-shadow: 50px 20px 500px 200px hsl(297deg 100% 50% / 2%);
 }
 
 .pixel2 {
@@ -109,5 +109,4 @@ main {
 	z-index: 100000;
 	bottom: 120px;
 	left: 200px;
-	box-shadow: 50px 20px 500px 200px #ffffff05;
-}
+	box-shadow: 50px 20px 500px 200px #ffffff0d;

@@ -1,14 +1,37 @@
 import { datass } from 'datass'
+import { WebMidi, Output } from 'webmidi'
 import { INSTRUMENT_NAMES } from '#/configuration/keyboard/constants/instrumentNames'
 
-export const $output = datass.object({
-	instrumentIds: INSTRUMENT_NAMES,
+type OutputStoreT = {
+	isMidiConnected: boolean
+	isMidiEnabled: boolean
+	midiOutputId: string
+	midiOutputIds: string[]
+	midiOutput: Output | null
+	midiConnectionError: Error | null
+
+	isLocalSoundSelected: boolean
+	instrumentIds: string[]
+	loadedInstruments: Record<string, any>
+	selectedInstrumentName: string
+	isOutputEnabled: boolean
+	areInstrumentsLoaded: boolean
+	isBuiltInInstrumentSelected: boolean
+	outputType: 'instrument' | 'midi'
+	audioContext: AudioContext
+	volume: number
+}
+
+export const $output = datass.object<OutputStoreT>({
 	isMidiConnected: false,
 	isMidiEnabled: false,
-	midiOutputName: '',
+	midiOutputId: '',
+	midiOutputIds: [],
+	midiOutput: null,
 	midiConnectionError: null,
-	midiOutputNames: [],
+
 	isLocalSoundSelected: false,
+	instrumentIds: INSTRUMENT_NAMES,
 	loadedInstruments: {},
 	selectedInstrumentName: 'marimba',
 	isOutputEnabled: false,

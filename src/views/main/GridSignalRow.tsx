@@ -305,7 +305,7 @@ const GridSignalRow = React.memo((props: GridSignalRowProps) => {
 		const signalId = crypto.randomUUID()
 
 		$patternEditor.addSignal({
-			signalRowId: rowId,
+			rowId: rowId,
 			signal: {
 				id: signalId,
 				noteId: rowId,

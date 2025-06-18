@@ -12,7 +12,9 @@ const MainRouter = () => {
 		<Flex.Column className="MainRouter">
 			<Switch>
 				<Route path="/" component={ChordBrowser} />
+				<Route path="/chords" component={ChordBrowser} />
 				<Route path="/patternEditor" component={PatternEditor} />
+				<Route path="/patterns/edit" component={PatternEditor} />
 			</Switch>
 		</Flex.Column>
 	)
@@ -20,7 +22,7 @@ const MainRouter = () => {
 
 export const Main = () => {
 	return (
-		<Flex.Column data-testid="MainView" className="MainView" pb="32px" height="100%">
+		<Flex.Column data-testid="MainView" className="MainView" pb="30px" height="94vh">
 			<MainRouter />
 			<ChordProgression />
 			<OutputControlsRow />

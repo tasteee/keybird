@@ -1,6 +1,6 @@
 .MainView {
 	width: 100%;
-	height: 100vh;
+	height: 94vh;
 	max-width: 100vw;
 	background: var(--sand-2);
 }
@@ -30,6 +30,7 @@
 	max-width: var(--cellWidth);
 	color: var(--sand-9);
 	justify-content: center;
+	background: var(--sand-4);
 }
 
 .GridSignalCell {
@@ -114,14 +115,10 @@
 	pointer-events: none;
 }
 
-.GridColumn .GridSignalRow .GridSignalCell:nth-child(16n + 9),
-.GridColumn .GridSignalRow .GridSignalCell:nth-child(16n + 10),
-.GridColumn .GridSignalRow .GridSignalCell:nth-child(16n + 11),
-.GridColumn .GridSignalRow .GridSignalCell:nth-child(16n + 12),
-.GridColumn .GridSignalRow .GridSignalCell:nth-child(16n + 13),
-.GridColumn .GridSignalRow .GridSignalCell:nth-child(16n + 14),
-.GridColumn .GridSignalRow .GridSignalCell:nth-child(16n + 15),
-.GridColumn .GridSignalRow .GridSignalCell:nth-child(16n + 16) {
+.GridColumn .GridSignalRow .GridSignalCell:nth-child(8n + 5),
+.GridColumn .GridSignalRow .GridSignalCell:nth-child(8n + 6),
+.GridColumn .GridSignalRow .GridSignalCell:nth-child(8n + 7),
+.GridColumn .GridSignalRow .GridSignalCell:nth-child(8n + 8) {
 	background-color: var(--sand-1);
 }
 

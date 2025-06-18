@@ -19,6 +19,7 @@ import groupBy from 'just-group-by'
 import sortBy from 'just-sort-by'
 import memoize from 'just-memoize'
 
+globalThis.Tonal = Tonal
 const getFirstTwo = (target: string) => target.slice(0, 2)
 const checkSharpOrFlat = (target: string) => getFirstTwo(target).match(/[#b]/)
 const getRootNote = (target: string) => (checkSharpOrFlat(target) ? getFirstTwo(target) : target[0])

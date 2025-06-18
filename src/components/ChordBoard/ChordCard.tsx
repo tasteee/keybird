@@ -25,7 +25,7 @@ export const ChordCard = React.memo((props: PropsT) => {
 	const className = classcat(['ChordCard', isPlayingClassName])
 
 	const chord = useChord(props.chordName)
-	const color = appConfig.tonicColors[chord.tonic]
+	const color = appConfig.rootNoteColors[chord.tonic]
 	if (chord.notes.length > maxComplexity) return null
 
 	const onMouseDown = () => {

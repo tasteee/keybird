@@ -1,7 +1,7 @@
 import './PatternEditor.css'
 import { NOTE_IDS } from '#/configuration/keyboard/constants/noteIds'
 import { Flex } from '#/components/layout/Flex'
-import { SegmentedControl, Separator, Text, TextField } from '@radix-ui/themes'
+import { IconButton, SegmentedControl, Separator, Slider, Text, TextField } from '@radix-ui/themes'
 import React, { useEffect } from 'react'
 import { useComponentSize } from 'react-use-size'
 import range from 'array-range'
@@ -40,9 +40,9 @@ const useGridColumnAndSignalCellWidth = () => {
 // for each column. (1, 2, 3... etc).
 const GridColumnMarkersRow = () => {
 	return (
-		<Flex.Row className="GridColumnMarkersRow" height="32px">
+		<Flex.Row className="GridColumnMarkersRow" height="24">
 			{SIGNAL_INDEXES.map((signalIndex) => (
-				<Flex.Row className="markerCell" key={signalIndex} width="32px" height="32px" align="center">
+				<Flex.Row className="markerCell" key={signalIndex} height="24" align="center">
 					<Text>{signalIndex}</Text>
 				</Flex.Row>
 			))}
@@ -54,8 +54,8 @@ const GridColumnMarkersRow = () => {
 // so that they align with the grid to their rigt, below the column lables.
 const LeftColumnSpacerRow = () => {
 	return (
-		<Flex.Row className="LeftColumnSpacerRow" height="33px" width="100%" style={{ paddingTop: 8 }}>
-			<Icon name="note0" size="18px" />
+		<Flex.Row className="LeftColumnSpacerRow" height="24px" width="100%" pt="4px" pl="2px">
+			<Icon name="note0" size="14px" />
 		</Flex.Row>
 	)
 }
@@ -73,7 +73,7 @@ export const PatternEditor = () => {
 	const enabledSignalRowIds = $patternEditor.enabledSignalRowIds.use()
 
 	return (
-		<Flex.Column className="PatternEditor" pr="2" pb="1">
+		<Flex.Column className="PatternEditor" pr="2" pb="1" position="relative">
 			<ToolBar />
 			<Flex.Row className="mainContainer">
 				<Flex.Column className="topRow" width="16px" align="center">

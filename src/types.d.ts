@@ -257,6 +257,7 @@ type SignalT = StrategicEntityT & {
 	noteId: string
 	startDivision: number
 	endDivision: number
+	updatedTime: number
 }
 
 type SignalRowT = StrategicEntityT & {

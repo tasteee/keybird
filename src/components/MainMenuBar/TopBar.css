@@ -1,0 +1,21 @@
+.TopBar img.Logo {
+	max-width: 80px;
+	opacity: 0.8;
+}
+
+.TopBar {
+	justify-content: space-between;
+	width: 100vw;
+	]display: flex;
+	outline: none;
+	overflow: hidden;
+	height: 64px;
+	min-height: 56px;
+	background: var(--sand-2);
+	box-shadow: var(--mainMenuBarShadow0);
+	/* box-shadow: inset 0px -1px 2px var(--sand-5); */
+}
+
+:root {
+	--mainMenuBarShadow0: 0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.62);
+}

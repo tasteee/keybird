@@ -4,79 +4,70 @@ import { Flex } from '#/components/layout/Flex'
 import { theory } from '#/utilities/toner'
 import { Cross2Icon, DotsHorizontalIcon, GearIcon, KeyboardIcon, PlusCircledIcon, TrashIcon } from '@radix-ui/react-icons'
 import React from 'react'
-import { Text, Select, TextField } from '@radix-ui/themes'
-import { useChordProgressionStore, useScaleStore } from './store'
+import { Text, Select, TextField, Button } from '@radix-ui/themes'
+import { useDatass } from 'datass'
+import { $progression, useNewChord } from '#/stores/$progression'
+import { TinyStat } from './TinyStat'
+import appConfig from '../../configuration/app.config.json'
+import { cssColorVars, getAccentColorClassName } from '#/modules/color'
+
+const useChordSettings = (chord = {} as any) => {
+	return useDatass.object({
+		octaveOffset: chord.octaveOffset || 0,
+		rootNote: chord.tonic,
+		symbol: chord.symbol,
+		degree: chord.degreee,
+		notes: chord.notes || [],
+		quality: chord.quality,
+		isSpread: chord.isSpread || false,
+		isOpen: chord.isOpen || false,
+		voicing: chord.voicing,
+		shortName: chord.shortName,
+		longName: chord.longName,
+		extensions: chord.extensions || [],
+		duration: chord.duration || '1 bar',
+		inversion: chord.inversion || 0,
+		isMenuOpen: false,
+		whichMenuOpen: ''
+	})
+}
 
 type ChordBlockPropsT = {
-	chordName?: string
+	symbol?: string
 	chord?: any
 }
 
-const useOctave = (chord: ChordT) => {
-	if (chord.id) {
-		const updateChord = useChordProgressionStore.getState().updateChord
-		const setOctave = (value: string) => updateChord(chord.id, { octave: value })
-		return [chord.octave, setOctave]
-	}
-
-	const globalOctave = useScaleStore((state) => state.baseOctave)
-	const [octave, setOctave] = React.useState(chord.octave || globalOctave)
-	return [octave, setOctave]
-}
-
-const useInversion = (chord: ChordT) => {
-	if (chord.id) {
-		const updateChord = useChordProgressionStore.getState().updateChord
-		const setInversion = (value: number) => updateChord(chord.id, { inversion: value })
-		return [chord.inversion, setInversion]
-	}
-
-	const [inversion, setInversion] = React.useState(chord.inversion || 0)
-	return [inversion, setInversion]
-}
-
-const useDuration = (chord: ChordT) => {
-	if (chord.id) {
-		const updateChord = useChordProgressionStore.getState().updateChord
-		const setDuration = (value: string) => updateChord(chord.id, { duration: value })
-		return [chord.duration, setDuration]
-	}
-
-	const [duration, setDuration] = React.useState('1 bar')
-	return [duration, setDuration]
-}
-
 export const ChordBlock = (props: ChordBlockPropsT) => {
-	const chord = props.chord || theory.getChord(props.chordName)
-	const [areOptionsShown, setAreOptionsShown] = React.useState(false)
-	const [octave, setOctave] = useOctave(chord)
-	const [inversion, setInversion] = useInversion(chord)
-	const [duration, setDuration] = useDuration(chord)
-	const addChord = useChordProgressionStore.getState().addChord
-	const removeChord = useChordProgressionStore.getState().removeChord
+	const isMenuOpen = useDatass.boolean(false)
+	const chord = useNewChord(props.symbol)
+	const style = cssColorVars(chord.state.rootNote) as React.CSSProperties
+	const accentsClassName = getAccentColorClassName(chord.state.rootNote)
 	const timeoutRef = React.useRef<number>()
 
-	const toggleAreOptionsShown = () => {
-		const newValue = !areOptionsShown
-		setAreOptionsShown(newValue)
+	const toggleMenuOpen = (key?: string) => {
+		if (!key) {
+			chord.set.lookup('isMenuOpen', false)
+			chord.set.lookup('whichMenuOpen', '')
+			return
+		}
+
+		chord.set.lookup('whichMenuOpen', key)
+		chord.set.lookup('isMenuOpen', true)
 	}
 
-	const addChordToProgression = () => {
-		addChord(chord.symbol, {
-			octave,
-			inversion
-		})
+	const addChord = () => {
+		$progression.actions.addChord(chord.state)
 	}
 
-	const removeChordFromProgression = () => {
-		removeChord(chord.id)
+	const removeChord = () => {
+		$progression.actions.removeChord(chord.id)
 	}
 
 	const handleMouseLeave = () => {
-		if (!areOptionsShown) return
+		if (!isMenuOpen.state) return
 
 		timeoutRef.current = setTimeout(() => {
-			setAreOptionsShown(false)
+			chord.set.lookup('isMenuOpen', false)
 		}, 2500)
 	}
 
@@ -84,50 +75,80 @@ export const ChordBlock = (props: ChordBlockPropsT) => {
 		clearTimeout(timeoutRef.current)
 	}
 
-	const InclusionIcon = chord.id ? TrashIcon : PlusCircledIcon
-	const inclusionAction = chord.id ? removeChordFromProgression : addChordToProgression
-	const OptionsIcon = areOptionsShown ? Cross2Icon : GearIcon
-	const detailsHeight = chord.id ? 112 : 72
+	const MainActionIcon = props.chord ? Cross2Icon : PlusCircledIcon
+	const mainAction = props.chord ? removeChord : addChord
+
+	const IconsBox = (
+		<Flex.Row>
+			<MainActionIcon className="addIcon" width="18px" height="18px" onClick={mainAction} />
+		</Flex.Row>
+	)
+
+	const BackMenuButton = (
+		<Button variant="ghost" color="gray" size="1" mr="2" onClick={() => toggleMenuOpen('')}>
+			Back
+		</Button>
+	)
+
+	if (!chord.state.rootNote || !accentsClassName) return null
 
 	return (
-		<Flex.Column className="ChordBlock" p="2" onMouseLeave={handleMouseLeave} onMouseEnter={handleMouseEnter}>
-			<Flex.Row justify="between" align="center" mb="4">
+		<Flex.Column
+			style={style}
+			className="ChordBlock"
+			pl="2"
+			pr="1"
+			pt="2"
+			pb="1"
+			onMouseLeave={handleMouseLeave}
+			onMouseEnter={handleMouseEnter}
+		>
+			<Flex.Row justify="between" align="center" px="2">
 				<Flex.Row gap="2" align="center">
 					<span className="coloredCircle" />
-					<Text>{chord.symbol}</Text>
+					<Text>{chord.state.symbol}</Text>
 				</Flex.Row>
-				<Flex.Row gap="2">
-					<OptionsIcon className="dotsIcon" width="20px" height="20px" onClick={toggleAreOptionsShown} />
-					<InclusionIcon className="addIcon" width="20px" height="20px" onClick={inclusionAction} />
-				</Flex.Row>
+				{chord.state.isMenuOpen ? BackMenuButton : IconsBox}
 			</Flex.Row>
-			{areOptionsShown && (
-				<ChordOptions
+			{chord.state.isMenuOpen && (
+				<ChordSettingMenu
 					chord={chord}
-					octave={octave}
-					setOctave={setOctave}
-					inversion={inversion}
-					setInversion={setInversion}
-					duration={duration}
-					setDuration={setDuration}
+					octave={chord.state.octaveOffset}
+					setOctave={(value) => chord.set.lookup('octaveOffset', value)}
+					inversion={chord.state.inversion}
+					setInversion={(value) => chord.set.lookup('inversion', value)}
+					duration={chord.state.duration}
+					setDuration={(value) => chord.set.lookup('duration', value)}
 				/>
 			)}
 
-			{!areOptionsShown && (
-				<Flex.Column height={detailsHeight} width="100%" justify="between" align="center">
-					{chord.keyMap && (
+			{!chord.state.isMenuOpen && (
+				<Flex.Column height="112" width="100%" justify="between" align="center">
+					{chord.state.keyMap && (
 						<Flex.Row align="center" mt="5">
 							<KeyboardIcon width="20px" height="20px" />
 							<Spacer width="8px" />
-							<Text>{chord.keyMap}</Text>
+							<Text>{chord.state.keyMap}</Text>
 						</Flex.Row>
 					)}
 
-					<Spacer size="1px" />
-
-					<Flex.Row gap="4">
-						<Text style={{ fontSize: 14 }}>Octave: {octave}</Text>
-						<Text style={{ fontSize: 14 }}>Inversion: {inversion}</Text>
+					<Flex.Row gap="2" p="1" width="100%">
+						<TinyStat.Number
+							label="Octave"
+							value={chord.state.octaveOffset}
+							min={-3}
+							max={8}
+							step={1}
+							onValueChange={(value) => chord.set.lookup('octaveOffset', value)}
+						/>
+						<TinyStat.Number
+							label="Inversion"
+							value={chord.state.inversion}
+							min={-3}
+							max={3}
+							step={1}
+							onValueChange={(value) => chord.set.lookup('inversion', value)}
+						/>
 					</Flex.Row>
 				</Flex.Column>
 			)}
@@ -154,7 +175,7 @@ const DURATIONS = [
 	'4 bars'
 ]
 
-const ChordOptions = (props) => {
+const ChordSettingMenu = (props) => {
 	const isProgressionChord = !!props.chord.id
 
 	return (
