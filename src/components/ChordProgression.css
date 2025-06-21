@@ -165,16 +165,23 @@ input {
 	border-right: 1px solid var(--sand-7);
 }
 
+.ChordOptions .LabelRoot {
+	font-size: 12px;
+	font-weight: 500;
+	line-height: 20px;
+	color: var(--sand-text);
+}
+
 .gridBlock.lighter {
 	background: var(--sand-2);
 }
 
 .rightArrowIconButton {
-	padding-left: 6px;
+	padding-left: 4px;
 	padding-right: 8px;
 }
 
 .leftArrowIconButton {
 	padding-left: 8px;
-	padding-right: 6px;
+	padding-right: 4px;
 }

@@ -1,9 +1,8 @@
 .ChordBlock {
 	--accented: var(--sand-8);
-	/* width: 240px; */
-	height: 100px !important;
-	min-height: 100px !important;
-	max-height: 100px !important;
+	height: var(--blockHeight) !important;
+	min-height: var(--blockHeight) !important;
+	max-height: var(--blockHeight) !important;
 	border: 1px solid var(--sand-8);
 	border-radius: 4px;
 	background: linear-gradient(to top right, var(--sand-a1), var(--sand-a2));

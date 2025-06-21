@@ -3,11 +3,11 @@ import { Spacer } from '#/components/layout/Spacer'
 import { Flex } from '#/components/layout/Flex'
 import { Cross2Icon, DotsHorizontalIcon, GearIcon, KeyboardIcon, PlusCircledIcon, TrashIcon } from '@radix-ui/react-icons'
 import React from 'react'
-import { Text, Select, TextField, Button } from '@radix-ui/themes'
+import { Text, Select, TextField, Button, Kbd } from '@radix-ui/themes'
 import { $progression, useNewChord } from '#/stores/$progression'
 import { cssColorVars, getAccentColorClassName } from '#/modules/color'
 import { ChordMenu } from './ChordMenu'
-import { $output } from '#/stores'
+import { $input, $output } from '#/stores'
 import { useChordKeyListener } from '#/hooks/useKeyChordListener'
 
 type ChordBlockPropsT = {
@@ -19,8 +19,8 @@ export const ChordBlock = (props: ChordBlockPropsT) => {
 	const chord = useNewChord(props.symbol)
 	const style = cssColorVars(chord.state.rootNote) as React.CSSProperties
 	const accentsClassName = getAccentColorClassName(chord.state.rootNote)
+	const qwertyKey = useChordKeyListener(props.index, chord, 'chords')
 	if (!chord.state.rootNote || !accentsClassName) return null
-	useChordKeyListener(props.index, chord)
 
 	const addChord = () => $progression.actions.addChord(chord.state)
 
@@ -56,6 +56,11 @@ export const ChordBlock = (props: ChordBlockPropsT) => {
 					<Flex.Row gap="2" align="center">
 						<span className="coloredCircle" />
 						<Text>{chord.state.symbol}</Text>
+						{qwertyKey && (
+							<Kbd className="chordBlockKbd" size="2">
+								{qwertyKey}
+							</Kbd>
+						)}
 					</Flex.Row>
 					<Flex.Row>
 						<PlusCircledIcon className="addIcon" width="18px" height="18px" onClick={addChord} />

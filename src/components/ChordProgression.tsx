@@ -12,9 +12,8 @@ import { useOnClickOutside } from 'usehooks-ts'
 const selectedChordId = datass.string('')
 const TOTAL_BEATS = 16 // e.g., 4 bars of 4/4
 
-export const ChordProgression = () => {
+const useSizeAndClickRef = () => {
 	const { ref, width } = useComponentSize()
-	const chords = $progression.use()
 
 	useOnClickOutside(ref, (event) => {
 		// if click is within .ChordOptions, do nothing...
@@ -22,19 +21,34 @@ export const ChordProgression = () => {
 		if (selectedChordId.state) selectedChordId.set('')
 	})
 
+	return { ref, width }
+}
+
+export const ChordProgression = () => {
+	const { ref, width } = useSizeAndClickRef()
+	const chords = $progression.use()
+
+	const download = () => {
+		$progression.toMidi()
+	}
+
 	return (
 		<Flex.Column className="ChordProgression" gap="8px" p="4" pb="0">
 			<Flex.Row className="top" justify="between" align="center" width="100%">
-				<Text size="2" weight="bold">
-					PROGRESSION
-				</Text>
+				<Flex.Row gap="2" align="center">
+					<Icon name="download0" color="white" width="16px" height="16px" onClick={download} />
+					<Text size="2" weight="bold">
+						PROGRESSION
+					</Text>
+					<QwertyTargetIndicator target="progression" />
+				</Flex.Row>
 				{selectedChordId.use() && <ChordOptions totalWidth={width} chordCount={chords.length} />}
 			</Flex.Row>
 
 			<ProgressionGrid ref={ref} className="bottom grid-background">
-				{chords.map((chord) => (
+				{chords.map((chord, index) => (
 					<TimingWrapper totalWidth={width} key={chord.id} chord={chord} totalBeats={TOTAL_BEATS}>
-						<MiniChordBlock id={chord.id} isSelected={selectedChordId.state === chord.id} symbol={chord.symbol} />
+						<MiniChordBlock id={chord.id} index={index} isSelected={selectedChordId.state === chord.id} symbol={chord.symbol} />
 					</TimingWrapper>
 				))}
 			</ProgressionGrid>
@@ -44,6 +58,7 @@ export const ChordProgression = () => {
 
 import * as Label from '@radix-ui/react-label'
 import { Icon } from './Icon'
+import { QwertyTargetIndicator } from './QwertyTargetIndicator'
 
 const ChordOptions = (props) => {
 	const id = selectedChordId.use()
@@ -65,7 +80,7 @@ const ChordOptions = (props) => {
 
 	const duration = (
 		<Flex.Row gap="2" align="center">
-			<Label.Root className="LabelRoot" htmlFor="duration" style={{ fontSize: '12px', color: 'var(--color-text)' }}>
+			<Label.Root className="LabelRoot" htmlFor="duration">
 				Duration
 			</Label.Root>
 			<TextField.Root
@@ -79,6 +94,7 @@ const ChordOptions = (props) => {
 				value={chord.durationBeats}
 				onChange={(e) => {
 					const newDuration = parseInt(e.target.value, 10)
+
 					if (!isNaN(newDuration)) {
 						$progression.actions.updateChordDuration(chord.id, newDuration)
 					}
@@ -106,7 +122,7 @@ const ChordOptions = (props) => {
 				</Button>
 			)}
 
-			<Button size="1" variant="surface" onClick={handleDelete}>
+			<Button size="1" variant="outline" onClick={handleDelete}>
 				<Icon color="white" name="trash0" width="16px" height="16px" />
 			</Button>
 			{/* <Text size="1">Total Beats: {TOTAL_BEATS}</Text> */}

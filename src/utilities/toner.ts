@@ -39,10 +39,19 @@ type NewChordT = {
 }
 
 class Theory {
+	registeredCount = 0
+
 	constructor(chordTypes: any = []) {
 		chordTypes.forEach((chordType) => {
 			this.registerChord(chordType)
 		})
+
+		this.registeredCount = chordTypes.length
+		console.log('theory: registered ', this.registeredCount)
+	}
+
+	ensureLoaded = () => {
+		return this.registeredCount > 0
 	}
 
 	getChordSkewNess(chordName: string) {
@@ -219,7 +228,8 @@ class Theory {
 }
 
 export const theory = new Theory(CHORD_TYPES)
-// console.log('>>>', theory.groupChordNamesByRootNote(theory.getAllChordsInScale('D minor')))
+globalThis.theory = theory
+// console.log('>>>', theory.groupChordNamesByRootNote(theory.getAllChordsInScale('F# minor')))
 
 type GetManyOctavedNotesOptionsT = {
 	count: number

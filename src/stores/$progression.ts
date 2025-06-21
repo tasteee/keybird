@@ -7,17 +7,17 @@ const cloneChord = (chord) => {
 }
 
 export const createChord = (symbol: string): CustomChordT => {
-	const chord = theory.getChord(symbol)
-	const rootNote = chord.tonic
+	const tonalChord = theory.getChord(symbol)
+	const rootNote = tonalChord.tonic
 	const degree = '' // TonalChord does not provide this; set as empty or infer elsewhere
 	const octaveOffset = 0 // Default to no transposition
 	const voicing = 'closed' // TonalChord does not provide voicing; default to "closed"
 	const inversion = 0 // Default to root position
 	const durationBeats = 4 // Default to whole bar (4 beats)
-	const bassNote = chord.bass || rootNote
-	const notes = chord.notes || []
+	const bassNote = tonalChord.bass || rootNote
+	const notes = tonalChord.notes || []
 
-	return {
+	const chord = {
 		id: crypto.randomUUID(),
 		notes,
 		rootNote,
@@ -31,6 +31,9 @@ export const createChord = (symbol: string): CustomChordT => {
 		minVelocity: 70,
 		maxVelocity: 85
 	}
+
+	chord.notes = getChordNotes(chord)
+	return chord as CustomChordT
 }
 
 export const useNewChord = (symbol: string) => {
@@ -124,4 +127,89 @@ $progression.actions.playLoop = () => {
 
 $progression.hooks.useChord = (id: string) => {
 	return $progression.use().find((chord) => chord.id === id) || null
+}
+
+$progression.toMidi = () => {
+	const fileName = `chords-${Date.now()}.mid`
+	createAndDownloadMidi($progression.state, fileName)
+}
+
+const noteMap: { [key: string]: number } = {
+	C: 0,
+	'C#': 1,
+	Db: 1,
+	D: 2,
+	'D#': 3,
+	Eb: 3,
+	E: 4,
+	F: 5,
+	'F#': 6,
+	Gb: 6,
+	G: 7,
+	'G#': 8,
+	Ab: 8,
+	A: 9,
+	'A#': 10,
+	Bb: 10,
+	B: 11
+}
+
+// A helper function to convert a note name (e.g., "C#4") to a MIDI number.
+function noteNameToMidi(noteName: string): number | null {
+	const match = noteName.match(/^([A-G][#b]?)(-?\d+)$/)
+	console.log('noteNameToMidi', noteName, match)
+	const [, pitchClass, octaveStr] = match
+	const octave = parseInt(octaveStr, 10)
+	const noteValue = noteMap[pitchClass]
+	return 12 + octave * 12 + noteValue
+}
+
+import MidiWriter from 'midi-writer-js'
+import { Interval, Note, Scale } from 'tonal'
+import { getChordNotes } from '#/modules/playInstrument'
+
+/**
+ * Takes an array of chords and generates a downloadable MIDI file.
+ * @param progression The array of CustomChordT objects.
+ * @param fileName The desired name for the downloaded file (e.g., "my-progression.mid").
+ */
+export function createAndDownloadMidi(progression: CustomChordT[], fileName: string = 'progression.mid') {
+	let previousTicks = 0
+	const TICKS_PER_BEAT = 128
+	const track = new MidiWriter.Track()
+
+	progression.forEach((chord) => {
+		const midiNotes = chord.notes.map(Note.midi)
+		const durationTicks = chord.durationBeats * TICKS_PER_BEAT
+
+		console.log({
+			chord,
+			pitch: midiNotes,
+			wait: previousTicks,
+			duration: `T${durationTicks}`, // Duration in ticks
+			velocity: Math.min(127, Math.max(0, chord.maxVelocity)) // Clamp velocity to 0-127 range
+		})
+
+		const noteEvent = new MidiWriter.NoteEvent({
+			pitch: midiNotes,
+			wait: previousTicks,
+			duration: `T${durationTicks}`, // Duration in ticks
+			velocity: Math.min(127, Math.max(0, chord.maxVelocity)) // Clamp velocity to 0-127 range
+		})
+
+		previousTicks += durationTicks // Update the wait time for the next note
+		track.addEvent(noteEvent)
+	})
+
+	// 4. Generate the MIDI file
+	const writer = new MidiWriter.Writer(track)
+	const dataUri = writer.dataUri()
+
+	// 5. Trigger the download
+	const link = document.createElement('a')
+	link.href = dataUri
+	link.download = fileName.endsWith('.mid') ? fileName : `${fileName}.mid`
+	document.body.appendChild(link)
+	link.click()
+	document.body.removeChild(link)
 }

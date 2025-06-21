@@ -67,7 +67,7 @@ html::-webkit-scrollbar-thumb:hover {
 main {
 	height: 100vh;
 	display: flex;
-  flex-direction: column;
+	flex-direction: column;
 	width: 100vw;
 }
 
@@ -110,3 +110,20 @@ main {
 	bottom: 120px;
 	left: 200px;
 	box-shadow: 50px 20px 500px 200px #ffffff0d;
+}
+
+body:has(.qwerty-target-chords) .chordBlockKbd {
+	display: flex;
+}
+
+body:has(.qwerty-target-progression) .chordBlockKbd {
+	display: none;
+}
+
+body:has(.qwerty-target-chords) .progressionKbd {
+	display: none;
+}
+
+body:has(.qwerty-target-progression) .progressionKbd {
+	display: flex;
+}

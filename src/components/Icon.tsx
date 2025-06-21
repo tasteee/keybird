@@ -20,11 +20,16 @@ const DEFAULT_PROPS = {
 	size: '24px'
 }
 
+const getColor = (color: string) => {
+	if (color.startsWith('--')) return `var(${color})`
+	return color
+}
+
 export const Icon = (inputProps: PropsT) => {
 	const props = { ...DEFAULT_PROPS, ...inputProps }
 	const name = getIconName(props)
 	const sizes = getSizeProps(props)
-	const color = `var(--${props.color})` || 'white'
+	const color = getColor(props.color)
 
 	const classes = classNames('Icon', props.className, {
 		isDisabled: props.isDisabled,

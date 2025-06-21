@@ -27,12 +27,16 @@ const SignalRowCells = React.memo(({ rowId }: SignalRowCellsPropsT) => {
 
 		const startDivision = beatIndex * DIVISIONS_PER_BEAT
 		const endDivision = startDivision + DIVISIONS_PER_BEAT // Default to 1 beat long
+		const id = crypto.randomUUID() // Generate a unique ID for the signal
 
 		$patternEditor.addSignal({
+			id,
 			rowId: rowId,
 			startDivision,
 			endDivision
 		})
+
+		$patternEditor.selectedSignalId.set(id)
 	}
 
 	const cells = []

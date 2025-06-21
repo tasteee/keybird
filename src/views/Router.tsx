@@ -6,6 +6,7 @@ import { PatternEditor } from './patterns/PatternEditor'
 import { OutputControlsRow } from '../components/MainControls'
 import { TopBar } from '#/components/TopBar'
 import { ChordProgression } from '#/components/ChordProgression'
+import { $input } from '#/stores/$input'
 
 export const Router = () => {
 	return (
@@ -34,3 +35,11 @@ const AuthedRouter = () => {
 		</>
 	)
 }
+
+window.addEventListener('keydown', (event) => {
+	console.log('Key down:', event.key, event.code, event)
+	if (event.key === '`') {
+		const isChords = $input.qwertyPerformTarget.state === 'chords'
+		$input.qwertyPerformTarget.set(isChords ? 'progression' : 'chords')
+	}
+})

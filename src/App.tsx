@@ -10,14 +10,22 @@ import './styles/accents.css'
 import { GrayTheme } from './components/layout/Themes'
 import './modules/scales'
 import { Router } from './views/Router'
+import { $input } from './stores'
 
 export const App = () => {
 	return (
 		<GrayTheme id="App">
 			<Router />
 			<GlowPixels />
+			<KbdController />
 		</GrayTheme>
 	)
+}
+
+const KbdController = () => {
+	const qwertyTarget = $input.qwertyPerformTarget.use()
+	const className = `qwerty-target-${qwertyTarget}`
+	return <div className={className} />
 }
 
 // Make it look cool. That is all.

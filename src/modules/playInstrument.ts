@@ -1,4 +1,3 @@
-import { WebMidi } from 'webmidi'
 import { $output } from '#/stores/$output'
 
 const DEFAULT_INSTRUMENT_NAME = 'acoustic_grand_piano'

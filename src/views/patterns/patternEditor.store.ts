@@ -1,4 +1,4 @@
-import { getEnabledRowIds, defaultEnabledIds, signalRowsMap } from '#/utilities/buildEmptySignalsState'
+import { getEnabledRowIds, defaultEnabledIds, signalRowsMap } from '#/utilities/signalRows'
 import { datass } from 'datass'
 
 type SignalT = {
@@ -41,7 +41,7 @@ const toggleRowSignalId = (rowId: string, signalId: string) => {
 const addSignal = (signal: Partial<SignalT> & { rowId: string }) => {
 	const updatedTime = Date.now()
 	const id = signal.id || crypto.randomUUID()
-	// Ensure required fields are present before casting
+
 	const finalSignal: SignalT = {
 		isMuted: false,
 		startDivision: 0,
@@ -50,6 +50,7 @@ const addSignal = (signal: Partial<SignalT> & { rowId: string }) => {
 		id,
 		updatedTime
 	}
+
 	$signalMap.set.lookup(id, finalSignal)
 	toggleRowSignalId(signal.rowId, id)
 }

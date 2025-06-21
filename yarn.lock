@@ -2223,7 +2223,7 @@
   dependencies:
     "@tonaljs/pitch-note" "6.0.0"
 
-"@tonaljs/midi@4.10.2", "@tonaljs/midi@^4.8.0":
+"@tonaljs/midi@4.10.2", "@tonaljs/midi@^4.8.0", "@tonaljs/midi@^4.9.0":
   version "4.10.2"
   resolved "https://registry.yarnpkg.com/@tonaljs/midi/-/midi-4.10.2.tgz#324b35d00e2a8b5d504a817e27fd7162e7ab0b55"
   integrity sha512-MPamXhEwPL7L1udLfYMm3Ft8mLYtHr62Zi2w5zYHM2P7YwIvNoiX0+dvAN5is1Wvq4iVRa8AjFHerjOW/SZhGg==
@@ -4557,6 +4557,13 @@ midi-file@^1.2.2:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/midi-file/-/midi-file-1.2.4.tgz#e5803a8fc79cdd1692ac6ef6b1491043b397eb87"
   integrity sha512-B5SnBC6i2bwJIXTY9MElIydJwAmnKx+r5eJ1jknTLetzLflEl0GWveuBB6ACrQpecSRkOB6fhTx1PwXk2BVxnA==
+
+midi-writer-js@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/midi-writer-js/-/midi-writer-js-3.1.1.tgz#8a53bf762a7ea2a77fd8e693236cafe094f617da"
+  integrity sha512-ruRzUWtmcvD7xQcrKRk9fH+1BELv8x07QJxhpM4PS5n6+MOyPb39ifxTV/oI1hHPgKMSuhnhWw2MaGWUAvH9DA==
+  dependencies:
+    "@tonaljs/midi" "^4.9.0"
 
 midimessage@^1.0.5:
   version "1.0.5"

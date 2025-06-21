@@ -16,8 +16,6 @@ const createProject = () => {
 		timeingDenominator: 4,
 		customPerformancePatterns: [],
 		baseOctave: 3,
-		defaultIsChordSpread: false,
-		defaultIsChordOpen: false,
 		defaultChordVoicing: null,
 		defaultChordInversion: null,
 		defaultMaxVelocity: 95,

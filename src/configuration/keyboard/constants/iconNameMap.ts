@@ -5,6 +5,8 @@ export const ICON_NAME_MAP = {
 	note0: 'gravity-ui:music-note',
 	info2: 'ri:information-line',
 	arrowLeft0: 'picon:left',
+	download0: 'material-symbols:download',
+	arrowLeft1: 'fa-solid:arrow-left',
 	arrowRight0: 'picon:right',
 	info3: 'streamline-plump:information-circle-solid',
 	info4: 'streamline-sharp:information-circle-remix',

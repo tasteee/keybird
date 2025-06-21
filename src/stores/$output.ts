@@ -43,11 +43,6 @@ export const $output = datass.object<OutputStoreBaseT>({
 	volume: 60
 }) as OutputStoreT
 
-$output.play = playNote
-$output.stop = stopNote
-$output.playChord = playChord
-$output.stopChord = stopChord
-
 async function loadInstrument(context, name: InstrumentName) {
 	return new Promise((resolve, reject) => {
 		Soundfont.instrument(context, name).then(resolve).catch(reject)
@@ -77,3 +72,8 @@ const setupAudio = () => {
 }
 
 setupAudio()
+
+$output.play = (...args) => playNote(...args)
+$output.stop = (...args) => stopNote(...args)
+$output.playChord = (...args) => playChord(...args)
+$output.stopChord = (...args) => stopChord(...args)

@@ -1,17 +1,19 @@
 import './MiniChordBlock.css'
 import { Flex } from '#/components/layout/Flex'
 import { useDatass } from 'datass'
-import { Badge, Card, Text } from '@radix-ui/themes'
+import { Badge, Card, Kbd, Text } from '@radix-ui/themes'
 import { $output, $progression } from '#/stores/$main'
 import classNames from 'classnames'
 import { useNewChord } from '#/stores/$progression'
 import { cssColorVars, getAccentColorClassName } from '#/modules/color'
+import { useChordKeyListener } from '#/hooks/useKeyChordListener'
 
 type PropsT = {
 	symbol?: string
 	id?: string
 	style?: any
 	isSelected?: boolean
+	index?: number
 }
 
 export const MiniChordBlock = (props: PropsT) => {
@@ -19,6 +21,7 @@ export const MiniChordBlock = (props: PropsT) => {
 	const chord = useNewChord(props.symbol)
 	const style = cssColorVars(chord.state.rootNote) as React.CSSProperties
 	const accentsClassName = getAccentColorClassName(chord.state.rootNote)
+	const qwertyKey = useChordKeyListener(props.index, chord, 'progression')
 
 	const className = classNames('MiniChordBlock', accentsClassName, {
 		MiniChordBlockWithMenuOpen: isMenuOpen.state,
@@ -49,6 +52,7 @@ export const MiniChordBlock = (props: PropsT) => {
 					<Text size="2" weight="bold" className="MiniChordBlock__symbol">
 						{chord.state.symbol}
 					</Text>
+					{qwertyKey && <Kbd size="2">{qwertyKey}</Kbd>}
 				</Flex.Row>
 
 				<Flex.Row gap="1" align="center">

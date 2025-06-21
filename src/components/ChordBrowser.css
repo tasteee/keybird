@@ -1,6 +1,11 @@
 .ChordBrowser {
+	--blockHeight: 96px !important;
 	overflow: auto;
 	flex: 1;
+}
+
+.ChordBrowser.isCompact {
+	--blockHeight: 48px !important;
 }
 
 .RootNoteSelect {
