@@ -63,11 +63,11 @@ html::-webkit-scrollbar-thumb:hover {
 	--color-primary-foreground: var(--teal-1);
 }
 
-.App,
-.Router,
+#App,
 main {
 	height: 100vh;
 	display: flex;
+  flex-direction: column;
 	width: 100vw;
 }
 

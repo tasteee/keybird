@@ -2,6 +2,8 @@
 	padding: 4px;
 	border: 1px solid var(--sand-8);
 	border-radius: 4px;
+	width: 100%;
+	height: 100%;
 	/* background: linear-gradient(to top right, var(--sand-a1), var(--sand-a2)); */
 
 	.coloredCircle {
@@ -19,9 +21,6 @@
 	border: 1px solid var(--accent-a11) !important;
 	background: linear-gradient(to top right, var(--accent-a1), var(--accent-a2)) !important;
 	will-change: background-color, border-color;
-	transition:
-		background-color 0.2s ease-in-out,
-		border-color 0;2s ease-in-out;
 }
 
 .MiniChordBlock.isSelected {
@@ -41,4 +40,10 @@
 .ChordProgression :has(~ .isSelected) {
 	/* background: orange; before */
 	opacity: 0.4;
+}
+
+.MiniChordBlockInner {
+	position: relative;
+	cursor: pointer;
+	padding: 12px;
 }

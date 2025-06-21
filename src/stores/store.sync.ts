@@ -129,7 +129,7 @@ function useMidiSync() {
 
 		store.setState({
 			midiOutputName,
-			midiOutputNames: outputNames,
+			midiOutputIds: outputNames,
 			isMidiEnabled: true
 		})
 	}, [isMidiConnected])
@@ -183,8 +183,8 @@ function useMidiOutputsSync() {
 // 			})
 
 // 			store.setAreInstrumentsLoaded(true)
-// 			const midiOutputNames = store.midiOutputNames
-// 			store.setMidiOutputNames([...midiOutputNames, 'builtIn'])
+// 			const midiOutputIds = store.midiOutputIds
+// 			store.setMidiOutputNames([...midiOutputIds, 'builtIn'])
 
 // 			store.setState({
 // 				midiOutputName: 'builtIn',

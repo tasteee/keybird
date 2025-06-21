@@ -18,7 +18,7 @@ const handleScaleChange = (scaleKey: string, scaleType: string) => {
 
 type NoteSignalT = {
 	id: string
-	noteId: string
+	rowId: string
 	startDivision: number
 	endDivision: number
 	velocity: number

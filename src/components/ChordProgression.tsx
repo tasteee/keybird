@@ -10,17 +10,11 @@ import { useComponentSize } from 'react-use-size'
 import { useOnClickOutside } from 'usehooks-ts'
 
 const selectedChordId = datass.string('')
-
 const TOTAL_BEATS = 16 // e.g., 4 bars of 4/4
-const TOTAL_BARS = 4
 
 export const ChordProgression = () => {
-	const { ref, height, width } = useComponentSize()
+	const { ref, width } = useComponentSize()
 	const chords = $progression.use()
-
-	const updateChordTiming = (chordId, newDuration) => {
-		$progression.actions.updateChordDuration(chordId, newDuration)
-	}
 
 	useOnClickOutside(ref, (event) => {
 		// if click is within .ChordOptions, do nothing...
@@ -29,31 +23,27 @@ export const ChordProgression = () => {
 	})
 
 	return (
-		<Flex.Column className="ChordProgression" gap="4" p="4" pb="0">
+		<Flex.Column className="ChordProgression" gap="8px" p="4" pb="0">
 			<Flex.Row className="top" justify="between" align="center" width="100%">
 				<Text size="2" weight="bold">
 					PROGRESSION
 				</Text>
-				{selectedChordId.use() && <ChordOptions totalWidth={width} />}
+				{selectedChordId.use() && <ChordOptions totalWidth={width} chordCount={chords.length} />}
 			</Flex.Row>
 
-			<Flex.Row width="100%" gap="1px" ref={ref} overflowX="scroll" height="48px" className="bottom grid-background">
+			<ProgressionGrid ref={ref} className="bottom grid-background">
 				{chords.map((chord) => (
-					<TimingWrapper totalWidth={width} key={chord.id} chord={chord} totalBeats={TOTAL_BEATS} onChange={updateChordTiming}>
-						<MiniChordBlock
-							id={chord.id}
-							isSelected={selectedChordId.state === chord.id}
-							symbol={chord.symbol}
-							style={{ width: '100%', height: '100%' }}
-						/>
+					<TimingWrapper totalWidth={width} key={chord.id} chord={chord} totalBeats={TOTAL_BEATS}>
+						<MiniChordBlock id={chord.id} isSelected={selectedChordId.state === chord.id} symbol={chord.symbol} />
 					</TimingWrapper>
 				))}
-			</Flex.Row>
+			</ProgressionGrid>
 		</Flex.Column>
 	)
 }
 
 import * as Label from '@radix-ui/react-label'
+import { Icon } from './Icon'
 
 const ChordOptions = (props) => {
 	const id = selectedChordId.use()
@@ -97,17 +87,27 @@ const ChordOptions = (props) => {
 		</Flex.Row>
 	)
 
+	const chords = $progression.state
+	const showLeftButton = chords.length > 1 && chord.id !== chords[0].id
+	const showRightButton = chords.length > 1 && chord.id !== chords[chords.length - 1].id
+
 	return (
-		<Flex.Row gap="5" className="ChordOptions" align="center" style={{ position: 'absolute', right: 16 }}>
+		<Flex.Row gap="3" className="ChordOptions" align="center" style={{ position: 'absolute', right: 16 }}>
 			{duration}
-			<Button size="1" variant="outline" onClick={handleMoveLeft} style={{ borderColor: 'white', color: 'white' }}>
-				Move Left
-			</Button>
-			<Button size="1" variant="outline" onClick={handleMoveRight} style={{ borderColor: 'white', color: 'white' }}>
-				Move Right
-			</Button>
-			<Button size="1" variant="ghost" color="red" onClick={handleDelete}>
-				Delete
+
+			{showLeftButton && (
+				<Button className="leftArrowIconButton" size="1" variant="surface" onClick={handleMoveLeft}>
+					<Icon color="white" name="arrowLeft0" width="16px" height="16px" />
+				</Button>
+			)}
+			{showRightButton && (
+				<Button className="rightArrowIconButton" size="1" variant="surface" onClick={handleMoveRight}>
+					<Icon color="white" name="arrowRight0" width="16px" height="16px" />
+				</Button>
+			)}
+
+			<Button size="1" variant="surface" onClick={handleDelete}>
+				<Icon color="white" name="trash0" width="16px" height="16px" />
 			</Button>
 			{/* <Text size="1">Total Beats: {TOTAL_BEATS}</Text> */}
 			{/* <Text size="1">Total Bars: {TOTAL_BARS}</Text> */}
@@ -123,15 +123,10 @@ const TimingWrapper = (props) => {
 
 	const style = {
 		width: `${width}px`,
-		//     width: 100%;
-		// height: 96%;
-		// position: relative;
-		// top: 4%;
 		top: '2%',
 		position: 'relative',
-		height: '90%',
+		height: '95%',
 		zIndex: 2,
-		display: 'flex',
 		alignItems: 'stretch'
 	}
 
@@ -145,5 +140,33 @@ const TimingWrapper = (props) => {
 		<div className={`TimingWrapper ${isSelected ? 'isSelected' : ''}`} style={style} onClick={handleClick}>
 			{props.children}
 		</div>
+	)
+}
+
+export const ProgressionGrid = (props) => {
+	return (
+		<Flex.Row ref={props.ref} className="ProgressionGrid" position="relative" width="100%" height="64px">
+			<Flex.Row height="100%" width="100%" className="gridBackground" style={{ position: 'relative' }}>
+				<span className="gridBlock lighter"></span>
+				<span className="gridBlock lighter"></span>
+				<span className="gridBlock lighter"></span>
+				<span className="gridBlock lighter"></span>
+				<span className="gridBlock"></span>
+				<span className="gridBlock"></span>
+				<span className="gridBlock"></span>
+				<span className="gridBlock"></span>
+				<span className="gridBlock lighter"></span>
+				<span className="gridBlock lighter"></span>
+				<span className="gridBlock lighter"></span>
+				<span className="gridBlock lighter"></span>
+				<span className="gridBlock"></span>
+				<span className="gridBlock"></span>
+				<span className="gridBlock"></span>
+				<span className="gridBlock"></span>
+			</Flex.Row>
+			<Flex.Row className="gridContent" position="absolute" top="0" left="0" width="100%" height="100%">
+				{props.children}
+			</Flex.Row>
+		</Flex.Row>
 	)
 }

@@ -7,7 +7,7 @@ const handleMidiEnabled = () => {
 	$output.set.lookup('midiOutputIds', ids)
 	$output.set.lookup('midiOutputId', ids[0])
 	$output.set.lookup('midiOutput', WebMidi.getOutputById(ids[0]))
-	console.log({ ids, output: $output.state.midiOutput })
+	console.log('handleMidiEnabled', { ids, output: $output.state.midiOutput })
 }
 
 const handleMidiError = (error: any) => {
@@ -29,7 +29,6 @@ const getChannel = (channelNumber: number) => {
 
 const playNote = (note: string) => {
 	const channel = getChannel(1)
-	console.log({ channel, note })
 	channel.playNote(note.toUpperCase())
 }
 

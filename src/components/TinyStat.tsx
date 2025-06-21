@@ -2,6 +2,7 @@ import { Icon } from '#/components/Icon'
 import { Flex } from '#/components/layout/Flex'
 import { Spacer } from '#/components/layout/Spacer'
 import { Text } from '@radix-ui/themes'
+import './TinyStat.css'
 
 type PropsT = {
 	label: string
@@ -26,6 +27,7 @@ type TinyStatNumberPropsT = {
 	min?: number
 	max?: number
 	step?: number
+	style?: any
 	onValueChange?: (value: number) => void
 	onIncrementClick?: () => void
 	onDecrementClick?: () => void
@@ -47,12 +49,12 @@ TinyStat.Number = (props: TinyStatNumberPropsT) => {
 	}
 
 	return (
-		<Flex.Column className="TinyStat TinyStatNumber" bg="--sand-4" p="2" radius="4px">
+		<Flex.Column className="TinyStat TinyStatNumber" bg="--sand-4" p="2" radius="4px" style={props.style}>
 			<Text size="1" mx="auto">
 				{props.label.toUpperCase()}
 			</Text>
 			<Spacer size="4px" />
-			<Flex.Row align="center" justify="center" gap="2">
+			<Flex.Row align="center" justify="center" gap="2" className="controlBox">
 				<Icon className="crementIcon" name="ic:baseline-remove" size="12px" color="sand-11" onClick={onDecrementClick} />
 				<Text size="3" weight="bold">
 					{props.value}

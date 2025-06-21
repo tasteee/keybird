@@ -114,7 +114,7 @@ export const InstrumentSelect = () => {
 }
 
 export const MidiOutputSelect = () => {
-	const { outputType, midiOutputNames, midiOutputName, isMidiEnabled } = $output.use()
+	const { outputType, midiOutputIds, midiOutputName, isMidiEnabled } = $output.use()
 	const isMidiOutputSelected = outputType === 'midi'
 	const isDisabled = !isMidiEnabled || !isMidiOutputSelected
 	const value = isDisabled ? 'Disabled' : midiOutputName
@@ -129,7 +129,7 @@ export const MidiOutputSelect = () => {
 				<Text>MIDI Output: {value}</Text>
 			</Select.Trigger>
 			<Select.Content position="popper">
-				{midiOutputNames.map((name) => (
+				{midiOutputIds.map((name) => (
 					<Select.Item key={name} value={name}>
 						{name}
 					</Select.Item>

@@ -1,0 +1,55 @@
+.rubyAccents {
+	--accent-color: var(--ruby) --accentedA1: var(--ruby-a1);
+	--accentedA2: var(--ruby-a2);
+	--accentedA3: var(--ruby-a3);
+	--accentedA4: var(--ruby-a4);
+	--accentedA5: var(--ruby-a5);
+	--accentedA6: var(--ruby-a6);
+	--accentedA7: var(--ruby-a7);
+	--accentedA8: var(--ruby-a8);
+	--accentedA9: var(--ruby-a9);
+	--accentedA10: var(--ruby-a10);
+	--accentedA11: var(--ruby-a11);
+	--accentedA12: var(--ruby-a12);
+	--accented0: var(--ruby-0);
+	--accented1: var(--ruby-1);
+	--accented2: var(--ruby-2);
+	--accented3: var(--ruby-3);
+	--accented4: var(--ruby-4);
+	--accented5: var(--ruby-5);
+	--accented6: var(--ruby-6);
+	--accented7: var(--ruby-7);
+	--accented8: var(--ruby-8);
+	--accented9: var(--ruby-9);
+	--accented10: var(--ruby-10);
+	--accented11: var(--ruby-11);
+	--accented12: var(--ruby-12);
+}
+
+.violetAccents {
+	--accent-color: var(--violet) --accentedA1: var(--violet-a1);
+	--accentedA2: var(--violet-a2);
+	--accentedA3: var(--violet-a3);
+	--accentedA4: var(--violet-a4);
+	--accentedA5: var(--violet-a5);
+	--accentedA6: var(--violet-a6);
+	--accentedA7: var(--violet-a7);
+	--accentedA8: var(--violet-a8);
+	--accentedA9: var(--violet-a9);
+	--accentedA10: var(--violet-a10);
+	--accentedA11: var(--violet-a11);
+	--accentedA12: var(--violet-a12);
+	--accented0: var(--violet-0);
+	--accented1: var(--violet-1);
+	--accented2: var(--violet-2);
+	--accented3: var(--violet-3);
+	--accented4: var(--violet-4);
+	--accented5: var(--violet-5);
+	--accented6: var(--violet-6);
+	--accented7: var(--violet-7);
+	--accented8: var(--violet-8);
+	--accented9: var(--violet-9);
+	--accented10: var(--violet-10);
+	--accented11: var(--violet-11);
+	--accented12: var(--violet-12);
+}

@@ -1,3 +1,5 @@
+import './MainControls.css'
+
 import { Flex } from '#/components/layout/Flex'
 import { $output, $project } from '#/stores'
 import {
@@ -8,6 +10,8 @@ import {
 	OutputTypeSelect,
 	ScaleTypeSelect
 } from './CommonControls'
+import { Switch } from '@radix-ui/themes/dist/esm/components/index.js'
+import { OutputControlSwitch } from './OutputControlSwitch'
 
 export const GlobalControlsRow = () => {
 	return (
@@ -24,16 +28,8 @@ export const OutputControlsRow = () => {
 	const isInstrumentSelected = outputType === 'instrument'
 
 	return (
-		<Flex.Row
-			px="4"
-			height="32px"
-			gap="2"
-			bg="--sand-4"
-			width="100%"
-			align="center"
-			style={{ position: 'fixed', bottom: 0, left: 0 }}
-		>
-			<OutputStatusIndicator />
+		<Flex.Row px="4" height="32px" gap="2" bg="--sand-4" width="100%" align="center" className="OutputControlsRow">
+			<OutputControlSwitch />
 			<OutputTypeSelect />
 			{isInstrumentSelected ? <InstrumentSelect /> : <MidiOutputSelect />}
 		</Flex.Row>
@@ -41,8 +37,9 @@ export const OutputControlsRow = () => {
 }
 
 const OutputStatusIndicator = (props) => {
-	const background = $output.use.lookup('isOutputActive') ? 'var(--grass-9)' : 'var(--red-9)'
-	return <span className="DotIndicator" style={{ marginRight: 4, '--dotColor': background }} {...props} />
+	const pulseColor = $output.use.lookup('isOutputEnabled') ? 'var(--grass-9)' : 'var(--red-9)'
+	const style = { '--pulseColor': pulseColor, '--dotColor': pulseColor, marginRight: 3 } as React.CSSProperties
+	return <span className="DotIndicator" style={style} {...props} />
 }
 
 export const MainControls = () => {

@@ -1,0 +1,74 @@
+.signalText {
+	color: white;
+	pointer-events: none;
+}
+
+.signalHandle {
+	position: absolute;
+	/* width: 5px; */
+	height: 100%;
+	top: 0;
+	bottom: 0;
+	cursor: ew-resize;
+	width: 8px;
+	/* background: var(--sand-2); */
+	background-color: transparent;
+	z-index: 16;
+}
+
+.signalHandle.handleLeft {
+	left: -4px;
+}
+
+.signalHandle.handleRight {
+	right: -4px;
+}
+
+.DraggableSignal {
+	width: var(--cellWidth);
+	height: 28px;
+	background: #f2e1ca;
+	outline: 1px solid var(--sand-9);
+	border-radius: 2px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	top: 2px;
+	z-index: 10;
+	user-select: none;
+	position: absolute;
+
+	&.isSelected {
+		background-color: white;
+		color: black;
+		box-shadow: 0px 0px 42px 6px var(--sand-a7);
+	}
+}
+
+/* 
+const signalTextStyle = {
+	color: 'white',
+	pointerEvents: 'none'
+}
+
+const baseDraggableStyles = {
+	height: '28px',
+	cursor: 'pointer',
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	zIndex: 10,
+	userSelect: 'none',
+	position: 'absolute'
+}
+
+const handleStyles = {
+	position: 'absolute',
+	top: 0,
+	bottom: 0,
+	width: '16px',
+	backgroundColor: 'transparent',
+	cursor: 'ew-resize',
+	zIndex: 11
+} */

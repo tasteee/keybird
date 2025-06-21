@@ -1,6 +1,6 @@
 .ChordBrowser {
-	height: 430px;
 	overflow: auto;
+	flex: 1;
 }
 
 .RootNoteSelect {

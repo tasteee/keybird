@@ -3,7 +3,7 @@ import * as Menubar from '@radix-ui/react-menubar'
 import { CheckIcon, ChevronRightIcon, DotFilledIcon } from '@radix-ui/react-icons'
 import './MenuBar.css'
 
-const MenuBar = () => {
+export const MenuBar = () => {
 	const [showGrid, setShowGrid] = React.useState(true)
 	const [snapToGrid, setSnapToGrid] = React.useState(false)
 	const [zoomLevel, setZoomLevel] = React.useState('100%')
@@ -128,5 +128,3 @@ const MenuBar = () => {
 		</Menubar.Root>
 	)
 }
-
-export default MenuBar

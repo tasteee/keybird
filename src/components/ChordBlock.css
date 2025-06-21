@@ -52,21 +52,6 @@
 	background-color: var(--accented11);
 }
 
-/* TinyStat hover/focus styles */
-.ChordBlock:not(:hover) .TinyStat {
-	background: transparent !important;
-	opacity: 0.5 !important;
-}
-.ChordBlock:not(:hover) .TinyStat .crementIcon {
-	opacity: 0 !important;
-}
-.ChordBlock:hover .TinyStat {
-	background: var(--accentedA3) !important;
-}
-.ChordBlock:hover .TinyStat .crementIcon {
-	opacity: 1;
-}
-
 /* ...existing code... */
 
 .ChordProgression .ChordBlock {
@@ -78,8 +63,4 @@
 .ChordProgression .ChordBlock:hover {
 	border: 1px solid var(--accentedA11);
 	background: linear-gradient(to top right, var(--accentedA2), var(--accentedA1));
-}
-
-.ChordProgression .ChordBlock .TinyStat {
-	/* padding: 4px; */
 }

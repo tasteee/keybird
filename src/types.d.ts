@@ -254,15 +254,17 @@ type StrategicEntityT = {
 
 type SignalT = StrategicEntityT & {
 	id: string
-	noteId: string
+	rowId: string
 	startDivision: number
 	endDivision: number
 	updatedTime: number
+	isMuted: boolean
 }
 
 type SignalRowT = StrategicEntityT & {
 	id: string
 	label: string
+	index: number
 	signals: SignalT[]
 	isEnabled: boolean
 	color: string

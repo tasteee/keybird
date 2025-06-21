@@ -2,6 +2,10 @@ import { theory } from '#/utilities/toner'
 import { datass, useDatass, type PreparedArrayStoreT } from 'datass'
 import { useMemo } from 'react'
 
+const cloneChord = (chord) => {
+	return { ...chord, id: crypto.randomUUID() }
+}
+
 export const createChord = (symbol: string): CustomChordT => {
 	const chord = theory.getChord(symbol)
 	const rootNote = chord.tonic
@@ -23,7 +27,9 @@ export const createChord = (symbol: string): CustomChordT => {
 		voicing,
 		inversion,
 		durationBeats,
-		bassNote
+		bassNote,
+		minVelocity: 70,
+		maxVelocity: 85
 	}
 }
 
@@ -98,7 +104,7 @@ $progression.actions.moveChordRight = (id: string) => {
 }
 
 $progression.actions.addChord = (chord: CustomChordT) => {
-	$progression.set.append(chord)
+	$progression.set.append(cloneChord(chord))
 }
 
 $progression.actions.removeChord = (id: string) => {

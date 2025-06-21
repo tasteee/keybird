@@ -5,7 +5,7 @@
 	width: 100vw;
 	max-width: 100vw;
 	background: var(--sand-1);
-	height: 140px;
+	height: 120px;
 	border-top: 1px solid var(--sand-7);
 }
 
@@ -138,4 +138,43 @@ input {
 .Input::selection {
 	background-color: var(--black-a6);
 	color: white;
+}
+
+.ProgressionGrid {
+	width: 100%;
+	heigh: 56px;
+	border-radius: 4px;
+}
+
+.ChordProgression .rt-Card:where(.rt-variant-surface)::before {
+	background: none !important;
+	backdrop-filter: none !important;
+}
+
+.gridBackground {
+	border: 1px solid var(--sand-7);
+}
+
+.gridBlock {
+	height: 100%;
+	width: 100%;
+	display: flex;
+}
+
+.gridBlock:not(:last-child) {
+	border-right: 1px solid var(--sand-7);
+}
+
+.gridBlock.lighter {
+	background: var(--sand-2);
+}
+
+.rightArrowIconButton {
+	padding-left: 6px;
+	padding-right: 8px;
+}
+
+.leftArrowIconButton {
+	padding-left: 8px;
+	padding-right: 6px;
 }

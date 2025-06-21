@@ -15,4 +15,6 @@ type CustomChordT = {
 	bassNote: string // e.g., "C", "D#", "F", etc.
 	notes: string[] // Array of notes in the chord
 	id: string
+	minVelocity: number // Minimum velocity for MIDI playback
+	maxVelocity: number // Maximum velocity for MIDI playback
 }

@@ -1,0 +1,22 @@
+.TinyStat {
+	background: transparent !important;
+}
+
+.TinyStat .controlBox {
+	scale: 1.3;
+}
+
+/* TinyStat hover/focus styles */
+.ChordBlock:not(:hover) .TinyStat {
+	opacity: 0.5 !important;
+}
+.ChordBlock:not(:hover) .TinyStat .crementIcon {
+	opacity: 0 !important;
+}
+.ChordBlock:hover .TinyStat {
+	background: var(--accentedA3) !important;
+}
+.ChordBlock:hover .TinyStat .crementIcon {
+	opacity: 1;
+	cursor: pointer;
+}

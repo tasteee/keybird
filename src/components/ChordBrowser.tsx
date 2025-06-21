@@ -11,7 +11,6 @@ import { ChordBlock } from './ChordBlock'
 const PAST_SCALE_CHORDS = {}
 
 const useScaleChords = (scaleSymbol) => {
-	console.log('useScaleChords', scaleSymbol, scalesChords, scalesChords[scaleSymbol])
 	const list = scalesChords[scaleSymbol] || []
 	return Array.from(new Set(list))
 }
@@ -19,13 +18,12 @@ const useScaleChords = (scaleSymbol) => {
 export const ChordBrowser = () => {
 	const scaleSymbol = $project.use.lookup<string>('scaleSymbol')
 	const scaleChords = useScaleChords(scaleSymbol) as string[]
-	console.log('scaleChords', scaleChords)
 
 	return (
 		<Flex.Column className="ChordBrowser">
 			<Grid columns="3" gap="3" rows="repeat(3, 100px)" width="auto" p="24px">
-				{scaleChords.map((chordSymbol) => {
-					return <ChordBlock key={chordSymbol} symbol={chordSymbol} />
+				{scaleChords.map((chordSymbol, index) => {
+					return <ChordBlock key={chordSymbol} symbol={chordSymbol} index={index} />
 				})}
 			</Grid>
 		</Flex.Column>

@@ -1,6 +1,6 @@
 .MainView {
 	width: 100%;
-	height: 94vh;
+	height: 100%;
 	max-width: 100vw;
 	background: var(--sand-2);
 }
@@ -14,12 +14,6 @@
 	/* margin-top: auto; */
 	/* padding:  */
 	background: var(--sand-2);
-}
-
-.PatternEditor {
-	background: var(--sand-2);
-	max-height: 600px;
-	overflow: auto;
 }
 
 .markerCell {
@@ -77,44 +71,6 @@
 	background-color: var(--white) !important;
 }
 
-.signalHandle {
-	position: absolute;
-	width: 5px;
-	height: 100%;
-	top: 0;
-	cursor: ew-resize;
-	background: var(--sand-2);
-	z-index: 16;
-	transition: background-color 0.125s ease-in-out;
-}
-
-.signalHandle.handleLeft {
-	left: -2px;
-}
-
-.signalHandle.handleRight {
-	right: -2px;
-}
-
-.DraggableSignal {
-	width: var(--cellWidth);
-	height: 28px;
-	background: #f2e1ca;
-	border-radius: 2px;
-	cursor: pointer;
-
-	&.isSelected {
-		background-color: white;
-		color: black;
-		box-shadow: 0px 0px 42px 6px var(--sand-a7);
-	}
-}
-
-.signalText {
-	color: white;
-	pointer-events: none;
-}
-
 .GridColumn .GridSignalRow .GridSignalCell:nth-child(8n + 5),
 .GridColumn .GridSignalRow .GridSignalCell:nth-child(8n + 6),
 .GridColumn .GridSignalRow .GridSignalCell:nth-child(8n + 7),
@@ -122,7 +78,7 @@
 	background-color: var(--sand-1);
 }
 
-.noteIdLabel {
+.rowIdLabel {
 	letter-spacing: 2px;
 }
 
@@ -143,24 +99,25 @@
 
 @keyframes pulse {
 	0% {
-		box-shadow: 0px 0px 2px 0px var(--red-9);
+		box-shadow: 0px 0px 2px 0px var(--pulseColor);
 	}
 	50% {
-		box-shadow: 0px 0px 8px 5px var(--red-9);
+		box-shadow: 0px 0px 8px 3px var(--pulseColor);
 	}
 	100% {
-		box-shadow: 0px 0px 2px 0px var(--red-9);
+		box-shadow: 0px 0px 2px 0px var(--pulseColor);
 	}
 }
 
 .DotIndicator {
 	--dotColor: white;
+	--pulseColor: var(--red-9);
 	height: 8px;
 	width: 8px;
 	border-radius: 50%;
-	outline: 2px solid var(--red-5);
+	outline: 2px solid var(--pulseColor);
 	background: var(--dotColor);
 
-	box-shadow: 0px 0px 8px 5px var(--red-9);
+	box-shadow: 0px 0px 8px 5px var(--pulseColor);
 	animation: pulse 1.5s infinite;
 }

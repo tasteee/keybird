@@ -1,6 +1,7 @@
 import { datass } from '#/utilities/datass'
 import APP_CONFIG from '#/configuration/app.config.json'
 import { SIGNAL_ROWS } from '#/modules/patterns/signalRows'
+import { signalRowsMap } from '#/utilities/buildEmptySignalsState'
 // import { buildEmptySignalsState } from '#/utilities/buildEmptySignalsState'
 
 const isLoadingMidi = datass.boolean(false)
@@ -19,7 +20,7 @@ const isOutputEnabled = datass.boolean(false)
 const selectedOutputType = datass.string(APP_CONFIG.defaultOutputType)
 const shouldShowNoteLabels = datass.boolean(false)
 const selectedKeyMapName = datass.string(APP_CONFIG.defaultKeyMapLayoutName)
-const signalRows = datass.object(SIGNAL_ROWS)
+const signalRows = datass.object(signalRowsMap)
 const scaleChordNames = datass.array<string>([])
 const scaleNotes = datass.array<string>([])
 const selectedScaleKey = datass.string(APP_CONFIG.defaultScaleRootNote)
@@ -46,7 +47,7 @@ export const stores = {
 	selectedOutputType,
 	shouldShowNoteLabels,
 	selectedKeyMapName,
-	signalRows,
+	signalRows
 	scaleChordNames,
 	scaleNotes,
 	selectedScaleKey,
