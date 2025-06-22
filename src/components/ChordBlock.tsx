@@ -8,7 +8,7 @@ import { $progression, useNewChord } from '#/stores/$progression'
 import { cssColorVars, getAccentColorClassName } from '#/modules/color'
 import { ChordMenu } from './ChordMenu'
 import { $input, $output } from '#/stores'
-import { useChordKeyListener } from '#/hooks/useKeyChordListener'
+import classNames from 'classnames'
 
 type ChordBlockPropsT = {
 	symbol: string
@@ -17,12 +17,10 @@ type ChordBlockPropsT = {
 
 export const ChordBlock = (props: ChordBlockPropsT) => {
 	const chord = useNewChord(props.symbol)
-	const style = cssColorVars(chord.state.rootNote) as React.CSSProperties
 	const accentsClassName = getAccentColorClassName(chord.state.rootNote)
-	const qwertyKey = useChordKeyListener(props.index, chord, 'chords')
 	if (!chord.state.rootNote || !accentsClassName) return null
-
-	const addChord = () => $progression.actions.addChord(chord.state)
+	const addChord = () => $progression.addChord(chord.state)
+	const className = classNames('ChordBlock', accentsClassName)
 
 	const onMouseDown = (e: React.MouseEvent) => {
 		const isLeftButton = e.button === 0
@@ -41,26 +39,12 @@ export const ChordBlock = (props: ChordBlockPropsT) => {
 	}
 
 	return (
-		<ChordMenu chord={chord}>
-			<Flex.Column
-				style={style}
-				className="ChordBlock"
-				pl="2"
-				pr="1"
-				pt="2"
-				pb="1"
-				onMouseDown={onMouseDown}
-				onMouseUp={onMouseUp}
-			>
+		<ChordMenu {...chord}>
+			<Flex.Column className={className} pl="2" pr="1" pt="2" pb="1" onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
 				<Flex.Row justify="between" align="center" px="2">
 					<Flex.Row gap="2" align="center">
 						<span className="coloredCircle" />
 						<Text>{chord.state.symbol}</Text>
-						{qwertyKey && (
-							<Kbd className="chordBlockKbd" size="2">
-								{qwertyKey}
-							</Kbd>
-						)}
 					</Flex.Row>
 					<Flex.Row>
 						<PlusCircledIcon className="addIcon" width="18px" height="18px" onClick={addChord} />

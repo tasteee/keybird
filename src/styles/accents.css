@@ -1,5 +1,5 @@
 .rubyAccents {
-	--accent-color: var(--ruby);
+	--accent-color: var(--ruby-9);
 	--accentedA1: var(--ruby-a1);
 	--accentedA2: var(--ruby-a2);
 	--accentedA3: var(--ruby-a3);
@@ -28,7 +28,8 @@
 }
 
 .violetAccents {
-	--accent-color: var(--violet) --accentedA1: var(--violet-a1);
+	--accent-color: var(--violet-9);
+	--accentedA1: var(--violet-a1);
 	--accentedA2: var(--violet-a2);
 	--accentedA3: var(--violet-a3);
 	--accentedA4: var(--violet-a4);
@@ -56,7 +57,8 @@
 }
 
 .yellowAccents {
-	--accent-color: var(--yellow) --accentedA1: var(--yellow-a1);
+	--accent-color: var(--yellow-9);
+	--accentedA1: var(--yellow-a1);
 	--accentedA2: var(--yellow-a2);
 	--accentedA3: var(--yellow-a3);
 	--accentedA4: var(--yellow-a4);
@@ -84,7 +86,8 @@
 }
 
 .amberAccents {
-	--accent-color: var(--amber) --accentedA1: var(--amber-a1);
+	--accent-color: var(--amber-9);
+	--accentedA1: var(--amber-a1);
 	--accentedA2: var(--amber-a2);
 	--accentedA3: var(--amber-a3);
 	--accentedA4: var(--amber-a4);
@@ -112,7 +115,8 @@
 }
 
 .tealAccents {
-	--accent-color: var(--teal) --accentedA1: var(--teal-a1);
+	--accent-color: var(--teal-9);
+	--accentedA1: var(--teal-a1);
 	--accentedA2: var(--teal-a2);
 	--accentedA3: var(--teal-a3);
 	--accentedA4: var(--teal-a4);
@@ -140,7 +144,8 @@
 }
 
 .jadeAccents {
-	--accent-color: var(--jade) --accentedA1: var(--jade-a1);
+	--accent-color: var(--jade-9);
+	--accentedA1: var(--jade-a1);
 	--accentedA2: var(--jade-a2);
 	--accentedA3: var(--jade-a3);
 	--accentedA4: var(--jade-a4);
@@ -167,8 +172,38 @@
 	--accented12: var(--jade-12);
 }
 
+.plumAccents {
+	--accent-color: var(--plum-9);
+	--accentedA1: var(--plum-a1);
+	--accentedA2: var(--plum-a2);
+	--accentedA3: var(--plum-a3);
+	--accentedA4: var(--plum-a4);
+	--accentedA5: var(--plum-a5);
+	--accentedA6: var(--plum-a6);
+	--accentedA7: var(--plum-a7);
+	--accentedA8: var(--plum-a8);
+	--accentedA9: var(--plum-a9);
+	--accentedA10: var(--plum-a10);
+	--accentedA11: var(--plum-a11);
+	--accentedA12: var(--plum-a12);
+	--accented0: var(--plum-0);
+	--accented1: var(--plum-1);
+	--accented2: var(--plum-2);
+	--accented3: var(--plum-3);
+	--accented4: var(--plum-4);
+	--accented5: var(--plum-5);
+	--accented6: var(--plum-6);
+	--accented7: var(--plum-7);
+	--accented8: var(--plum-8);
+	--accented9: var(--plum-9);
+	--accented10: var(--plum-10);
+	--accented11: var(--plum-11);
+	--accented12: var(--plum-12);
+}
+
 .skyAccents {
-	--accent-color: var(--sky) --accentedA1: var(--sky-a1);
+	--accent-color: var(--sky-9);
+	--accentedA1: var(--sky-a1);
 	--accentedA2: var(--sky-a2);
 	--accentedA3: var(--sky-a3);
 	--accentedA4: var(--sky-a4);
@@ -196,7 +231,8 @@
 }
 
 .orangeAccents {
-	--accent-color: var(--orange) --accentedA1: var(--orange-a1);
+	--accent-color: var(--orange-9);
+	--accentedA1: var(--orange-a1);
 	--accentedA2: var(--orange-a2);
 	--accentedA3: var(--orange-a3);
 	--accentedA4: var(--orange-a4);
@@ -224,7 +260,8 @@
 }
 
 .mintAccents {
-	--accent-color: var(--mint) --accentedA1: var(--mint-a1);
+	--accent-color: var(--mint-9);
+	--accentedA1: var(--mint-a1);
 	--accentedA2: var(--mint-a2);
 	--accentedA3: var(--mint-a3);
 	--accentedA4: var(--mint-a4);
@@ -252,7 +289,8 @@
 }
 
 .indigoAccents {
-	--accent-color: var(--indigo) --accentedA1: var(--indigo-a1);
+	--accent-color: var(--indigo-9);
+	--accentedA1: var(--indigo-a1);
 	--accentedA2: var(--indigo-a2);
 	--accentedA3: var(--indigo-a3);
 	--accentedA4: var(--indigo-a4);
@@ -280,7 +318,8 @@
 }
 
 .crimsonAccents {
-	--accent-color: var(--crimson) --accentedA1: var(--crimson-a1);
+	--accent-color: var(--crimson-9);
+	--accentedA1: var(--crimson-a1);
 	--accentedA2: var(--crimson-a2);
 	--accentedA3: var(--crimson-a3);
 	--accentedA4: var(--crimson-a4);
@@ -308,7 +347,8 @@
 }
 
 .limeAccents {
-	--accent-color: var(--lime) --accentedA1: var(--lime-a1);
+	--accent-color: var(--lime-9);
+	--accentedA1: var(--lime-a1);
 	--accentedA2: var(--lime-a2);
 	--accentedA3: var(--lime-a3);
 	--accentedA4: var(--lime-a4);

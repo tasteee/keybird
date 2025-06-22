@@ -10,14 +10,6 @@ const playInstrument = (instrumentName = DEFAULT_INSTRUMENT_NAME) => {
 	const gain = 0.8
 	const attack = 0.9
 
-	console.log('Playing instrument:', {
-		instrumentName: name,
-		audioContext,
-		gain,
-		attack,
-		instrument
-	})
-
 	const playNote = (note, options = {}) => {
 		const _options = { gain, attack, ...options }
 
@@ -53,17 +45,8 @@ const playInstrument = (instrumentName = DEFAULT_INSTRUMENT_NAME) => {
 
 const createOutput = () => {
 	const { isMidiConnected, midiOutput, outputType, selectedInstrumentName, isOutputEnabled } = $output.state
-
 	const isOutputBuiltIn = outputType === 'instrument'
 	const shouldError = !isOutputEnabled || (!isOutputBuiltIn && !isMidiConnected)
-
-	console.log({
-		isOutputBuiltIn,
-		isMidiConnected,
-		midiOutput,
-		isOutputEnabled,
-		shouldError
-	})
 
 	if (shouldError) {
 		console.error('No valid output available')
@@ -126,13 +109,13 @@ export const stopNote = (note, options = {}) => {
 // Convenience function for playing chords
 export const playChord = (chord, options = {}) => {
 	const notes = getChordNotes(chord)
-	console.log({ chord, notes })
+	// console.log({ chord, notes })
 	playNote(notes, options)
 }
 
 export const stopChord = (chord, options = {}) => {
 	const notes = getChordNotes(chord)
-	console.log({ chord, notes })
+	// console.log({ chord, notes })
 	stopNote(notes, options)
 }
 import { Chord, Note, Interval } from '@tonaljs/tonal'

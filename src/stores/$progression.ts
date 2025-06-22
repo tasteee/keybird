@@ -6,14 +6,23 @@ const cloneChord = (chord) => {
 	return { ...chord, id: crypto.randomUUID() }
 }
 
-export const createChord = (symbol: string): CustomChordT => {
+const numberify = (target: string | number): number => {
+	if (typeof target === 'number') return target
+	if (typeof target === 'string') {
+		const parsed = parseFloat(target)
+		return isNaN(parsed) ? 0 : parsed
+	}
+	return 0
+}
+
+export const createChord = (symbol: string, overrides = {} as Partial<CustomChordT>): CustomChordT => {
 	const tonalChord = theory.getChord(symbol)
 	const rootNote = tonalChord.tonic
 	const degree = '' // TonalChord does not provide this; set as empty or infer elsewhere
-	const octaveOffset = 0 // Default to no transposition
-	const voicing = 'closed' // TonalChord does not provide voicing; default to "closed"
-	const inversion = 0 // Default to root position
-	const durationBeats = 4 // Default to whole bar (4 beats)
+	const octaveOffset = numberify(overrides.octaveOffset ?? 0) // Default to no transposition
+	const voicing = overrides.voicing ?? 'closed' // TonalChord does not provide voicing; default to "closed"
+	const inversion = numberify(overrides.inversion ?? 0) // Default to root position
+	const durationBeats = numberify(overrides.durationBeats ?? 4) // Default to whole bar (4 beats)
 	const bassNote = tonalChord.bass || rootNote
 	const notes = tonalChord.notes || []
 
@@ -36,42 +45,86 @@ export const createChord = (symbol: string): CustomChordT => {
 	return chord as CustomChordT
 }
 
-export const useNewChord = (symbol: string) => {
-	const base = useMemo(() => createChord(symbol), [])
+export const useNewChord = (symbol: string, overrides = {}) => {
+	const base = useMemo(() => createChord(symbol, overrides), [])
 	const chord = useDatass.object(base)
-	return chord
+
+	const setOctaveOffset = (value) => {
+		chord.set.lookup('octaveOffset', value)
+	}
+
+	const setInversion = (value) => {
+		chord.set.lookup('inversion', value)
+	}
+
+	const setVoicing = (value) => {
+		chord.set.lookup('voicing', value)
+	}
+
+	const setMinVelocity = (value) => {
+		chord.set.lookup('minVelocity', value)
+	}
+
+	const setMaxVelocity = (value) => {
+		chord.set.lookup('maxVelocity', value)
+	}
+
+	const addChord = () => {
+		$progression.addChord(chord.state.id)
+	}
+
+	const playChord = () => {
+		$output.playChord(chord.state)
+	}
+
+	const stopChord = () => {
+		$output.stopChord(chord.state)
+	}
+
+	return {
+		state: chord.state,
+		setOctaveOffset,
+		setInversion,
+		setVoicing,
+		setMinVelocity,
+		setMaxVelocity,
+		addChord,
+		playChord,
+		stopChord
+	}
 }
 
 type ProgressionStoreT = PreparedArrayStoreT<CustomChordT> & {
-	actions: {
-		// In your $progression store
-		updateChordDuration: (id, durationBeats) => void
-		moveChordLeft: (id: string) => void
-		moveChordRight: (id: string) => void
-		addChord: (baseChord: any) => void
-		removeChord: (chordId: string) => void
-		playLoop: () => void
-		deleteChord: (id: string) => void
-	}
-
-	hooks: {
-		useChord: (id: string) => CustomChordT | null
-	}
+	updateChordDuration: (id, durationBeats) => void
+	moveChordLeft: (id: string) => void
+	moveChordRight: (id: string) => void
+	addChord: (baseChord: any) => void
+	removeChord: (chordId: string) => void
+	playLoop: () => void
+	deleteChord: (id: string) => void
+	useChord: (id: string) => any
+	useNewChord: (symbol: string) => any
+	updateChord: (updates: Partial<CustomChordT>) => void
+	toMidi: () => void
 }
 
 export const $progression = datass.array([]) as ProgressionStoreT
 
-$progression.actions = {} as any
-$progression.hooks = {} as any
+$progression.updateChord = (updates: Partial<CustomChordT>) => {
+	const updatedChords = $progression.state.map((chord) => {
+		if (chord.id === updates.id) return { ...chord, ...updates }
+		return chord
+	})
 
-$progression.actions.deleteChord = (id: string) => {
-	const filtered = $progression.state.filter((chord) => chord.id !== id)
-	$progression.set(filtered)
-	// Optionally clear selection if needed
-	// selectedChordId.set('')
+	$progression.set(updatedChords)
 }
 
-$progression.actions.updateChordDuration = (id: string, durationBeats: number) => {
+$progression.deleteChord = (id: string) => {
+	const filtered = $progression.state.filter((chord) => chord.id !== id)
+	$progression.set(filtered)
+}
+
+$progression.updateChordDuration = (id: string, durationBeats: number) => {
 	const updatedChords = $progression.state.map((chord) => {
 		if (chord.id === id) return { ...chord, durationBeats }
 		return chord
@@ -80,7 +133,7 @@ $progression.actions.updateChordDuration = (id: string, durationBeats: number) =
 	$progression.set(updatedChords)
 }
 
-$progression.actions.moveChordLeft = (id: string) => {
+$progression.moveChordLeft = (id: string) => {
 	const chords = $progression.state
 	const newChords = [...chords]
 	const index = chords.findIndex((chord) => chord.id === id)
@@ -93,7 +146,7 @@ $progression.actions.moveChordLeft = (id: string) => {
 	$progression.set(newChords)
 }
 
-$progression.actions.moveChordRight = (id: string) => {
+$progression.moveChordRight = (id: string) => {
 	const chords = $progression.state
 	const newChords = [...chords]
 	const index = chords.findIndex((chord) => chord.id === id)
@@ -106,27 +159,92 @@ $progression.actions.moveChordRight = (id: string) => {
 	$progression.set(newChords)
 }
 
-$progression.actions.addChord = (chord: CustomChordT) => {
+$progression.addChord = (chord: CustomChordT) => {
 	$progression.set.append(cloneChord(chord))
 }
 
-$progression.actions.removeChord = (id: string) => {
+$progression.removeChord = (id: string) => {
 	const filtered = $progression.state.filter((chord) => chord.id !== id)
 	$progression.set(filtered)
 }
 
-$progression.actions.playLoop = () => {
-	console.log('Playing progression loop...')
+$progression.playLoop = () => {
+	// console.log('Playing progression loop...')
 	// Implement the logic to play the progression loop
 	const playChord = (chord: CustomChordT) => {
-		console.log(`Playing chord: ${chord.symbol}`)
+		// console.log(`Playing chord: ${chord.symbol}`)
 	}
 
 	$progression.state.forEach(playChord)
 }
 
-$progression.hooks.useChord = (id: string) => {
-	return $progression.use().find((chord) => chord.id === id) || null
+$progression.useChord = (id: string) => {
+	const chord = $progression.use((chords) => {
+		const found = chords.find((chord) => chord.id === id)
+		return found || null
+	})
+
+	console.log('useChord', id, chord)
+	if (!chord) return null
+
+	const setOctaveOffset = (value) => {
+		$progression.updateChord({
+			id: chord.id,
+			octaveOffset: value
+		})
+	}
+
+	const setInversion = (value) => {
+		$progression.updateChord({
+			id: chord.id,
+			inversion: value
+		})
+	}
+
+	const setVoicing = (value) => {
+		$progression.updateChord({
+			id: chord.id,
+			voicing: value
+		})
+	}
+
+	const setMinVelocity = (value) => {
+		$progression.updateChord({
+			id: chord.id,
+			minVelocity: value
+		})
+	}
+
+	const setMaxVelocity = (value) => {
+		$progression.updateChord({
+			id: chord.id,
+			maxVelocity: value
+		})
+	}
+
+	const removeChord = () => {
+		$progression.removeChord(chord.id)
+	}
+
+	const playChord = () => {
+		$output.playChord(chord)
+	}
+
+	const stopChord = () => {
+		$output.stopChord(chord)
+	}
+
+	return {
+		state: chord,
+		setOctaveOffset,
+		setInversion,
+		setVoicing,
+		setMinVelocity,
+		setMaxVelocity,
+		removeChord,
+		playChord,
+		stopChord
+	}
 }
 
 $progression.toMidi = () => {
@@ -134,46 +252,12 @@ $progression.toMidi = () => {
 	createAndDownloadMidi($progression.state, fileName)
 }
 
-const noteMap: { [key: string]: number } = {
-	C: 0,
-	'C#': 1,
-	Db: 1,
-	D: 2,
-	'D#': 3,
-	Eb: 3,
-	E: 4,
-	F: 5,
-	'F#': 6,
-	Gb: 6,
-	G: 7,
-	'G#': 8,
-	Ab: 8,
-	A: 9,
-	'A#': 10,
-	Bb: 10,
-	B: 11
-}
-
-// A helper function to convert a note name (e.g., "C#4") to a MIDI number.
-function noteNameToMidi(noteName: string): number | null {
-	const match = noteName.match(/^([A-G][#b]?)(-?\d+)$/)
-	console.log('noteNameToMidi', noteName, match)
-	const [, pitchClass, octaveStr] = match
-	const octave = parseInt(octaveStr, 10)
-	const noteValue = noteMap[pitchClass]
-	return 12 + octave * 12 + noteValue
-}
-
 import MidiWriter from 'midi-writer-js'
 import { Interval, Note, Scale } from 'tonal'
 import { getChordNotes } from '#/modules/playInstrument'
+import { $output } from './$output'
 
-/**
- * Takes an array of chords and generates a downloadable MIDI file.
- * @param progression The array of CustomChordT objects.
- * @param fileName The desired name for the downloaded file (e.g., "my-progression.mid").
- */
-export function createAndDownloadMidi(progression: CustomChordT[], fileName: string = 'progression.mid') {
+export const createAndDownloadMidi = (progression: CustomChordT[], fileName: string = 'progression.mid') => {
 	let previousTicks = 0
 	const TICKS_PER_BEAT = 128
 	const track = new MidiWriter.Track()
@@ -182,17 +266,8 @@ export function createAndDownloadMidi(progression: CustomChordT[], fileName: str
 		const midiNotes = chord.notes.map(Note.midi)
 		const durationTicks = chord.durationBeats * TICKS_PER_BEAT
 
-		console.log({
-			chord,
-			pitch: midiNotes,
-			wait: previousTicks,
-			duration: `T${durationTicks}`, // Duration in ticks
-			velocity: Math.min(127, Math.max(0, chord.maxVelocity)) // Clamp velocity to 0-127 range
-		})
-
 		const noteEvent = new MidiWriter.NoteEvent({
 			pitch: midiNotes,
-			wait: previousTicks,
 			duration: `T${durationTicks}`, // Duration in ticks
 			velocity: Math.min(127, Math.max(0, chord.maxVelocity)) // Clamp velocity to 0-127 range
 		})

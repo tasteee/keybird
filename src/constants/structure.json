@@ -1,0 +1,42 @@
+{
+	"type": "object",
+	"properties": {
+		"results": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"chords": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"properties": {
+								"symbol": {
+									"type": "string"
+								},
+								"octaveOffset": {
+									"type": "string",
+									"enum": ["-2", "-1", "0", "1", "2"]
+								},
+								"inversion": {
+									"type": "string",
+									"enum": ["-3", "-2", "-1", "0", "1", "2", "3"]
+								},
+								"voicing": {
+									"type": "string",
+									"enum": ["open", "closed", "drop2", "drop3", "drop2and4", "rootless", "spread", "cluster"]
+								}
+							},
+							"required": ["symbol", "octaveOffset", "inversion", "voicing"]
+						}
+					},
+					"justification": {
+						"type": "string"
+					}
+				},
+				"required": ["chords", "justification"]
+			}
+		}
+	},
+	"required": ["results"]
+}

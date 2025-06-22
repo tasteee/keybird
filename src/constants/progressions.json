@@ -1,0 +1,719 @@
+{
+	"old": [
+		{
+			"justification": "A dark, funky progression that starts on a lush F#m9 and moves through a dreamy but tense bVI chord (Dmaj7#11). It then uses two altered dominants for a sophisticated, chromatic turnaround back to the tonic, perfect for a Sub Urban style verse.",
+			"symbols": ["F#m9", "Dmaj7(#11)", "G#7(b13)", "C#7(b9)"]
+		},
+		{
+			"justification": "This progression has a 21 Pilots feel, using a modal interchange Gmaj7 for a surprising lift. The E7sus4 delays resolution to the inverted Amaj7, creating a smooth, cyclical bassline ideal for a clever pre-chorus.",
+			"symbols": ["F#m7", "Gmaj7", "E7sus4", "Amaj7/C#"],
+			"inversions": [3.0],
+			"voicings": ["Shell Voicings", "Staccato Plucks"]
+		},
+		{
+			"justification": "Creates intense, dark tension with a chromatic descending bassline under a static F# minor harmony. This is very dramatic and cinematic. The B7/D# is an unexpected pivot, leading strongly to a new section.",
+			"symbols": ["F#m", "F#m(maj7)/F", "F#m7/E", "B7/D#"],
+			"inversions": [1.0, 2.0, 3.0],
+			"octaves": [1.0],
+			"voicings": ["Low octave bassline", "High sustained melody"]
+		},
+		{
+			"justification": "A highly chromatic and funky progression full of altered tensions, great for a McCabe-style breakdown. The F#m(maj7) has a melancholic, James Bond-like quality, while the D9 and G#7(#9) create a bluesy, aggressive turnaround.",
+			"symbols": ["C#7alt", "F#m(maj7)", "D9", "G#7(#9)"],
+			"voicings": ["Quartal Voicing", "Hendrix Chord (G#7#9)"]
+		},
+		{
+			"justification": "This progression feels floaty and clever. It uses a rising bassline into a lush Amaj9. The final C#7sus4(b9) is highly dissonant and hangs unresolved, perfect for a tense, dark pop pre-chorus.",
+			"symbols": ["F#m11", "Eadd9/G#", "Amaj9", "C#7sus4(b9)"],
+			"inversions": [1.0],
+			"voicings": ["Open Voicing", "Synth Pads"]
+		},
+		{
+			"justification": "Extremely dark and evil. The Gmaj7 provides a moment of strange brightness before collapsing into Gm(maj7), a very unsettling chromatic shift. The heavily altered C#7 at the end provides a terrifying resolution back to F#m.",
+			"symbols": ["F#m/C#", "Gmaj7", "Gm(maj7)", "C#7(b9, #5)"],
+			"inversions": [2.0],
+			"octaves": [2.0, 1.0],
+			"voicings": ["High arpeggio over low bass drone"]
+		},
+		{
+			"justification": "A dark, jazzy turnaround that avoids the main F#m tonic. It functions as a ii-V-i in the key of C# minor, creating a sophisticated and dark detour that feels like a classic film noir theme before returning to the main key.",
+			"symbols": ["D#m7b5", "G#7(b13)", "C#m9", "F#7b9"],
+			"voicings": ["Drop 2 Voicings", "Rhodes Piano"]
+		},
+		{
+			"justification": "A funky and modern progression with a unique flavor. The F#sus2 is ambiguous and less 'sad'. The E/D polychord creates a cool, unresolved Lydian sound that hangs in the air, great for a Sub Urban-style instrumental texture.",
+			"symbols": ["F#sus2", "A6/9", "Dmaj7", "E/D"],
+			"voicings": ["Polychord (E triad over D bass)"]
+		},
+		{
+			"justification": "This progression captures the dark pop vibe of Bella Poarch. It enhances a familiar i-iv movement with a tense, chromatic Cdim7 passing chord, adding horror-movie drama before the funky, aggressive C#7(#9) resolves with attitude.",
+			"symbols": ["F#m(add9)", "Bm7", "Cdim7", "C#7(#9)"],
+			"octaves": [1.0, 2.0],
+			"voicings": ["Low synth bass", "High staccato strings on dim7 chord"]
+		},
+		{
+			"justification": "This progression is all about unstable, dark funk. The inverted tonic leads to a slinky E9. The Bm7 functions as the usual iv chord, but the G13 is a tritone substitute for the dominant (C#7), creating a slippery, evil-sounding resolution back to F#m.",
+			"symbols": ["F#m7/A", "E9", "Bm7", "G13"],
+			"inversions": [1.0],
+			"voicings": ["Muted guitar stabs", "Wurlitzer"]
+		}
+	],
+
+	"new": [
+		{
+			"chords": [
+				{
+					"inversion": "-1",
+					"octaveOffset": "-1",
+					"symbol": "F#m",
+					"voicing": "spread"
+				},
+				{
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "Gmaj7(#11)",
+					"voicing": "open"
+				},
+				{
+					"inversion": "2",
+					"octaveOffset": "0",
+					"symbol": "Aaug",
+					"voicing": "closed"
+				},
+				{
+					"inversion": "1",
+					"octaveOffset": "0",
+					"symbol": "C#7b9",
+					"voicing": "cluster"
+				}
+			],
+			"justification": "This progression feels like walking on unstable ground. The chords are dreamy but slightly 'wrong,' never letting you feel settled. It ends on a classically tense and spooky chord that leaves you hanging."
+		},
+		{
+			"chords": [
+				{
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "F#m",
+					"voicing": "closed"
+				},
+				{
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "Fm(maj7)",
+					"voicing": "drop2"
+				},
+				{
+					"inversion": "0",
+					"octaveOffset": "1",
+					"symbol": "Emaj7",
+					"voicing": "drop3"
+				},
+				{
+					"inversion": "1",
+					"octaveOffset": "0",
+					"symbol": "Ebdim7",
+					"voicing": "closed"
+				}
+			],
+			"justification": "This feels like something slithering or creeping towards you. The chords slowly crawl downwards one note at a time, getting progressively weirder and ending on a classic 'horror movie' chord."
+		},
+		{
+			"chords": [
+				{
+					"inversion": "0",
+					"octaveOffset": "1",
+					"symbol": "F#m",
+					"voicing": "closed"
+				},
+				{
+					"inversion": "0",
+					"octaveOffset": "2",
+					"symbol": "D#dim7",
+					"voicing": "cluster"
+				},
+				{
+					"inversion": "0",
+					"octaveOffset": "1",
+					"symbol": "G#m7b5",
+					"voicing": "rootless"
+				},
+				{
+					"inversion": "0",
+					"octaveOffset": "1",
+					"symbol": "A7sus4",
+					"voicing": "open"
+				}
+			],
+			"justification": "Imagine a music box from a horror film. The chords are all played high up, so they sound delicate and child-like, but the notes are chosen to sound 'off' and unsettling, like a nursery rhyme gone wrong."
+		},
+		{
+			"chords": [
+				{
+					"inversion": "0",
+					"octaveOffset": "-1",
+					"symbol": "F#m9",
+					"voicing": "spread"
+				},
+				{
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "Cmaj7(#5)",
+					"voicing": "cluster"
+				},
+				{
+					"inversion": "1",
+					"octaveOffset": "0",
+					"symbol": "Bm11",
+					"voicing": "open"
+				},
+				{
+					"inversion": "0",
+					"octaveOffset": "1",
+					"symbol": "A#dim7",
+					"voicing": "closed"
+				}
+			],
+			"justification": "This progression feels like anxious breathing. It starts with a big, wide 'inhale', then tenses up with a clashing, weird chord, releases slightly, and then ends by 'holding its breath' on a suspenseful chord."
+		},
+		{
+			"chords": [
+				{
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "F#m7",
+					"voicing": "open"
+				},
+				{
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "Dmaj7",
+					"voicing": "open"
+				},
+				{
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "Aadd9",
+					"voicing": "spread"
+				},
+				{
+					"inversion": "0",
+					"octaveOffset": "-1",
+					"symbol": "G#7b9",
+					"voicing": "cluster"
+				}
+			],
+			"justification": "This one tricks you by starting out sounding pretty and normal, like a regular sad song. Then, it suddenly takes a wrong turn into a very dark and aggressive-sounding chord that doesn't belong, making the whole thing feel sinister."
+		},
+		{
+			"chords": [
+				{
+					"inversion": "0",
+					"octaveOffset": "-1",
+					"symbol": "F#m(add9)",
+					"voicing": "spread"
+				},
+				{
+					"inversion": "1",
+					"octaveOffset": "-1",
+					"symbol": "C#m7",
+					"voicing": "open"
+				},
+				{
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "Dmaj7",
+					"voicing": "drop2"
+				},
+				{
+					"inversion": "2",
+					"octaveOffset": "0",
+					"symbol": "Bm(maj7)",
+					"voicing": "closed"
+				}
+			],
+			"justification": "This sounds like you're alone in a huge, haunted cathedral. The chords are low and echoey, and the bass notes walk you step-by-step through a dark, empty space, with a few chords that add a touch of cinematic mystery."
+		},
+		{
+			"chords": [
+				{
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "F#m7",
+					"voicing": "drop3"
+				},
+				{
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "Bbmaj7",
+					"voicing": "open"
+				},
+				{
+					"inversion": "0",
+					"octaveOffset": "-1",
+					"symbol": "D#7",
+					"voicing": "closed"
+				},
+				{
+					"inversion": "1",
+					"octaveOffset": "0",
+					"symbol": "Gmaj7",
+					"voicing": "spread"
+				}
+			],
+			"justification": "This progression feels like a glitch in reality. The chords jump between each other with no warning and don't seem related at all. This creates a confusing, disorienting, and ultimately creepy vibe."
+		},
+		{
+			"chords": [
+				{
+					"inversion": "0",
+					"octaveOffset": "-1",
+					"symbol": "F#m",
+					"voicing": "closed"
+				},
+				{
+					"inversion": "1",
+					"octaveOffset": "-1",
+					"symbol": "Faug",
+					"voicing": "cluster"
+				},
+				{
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "E(add b6)",
+					"voicing": "cluster"
+				},
+				{
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "Ebmaj7(#11)",
+					"voicing": "open"
+				}
+			],
+			"justification": "This is a slow descent into madness. Each chord moves down by just one note, but they get progressively more tense and strange, mixing sad sounds with bright sounds in a way that feels deeply unsettling."
+		},
+		{
+			"chords": [
+				{
+					"inversion": "0",
+					"octaveOffset": "-1",
+					"symbol": "F#m",
+					"voicing": "closed"
+				},
+				{
+					"inversion": "0",
+					"octaveOffset": "-1",
+					"symbol": "G(add#4)",
+					"voicing": "closed"
+				},
+				{
+					"inversion": "0",
+					"octaveOffset": "-1",
+					"symbol": "F#m",
+					"voicing": "closed"
+				},
+				{
+					"inversion": "0",
+					"octaveOffset": "1",
+					"symbol": "C7#9",
+					"voicing": "cluster"
+				}
+			],
+			"justification": "This progression is like a stalker. It has a repetitive, two-chord pattern that feels obsessive and puts you on edge. Then, a sudden, aggressive 'jump scare' chord interrupts everything before it goes back to watching you."
+		},
+		{
+			"chords": [
+				{
+					"inversion": "1",
+					"octaveOffset": "0",
+					"symbol": "F#m/A",
+					"voicing": "open"
+				},
+				{
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "B7/A",
+					"voicing": "rootless"
+				},
+				{
+					"inversion": "0",
+					"octaveOffset": "1",
+					"symbol": "D6",
+					"voicing": "closed"
+				},
+				{
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "E#dim/G#",
+					"voicing": "cluster"
+				}
+			],
+			"justification": "This feels like a memory fading in and out of a nightmare. It floats on one bass note for a bit, creating a dreamy but tense feeling, then shifts to a chord that sounds almost pretty before ending on a sharp, stabbing chord."
+		}
+	],
+
+	"new1": [
+		{
+			"chords": [
+				{
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "F#m7",
+					"voicing": "open"
+				},
+				{
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "Dmaj7",
+					"voicing": "open"
+				},
+				{
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "Aadd9",
+					"voicing": "spread"
+				},
+				{
+					"inversion": "0",
+					"octaveOffset": "-1",
+					"symbol": "G#7b9",
+					"voicing": "cluster"
+				}
+			],
+			"justification": "This one tricks you by starting out sounding pretty and normal, like a regular sad song. Then, it suddenly takes a wrong turn into a very dark and aggressive-sounding chord that doesn't belong, making the whole thing feel sinister."
+		}
+	],
+
+	"new2": [
+		{
+			"chords": [
+				{
+					"durationBeats": 4,
+					"inversion": "0",
+					"octaveOffset": "-1",
+					"symbol": "F#m(maj7)",
+					"voicing": "spread"
+				},
+				{
+					"durationBeats": 4,
+					"inversion": "1",
+					"octaveOffset": "0",
+					"symbol": "Bm9",
+					"voicing": "open"
+				},
+				{
+					"durationBeats": 2,
+					"inversion": "0",
+					"octaveOffset": "1",
+					"symbol": "C#7(b9)",
+					"voicing": "cluster"
+				},
+				{
+					"durationBeats": 6,
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "F#m",
+					"voicing": "closed"
+				}
+			],
+			"justification": "This one is built to be unsettling. It starts with a chord that's internally conflicted and sounds 'wrong' on purpose (F#m(maj7)). It then moves to a hazy, atmospheric chord before hitting a really tense, biting chord (C#7(b9)) that feels like a musical jump scare. The final chord provides a long, dark resolution, letting the creepy feeling sink in."
+		},
+		{
+			"chords": [
+				{
+					"durationBeats": 4,
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "F#m",
+					"voicing": "closed"
+				},
+				{
+					"durationBeats": 4,
+					"inversion": "2",
+					"octaveOffset": "0",
+					"symbol": "D/A",
+					"voicing": "drop2"
+				},
+				{
+					"durationBeats": 4,
+					"inversion": "1",
+					"octaveOffset": "-1",
+					"symbol": "E/G#",
+					"voicing": "spread"
+				},
+				{
+					"durationBeats": 4,
+					"inversion": "0",
+					"octaveOffset": "1",
+					"symbol": "C#m",
+					"voicing": "open"
+				}
+			],
+			"justification": "Imagine walking down a grand, decaying staircase. Each chord in this progression makes the bass note step down, creating a feeling of constant, inevitable descent. The chords themselves are fairly normal, but putting them in this order with this falling bassline makes the whole thing feel somber and fateful. It ends on a questioning, unresolved chord, like you've reached the bottom but you're not sure what's next."
+		},
+		{
+			"chords": [
+				{
+					"durationBeats": 6,
+					"inversion": "0",
+					"octaveOffset": "-1",
+					"symbol": "F#m",
+					"voicing": "open"
+				},
+				{
+					"durationBeats": 2,
+					"inversion": "0",
+					"octaveOffset": "1",
+					"symbol": "Gmaj7",
+					"voicing": "closed"
+				},
+				{
+					"durationBeats": 4,
+					"inversion": "1",
+					"octaveOffset": "0",
+					"symbol": "C#7",
+					"voicing": "drop3"
+				},
+				{
+					"durationBeats": 4,
+					"inversion": "2",
+					"octaveOffset": "-1",
+					"symbol": "F#m/C#",
+					"voicing": "spread"
+				}
+			],
+			"justification": "This progression feels like a scene from a dark fairytale. It starts in familiar spooky territory, but then a sudden, unexpectedly beautiful chord (Gmaj7) appears, like a single weird flower growing in a graveyard. This moment of strange beauty is followed by a tense, dramatic chord that pulls you back to the darkness, ending on an unstable version of the home chord, leaving a feeling of unease."
+		},
+		{
+			"chords": [
+				{
+					"durationBeats": 4,
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "F#m",
+					"voicing": "closed"
+				},
+				{
+					"durationBeats": 4,
+					"inversion": "1",
+					"octaveOffset": "0",
+					"symbol": "Bmaj7",
+					"voicing": "open"
+				},
+				{
+					"durationBeats": 4,
+					"inversion": "0",
+					"octaveOffset": "-1",
+					"symbol": "D",
+					"voicing": "spread"
+				},
+				{
+					"durationBeats": 4,
+					"inversion": "0",
+					"octaveOffset": "1",
+					"symbol": "C#",
+					"voicing": "rootless"
+				}
+			],
+			"justification": "Think of a single light switching on in a pitch-black room. This progression uses a chord 'borrowed' from a happy key (Bmaj7) and drops it into our dark setting. This unexpected brightness feels very out of place and surreal, almost clinical. It then returns to the dark and ends on a powerful, high-pitched chord that feels like a final, dramatic statement."
+		},
+		{
+			"chords": [
+				{
+					"durationBeats": 3,
+					"inversion": "0",
+					"octaveOffset": "-1",
+					"symbol": "F#m",
+					"voicing": "closed"
+				},
+				{
+					"durationBeats": 3,
+					"inversion": "0",
+					"octaveOffset": "-1",
+					"symbol": "F#m/A",
+					"voicing": "closed"
+				},
+				{
+					"durationBeats": 2,
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "F#m/C#",
+					"voicing": "closed"
+				},
+				{
+					"durationBeats": 8,
+					"inversion": "1",
+					"octaveOffset": "1",
+					"symbol": "G#dim7",
+					"voicing": "cluster"
+				}
+			],
+			"justification": "This progression creates a feeling of something slowly crawling towards you. It uses the same chord three times in a row, but shifts the notes around to make it feel like it's moving and morphing in place. This builds a creeping tension that finally snaps with a long, high, and extremely dissonant chord (G#dim7) that sounds like a shriek."
+		},
+		{
+			"chords": [
+				{
+					"durationBeats": 4,
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "F#m9",
+					"voicing": "open"
+				},
+				{
+					"durationBeats": 4,
+					"inversion": "0",
+					"octaveOffset": "1",
+					"symbol": "A(add#4)",
+					"voicing": "spread"
+				},
+				{
+					"durationBeats": 4,
+					"inversion": "2",
+					"octaveOffset": "-1",
+					"symbol": "G#m7(b5)",
+					"voicing": "drop3"
+				},
+				{
+					"durationBeats": 4,
+					"inversion": "1",
+					"octaveOffset": "0",
+					"symbol": "E/G#",
+					"voicing": "closed"
+				}
+			],
+			"justification": "This feels floaty and uncertain, like drifting in a weird dream. None of the chords give you a solid footing. It starts with a moody, complex chord, then moves to one with a strange, piercing note (A(add#4)). The progression keeps you guessing with unstable sounds, never truly landing anywhere, which creates a suspenseful, psychological kind of creepiness."
+		},
+		{
+			"chords": [
+				{
+					"durationBeats": 5,
+					"inversion": "0",
+					"octaveOffset": "-1",
+					"symbol": "F#m",
+					"voicing": "spread"
+				},
+				{
+					"durationBeats": 3,
+					"inversion": "1",
+					"octaveOffset": "1",
+					"symbol": "Bbmaj7",
+					"voicing": "open"
+				},
+				{
+					"durationBeats": 4,
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "D#m",
+					"voicing": "drop2"
+				},
+				{
+					"durationBeats": 4,
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "Emaj7",
+					"voicing": "closed"
+				}
+			],
+			"justification": "This progression is designed to feel disjointed and wrong, in an artistic way. It jumps between chords that have no business being next to each other. The leap from the low, dark F#m to the high, unrelated Bbmaj7 is intentionally jarring. The whole thing feels like it's glitching, creating a sense of modern, digital decay and unease."
+		},
+		{
+			"chords": [
+				{
+					"durationBeats": 4,
+					"inversion": "0",
+					"octaveOffset": "-2",
+					"symbol": "F#5",
+					"voicing": "open"
+				},
+				{
+					"durationBeats": 4,
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "D5",
+					"voicing": "open"
+				},
+				{
+					"durationBeats": 4,
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "E5",
+					"voicing": "open"
+				},
+				{
+					"durationBeats": 4,
+					"inversion": "0",
+					"octaveOffset": "1",
+					"symbol": "C#5",
+					"voicing": "open"
+				}
+			],
+			"justification": "Inspired by the raw power of bands like The Used, this progression uses simple, heavy 'power chords' (notated as '5'). These chords are emotionally ambiguous—neither happy nor sad. The creepiness comes from the low, rumbling start, the steady, driving rhythm, and the final chord jumping up high, which feels like a sudden lunge. It's powerful, dark, and has a raw, punk-adjacent energy."
+		},
+		{
+			"chords": [
+				{
+					"durationBeats": 4,
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "F#m",
+					"voicing": "drop3"
+				},
+				{
+					"durationBeats": 2,
+					"inversion": "1",
+					"octaveOffset": "1",
+					"symbol": "Cmaj7",
+					"voicing": "open"
+				},
+				{
+					"durationBeats": 6,
+					"inversion": "2",
+					"octaveOffset": "-1",
+					"symbol": "A/E",
+					"voicing": "spread"
+				},
+				{
+					"durationBeats": 4,
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "G#aug",
+					"voicing": "closed"
+				}
+			],
+			"justification": "This is a journey into the weird. It starts normally, but then suddenly detours to a chord from a completely different universe (Cmaj7), making everything feel off-kilter. It then sinks into a low, hollow-sounding chord that feels vast and empty. The progression ends on a strange, stretched-out chord (G#aug) that refuses to resolve, leaving you hanging in suspense."
+		},
+		{
+			"chords": [
+				{
+					"durationBeats": 8,
+					"inversion": "0",
+					"octaveOffset": "0",
+					"symbol": "F#sus2",
+					"voicing": "spread"
+				},
+				{
+					"durationBeats": 2,
+					"inversion": "0",
+					"octaveOffset": "1",
+					"symbol": "F#sus4",
+					"voicing": "cluster"
+				},
+				{
+					"durationBeats": 2,
+					"inversion": "0",
+					"octaveOffset": "-1",
+					"symbol": "C#7",
+					"voicing": "drop2"
+				},
+				{
+					"durationBeats": 4,
+					"inversion": "1",
+					"octaveOffset": "0",
+					"symbol": "Bm",
+					"voicing": "open"
+				}
+			],
+			"justification": "This creates tension by avoiding commitment. It starts with a long, ambiguous chord ('sus2') that isn't major or minor, just hanging there. It then briefly teases a different kind of tension ('sus4') before a quick, stabbing chord tries to bring order. But instead of going home, it lands on another minor chord, making the whole loop feel like a cycle of suspense that never truly finds its footing."
+		}
+	]
+}

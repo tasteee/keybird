@@ -5,7 +5,8 @@ type Voicing = Note[]
 type ChordT = TonalChord.Chord
 
 type CustomChordT = {
-	octaveOffset: number
+	id: string
+	octaveOffset: number // offset from projects base octave
 	rootNote: string // "C", "D#", "F", etc.
 	symbol: string // e.g., "C", "Dm7", "G7#9"
 	degree: string // Roman numeral or Nashville notation.
@@ -14,7 +15,6 @@ type CustomChordT = {
 	durationBeats: number // e.g., 4 for a whole note, 2 for a half note, etc.
 	bassNote: string // e.g., "C", "D#", "F", etc.
 	notes: string[] // Array of notes in the chord
-	id: string
 	minVelocity: number // Minimum velocity for MIDI playback
 	maxVelocity: number // Maximum velocity for MIDI playback
 }

@@ -61,7 +61,7 @@ export const PatternEditor = () => {
 	return (
 		<Flex.Column className="PatternEditor" pr="2" pb="1" position="relative" onContextMenu={deselect}>
 			<Flex.Row className="mainContainer">
-				<Flex.Column className="rowLabelsColumn" maxWidth="32px" pr="8px">
+				<Flex.Column className="rowLabelsColumn" pr="8px">
 					<LeftColumnSpacerRow />
 					<RowLabels />
 				</Flex.Column>

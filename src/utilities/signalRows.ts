@@ -5,7 +5,7 @@ export const SIGNAL_ROWS = [
 		accessory: '-2',
 		color: 'red',
 		hint: 'Root Note -2 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 0,
 		signalIds: []
 	},
@@ -15,7 +15,7 @@ export const SIGNAL_ROWS = [
 		accessory: '-2',
 		color: 'red',
 		hint: 'First Note -2 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 1,
 		signalIds: []
 	},
@@ -25,7 +25,7 @@ export const SIGNAL_ROWS = [
 		accessory: '-2',
 		color: 'red',
 		hint: 'Second Note -2 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 2,
 		signalIds: []
 	},
@@ -35,7 +35,7 @@ export const SIGNAL_ROWS = [
 		accessory: '-2',
 		color: 'red',
 		hint: 'Third Note -2 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 3,
 		signalIds: []
 	},
@@ -45,7 +45,7 @@ export const SIGNAL_ROWS = [
 		accessory: '-2',
 		color: 'red',
 		hint: 'Fourth Note -2 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 4,
 		signalIds: []
 	},
@@ -55,7 +55,7 @@ export const SIGNAL_ROWS = [
 		accessory: '-2',
 		color: 'red',
 		hint: 'Fifth Note -2 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 5,
 		signalIds: []
 	},
@@ -65,7 +65,7 @@ export const SIGNAL_ROWS = [
 		accessory: '-2',
 		color: 'red',
 		hint: 'Sixth Note -2 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 6,
 		signalIds: []
 	},
@@ -75,7 +75,7 @@ export const SIGNAL_ROWS = [
 		accessory: '-2',
 		color: 'red',
 		hint: 'Seventh Note -2 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 7,
 		signalIds: []
 	},
@@ -86,7 +86,7 @@ export const SIGNAL_ROWS = [
 		accessory: '-1',
 		color: 'pink',
 		hint: 'Root Note -1 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 8,
 		signalIds: []
 	},
@@ -96,7 +96,7 @@ export const SIGNAL_ROWS = [
 		accessory: '-1',
 		color: 'pink',
 		hint: 'First Note -1 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 9,
 		signalIds: []
 	},
@@ -106,7 +106,7 @@ export const SIGNAL_ROWS = [
 		accessory: '-1',
 		color: 'pink',
 		hint: 'Second Note-1 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 10,
 		signalIds: []
 	},
@@ -116,7 +116,7 @@ export const SIGNAL_ROWS = [
 		accessory: '-1',
 		color: 'pink',
 		hint: 'Third Note -1 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 11,
 		signalIds: []
 	},
@@ -126,7 +126,7 @@ export const SIGNAL_ROWS = [
 		accessory: '-1',
 		color: 'pink',
 		hint: 'Fourth Note -1 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 12,
 		signalIds: []
 	},
@@ -136,7 +136,7 @@ export const SIGNAL_ROWS = [
 		accessory: '-1',
 		color: 'pink',
 		hint: 'Fifth Note -1 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 13,
 		signalIds: []
 	},
@@ -146,7 +146,7 @@ export const SIGNAL_ROWS = [
 		accessory: '-1',
 		color: 'pink',
 		hint: 'Sixth Note -1 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 14,
 		signalIds: []
 	},
@@ -156,7 +156,7 @@ export const SIGNAL_ROWS = [
 		accessory: '-1',
 		color: 'pink',
 		hint: 'Seventh Note -1 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 15,
 		signalIds: []
 	},
@@ -203,7 +203,7 @@ export const SIGNAL_ROWS = [
 		accessory: '+1',
 		color: 'blue',
 		hint: 'Root Note +1 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 24,
 		signalIds: []
 	},
@@ -213,7 +213,7 @@ export const SIGNAL_ROWS = [
 		accessory: '+1',
 		color: 'blue',
 		hint: 'First Note +1 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 25,
 		signalIds: []
 	},
@@ -223,7 +223,7 @@ export const SIGNAL_ROWS = [
 		accessory: '+1',
 		color: 'blue',
 		hint: 'Second Note +1 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 26,
 		signalIds: []
 	},
@@ -233,7 +233,7 @@ export const SIGNAL_ROWS = [
 		accessory: '+1',
 		color: 'blue',
 		hint: 'Third Note +1 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 27,
 		signalIds: []
 	},
@@ -243,7 +243,7 @@ export const SIGNAL_ROWS = [
 		accessory: '+1',
 		color: 'blue',
 		hint: 'Fourth Note +1 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 28,
 		signalIds: []
 	},
@@ -253,7 +253,7 @@ export const SIGNAL_ROWS = [
 		accessory: '+1',
 		color: 'blue',
 		hint: 'Fifth Note +1 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 29,
 		signalIds: []
 	},
@@ -263,7 +263,7 @@ export const SIGNAL_ROWS = [
 		accessory: '+1',
 		color: 'blue',
 		hint: 'Sixth Note +1 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 30,
 		signalIds: []
 	},
@@ -273,7 +273,7 @@ export const SIGNAL_ROWS = [
 		accessory: '+1',
 		color: 'blue',
 		hint: 'Seventh Note +1 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 31,
 		signalIds: []
 	},
@@ -284,7 +284,7 @@ export const SIGNAL_ROWS = [
 		accessory: '+2',
 		color: 'green',
 		hint: 'Root Note +2 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 32,
 		signalIds: []
 	},
@@ -294,7 +294,7 @@ export const SIGNAL_ROWS = [
 		accessory: '+2',
 		color: 'green',
 		hint: 'First Note +2 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 33,
 		signalIds: []
 	},
@@ -304,7 +304,7 @@ export const SIGNAL_ROWS = [
 		accessory: '+2',
 		color: 'green',
 		hint: 'Second Note +2 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 34,
 		signalIds: []
 	},
@@ -314,7 +314,7 @@ export const SIGNAL_ROWS = [
 		accessory: '+2',
 		color: 'green',
 		hint: 'Third Note +2 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 35,
 		signalIds: []
 	},
@@ -324,7 +324,7 @@ export const SIGNAL_ROWS = [
 		accessory: '+2',
 		color: 'green',
 		hint: 'Fourth Note +2 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 36,
 		signalIds: []
 	},
@@ -334,7 +334,7 @@ export const SIGNAL_ROWS = [
 		accessory: '+2',
 		color: 'green',
 		hint: 'Fifth Note +2 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 37,
 		signalIds: []
 	},
@@ -344,7 +344,7 @@ export const SIGNAL_ROWS = [
 		accessory: '+2',
 		color: 'green',
 		hint: 'Sixth Note +2 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 38,
 		signalIds: []
 	},
@@ -354,7 +354,7 @@ export const SIGNAL_ROWS = [
 		accessory: '+2',
 		color: 'green',
 		hint: 'Seventh Note +2 Octave',
-		isEnabled: false,
+		isEnabled: true,
 		index: 39,
 		signalIds: []
 	}

@@ -47,7 +47,7 @@ class Theory {
 		})
 
 		this.registeredCount = chordTypes.length
-		console.log('theory: registered ', this.registeredCount)
+		// console.log('theory: registered ', this.registeredCount)
 	}
 
 	ensureLoaded = () => {
@@ -65,7 +65,7 @@ class Theory {
 	}
 
 	getRootNoteGroupedChordNames = memoize((scaleName: string) => {
-		console.log('!!getRootNoteGroupedChordNames !!!!!!!!', scaleName)
+		// console.log('!!getRootNoteGroupedChordNames !!!!!!!!', scaleName)
 		const chordNames = this.getScaleChordNames(scaleName)
 		const notes = this.getScaleNotes(scaleName)
 

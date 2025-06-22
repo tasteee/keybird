@@ -1,0 +1,79 @@
+{
+	"results": [
+		{
+			"justification": "A classic dark pop progression (i-VI-V-i) using the powerful V7 chord from the harmonic minor scale. The Dmaj7 offers a brief lift before the C#7 creates strong tension pulling back to the tonic, giving it a driving, dramatic feel.",
+			"symbols": ["F#m", "Dmaj7", "C#7", "F#m"],
+			"inversions": [0, 0, 0, 0],
+			"octaves": [3, 4, 4, 3],
+			"voicings": ["Root position triad", "Spread voicing", "Full block chord", "Low root octave"]
+		},
+		{
+			"justification": "This progression subverts a standard ii-V-i by replacing the expected tonic resolution with the relative major's subdominant (Dmaj7). This creates a quirky, perpetually unresolved loop that feels modern and slightly off-kilter.",
+			"symbols": ["G#m7b5", "C#7", "Dmaj7", "Bm7"],
+			"inversions": [0, 1, 0, 0],
+			"octaves": [3, 3, 4, 4],
+			"voicings": ["Standard voicing", "First inversion bass", "Open and bright", "Standard voicing"]
+		},
+		{
+			"justification": "This progression has a funky, propulsive feel due to the ascending bassline created by the first inversion F#m. It builds towards the relative major (A) using a secondary dominant (E7), giving it a brief moment of brightness before it would typically cycle back to the minor key.",
+			"symbols": ["F#m/A", "Bm7", "E7", "Amaj7"],
+			"inversions": [1, 0, 0, 0],
+			"octaves": [3, 3, 3, 4],
+			"voicings": ["Slash chord, bass on A", "Staccato stab", "Punchy dominant", "Lush and sustained"]
+		},
+		{
+			"justification": "The use of Gmaj7, the bII chord, introduces a dark, Phrygian mode flavor right after the tonic. The C#7sus4 resolving to C#7 is a classic tension-building device that adds grit and anticipation, perfect for a dark, moody chorus.",
+			"symbols": ["F#m(add9)", "Gmaj7", "C#7sus4", "C#7"],
+			"inversions": [0, 0, 0, 0],
+			"octaves": [4, 4, 3, 3],
+			"voicings": ["Atmospheric, open", "Low and muddy", "Suspended tension", "Sharp resolution"]
+		},
+		{
+			"justification": "Utilizing the F# melodic minor scale, the powerful back-to-back major chords (B and C#) create an uplifting yet aggressive sound. This is immediately undercut by the tense and dissonant D#dim chord, creating a quirky and dramatic drop before resolving.",
+			"symbols": ["B", "C#", "D#dim", "F#m7"],
+			"inversions": [0, 0, 0, 0],
+			"octaves": [3, 3, 4, 4],
+			"voicings": ["Power chord voicing", "Power chord voicing", "High and piercing", "Low and final"]
+		},
+		{
+			"justification": "A simple but highly effective progression built on a descending bassline (F#-E-D-C#). This i-VII-VI-V movement is a staple in dark pop (like Bella Poarch) for its hypnotic, melancholic, and foreboding spiral downwards.",
+			"symbols": ["F#m", "E", "D", "C#"],
+			"inversions": [0, 0, 0, 0],
+			"octaves": [2, 2, 2, 2],
+			"voicings": [
+				"Synth bass with root triad",
+				"Synth bass with root triad",
+				"Synth bass with root triad",
+				"Synth bass with root triad"
+			]
+		},
+		{
+			"justification": "The F#m(maj7) chord immediately establishes a creepy, cinematic feel with its minor-third/major-seventh clash. The A-augmented chord continues this unsettling vibe, which is only briefly relieved by Dmaj7 before the E#dim7 creates maximum dissonance, begging to resolve back to the tonic.",
+			"symbols": ["F#m(maj7)", "A+", "Dmaj7", "E#dim7"],
+			"inversions": [0, 0, 0, 0],
+			"octaves": [5, 5, 4, 5],
+			"voicings": ["Arpeggiated, music box", "Held, dissonant cluster", "Warm pad sound", "Sharp, staccato stab"]
+		},
+		{
+			"justification": "This progression feels funky and syncopated. The F#m11 is a modern, jazzy tonic. The highlight is the E7(b9), a spicy dominant chord borrowed from the parallel harmonic major, which adds a dark, unexpected twist before the loop resets.",
+			"symbols": ["F#m11", "C#m7", "Dmaj7", "E7(b9)"],
+			"inversions": [0, 0, 0, 1],
+			"octaves": [3, 3, 4, 4],
+			"voicings": ["No 3rd, open voicing", "Standard voicing", "Bright and open", "Tritone emphasis"]
+		},
+		{
+			"justification": "This progression avoids the F#m tonic entirely, creating a sense of floating or searching, reminiscent of 21 Pilots. While the chords are diatonic to F# minor (III-v-iv-VI), their sequence feels centered around A major, creating a quirky ambiguity that is poppy yet melancholic.",
+			"symbols": ["A", "C#m7", "Bm7", "Dmaj7"],
+			"inversions": [0, 0, 0, 0],
+			"octaves": [4, 4, 3, 4],
+			"voicings": ["Upright piano, bright", "Mellow Rhodes sound", "Low piano voicing", "Wide synth pad"]
+		},
+		{
+			"justification": "This progression is harmonically ambiguous and quirky. The A/B acts as a floaty Bsus chord, creating an unresolved feeling. It moves to a bright Emaj7 before the D#m7b5 (from melodic minor) yanks it back into a tense, dark space, preventing any simple resolution.",
+			"symbols": ["F#m7", "A/B", "Emaj7", "D#m7b5"],
+			"inversions": [0, 0, 0, 2],
+			"octaves": [3, 3, 4, 4],
+			"voicings": ["Standard voicing", "Slash chord, open B string", "Lush and wide", "Jazzy, second inversion"]
+		}
+	]
+}

@@ -1,0 +1,28 @@
+.ProgressionChord {
+	border: 1px solid var(--accentedA11) !important;
+	border-radius: 4px;
+	background: linear-gradient(to top right, var(--accentedA2), var(--accentedA3)) !important;
+	will-change: background-color, border-color, opacity;
+	opacity: 1;
+	position: relative;
+	cursor: pointer;
+	padding: 12px;
+
+	.coloredCircle {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: var(--accented11);
+	}
+
+	.symbol {
+	}
+}
+
+.isSelected .ProgressionChord {
+	opacity: 1;
+	background: linear-gradient(to top right, var(--accentedA3), var(--accentedA4)) !important;
+	border-color: var(--accentedA12) !important;
+	box-shadow: 0px 6px 32px -4px var(--accentedA7);
+	z-index: 10;
+}

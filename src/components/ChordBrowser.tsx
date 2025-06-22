@@ -1,6 +1,6 @@
 import './ChordBrowser.css'
 import { Flex } from '#/components/layout/Flex'
-import { MiniChordBlock } from './MiniChordBlock'
+import { ProgressionChord } from './ProgressionPanel/ProgressionChord'
 import scalesChords from '#/constants/scaleChords.json'
 import { $project } from '#/stores/$main'
 import { useDatass } from 'datass'
@@ -11,6 +11,7 @@ import { $input } from '#/stores'
 import { QwertyTargetIndicator } from './QwertyTargetIndicator'
 import React from 'react'
 import classNames from 'classnames'
+import { SuggestionsDialog } from './SuggestionsDialog/SuggestionsDialog'
 
 const PAST_SCALE_CHORDS = {}
 
@@ -37,9 +38,12 @@ export const ChordBrowser = () => {
 					</Text>
 					<QwertyTargetIndicator target="chords" />
 				</Flex.Row>
-				<Button size="1" color="violet" variant={compactVariant} onClick={toggleCompact}>
-					Compact View
-				</Button>
+				<Flex.Row gap="2" align="center">
+					<Button size="1" color="violet" variant={compactVariant} onClick={toggleCompact}>
+						Compact View
+					</Button>
+					<SuggestionsDialog />
+				</Flex.Row>
 			</Flex.Row>
 			<ChordsGrid />
 		</Flex.Column>
