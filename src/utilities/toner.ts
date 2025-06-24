@@ -39,19 +39,10 @@ type NewChordT = {
 }
 
 class Theory {
-	registeredCount = 0
-
 	constructor(chordTypes: any = []) {
 		chordTypes.forEach((chordType) => {
 			this.registerChord(chordType)
 		})
-
-		this.registeredCount = chordTypes.length
-		// console.log('theory: registered ', this.registeredCount)
-	}
-
-	ensureLoaded = () => {
-		return this.registeredCount > 0
 	}
 
 	getChordSkewNess(chordName: string) {
@@ -65,7 +56,6 @@ class Theory {
 	}
 
 	getRootNoteGroupedChordNames = memoize((scaleName: string) => {
-		// console.log('!!getRootNoteGroupedChordNames !!!!!!!!', scaleName)
 		const chordNames = this.getScaleChordNames(scaleName)
 		const notes = this.getScaleNotes(scaleName)
 
@@ -212,7 +202,7 @@ class Theory {
 	// generates an array of `count` length of octaved notes.
 	getManyOctavedNotes(options: GetManyOctavedNotesOptionsT) {
 		const repeatedScaleNotes = getRepeatedScaleNotes(options.scaleNotes)
-		const octavedScaleNotes = getOctavedNotes(repeatedScaleNotes, options.baseOctave)
+		const octavedScaleNotes = getOctavedNotes(repeatedScaleNotes, options.defaultOctave)
 		const indexes = range(options.count)
 
 		return indexes.map((index: number) => {
@@ -234,7 +224,7 @@ globalThis.theory = theory
 type GetManyOctavedNotesOptionsT = {
 	count: number
 	scaleNotes: string[]
-	baseOctave: number
+	defaultOctave: number
 }
 
 export const rootNotes = ROOT_NOTES

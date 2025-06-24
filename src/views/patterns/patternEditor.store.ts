@@ -1,5 +1,6 @@
 import { getEnabledRowIds, defaultEnabledIds, signalRowsMap } from '#/utilities/signalRows'
 import { datass } from 'datass'
+import store from 'store'
 
 type SignalT = {
 	id: string
@@ -7,6 +8,8 @@ type SignalT = {
 	startDivision: number
 	endDivision: number
 	updatedTime: number
+	minVelocity: number
+	maxVelocity: number
 	isMuted: boolean
 }
 
@@ -21,12 +24,19 @@ type RowT = {
 	signalIds: string[]
 }
 
-const $signalMap = datass.object<Record<string, SignalT>>({})
-const $rowMap = datass.object<Record<string, RowT>>(signalRowsMap)
-const $enabledSignalRowIds = datass.array<string>(defaultEnabledIds)
-const $selectedSignalId = datass.string('')
-const $beatsLength = datass.number(32)
-const $cellWidth = datass.number(20)
+const _signalMap = store.get('signalMap') || {}
+const _rowMap = store.get('rowMap') || signalRowsMap
+const _enabledSignalRowIds = store.get('enabledSignalRowIds') || defaultEnabledIds
+const _selectedSignalId = store.get('selectedSignalId') || ''
+const _beatsLength = store.get('beatsLength') || 32
+const _cellWidth = store.get('cellWidth') || 20
+
+const $signalMap = datass.object<Record<string, SignalT>>(_signalMap)
+const $rowMap = datass.object<Record<string, RowT>>(_rowMap)
+const $enabledSignalRowIds = datass.array<string>(_enabledSignalRowIds)
+const $selectedSignalId = datass.string(_selectedSignalId)
+const $beatsLength = datass.number(_beatsLength)
+const $cellWidth = datass.number(_cellWidth)
 
 const toggleRowSignalId = (rowId: string, signalId: string) => {
 	const row = $rowMap.state[rowId]
@@ -46,9 +56,11 @@ const addSignal = (signal: Partial<SignalT> & { rowId: string }) => {
 		isMuted: false,
 		startDivision: 0,
 		endDivision: 0,
+		minVelocity: 65,
+		maxVelocity: 90,
 		...signal,
-		id,
-		updatedTime
+		updatedTime,
+		id
 	}
 
 	$signalMap.set.lookup(id, finalSignal)
@@ -242,6 +254,38 @@ const resetEditor = () => {
 	$cellWidth.set.reset()
 }
 
+const getSignalRows = () => {
+	const keys = Object.keys($rowMap.state)
+	const rowsMap = {} as any
+
+	for (const key of keys) {
+		const original = $rowMap.state[key]
+		const row = { ...original, signalIds: undefined } as any
+		row.signals = getSortedRowSignals(row.id)
+		rowsMap[key] = row
+	}
+
+	return rowsMap
+}
+
+const toJson = () => {
+	const signalMap = store.set('signalMap', $signalMap.state)
+	const rowMap = store.set('rowMap', $rowMap.state)
+	const enabledSignalRowIds = store.set('enabledSignalRowIds', $enabledSignalRowIds.state)
+	const selectedSignalId = store.set('selectedSignalId', $selectedSignalId.state)
+	const beatsLength = store.set('beatsLength', $beatsLength.state)
+	const cellWidth = store.set('cellWidth', $cellWidth.state)
+
+	return {
+		signalMap,
+		rowMap,
+		enabledSignalRowIds,
+		selectedSignalId,
+		beatsLength,
+		cellWidth
+	}
+}
+
 export const $patternEditor = {
 	signalMap: $signalMap,
 	rowMap: $rowMap,
@@ -249,6 +293,8 @@ export const $patternEditor = {
 	beatsLength: $beatsLength,
 	cellWidth: $cellWidth,
 	enabledSignalRowIds: $enabledSignalRowIds,
+	getSignalRows,
+	toJson,
 
 	addSignal,
 	removeSignal,
@@ -260,6 +306,8 @@ export const $patternEditor = {
 	resetEditor,
 	correctSignalOverlaps
 }
+
+globalThis.$patternEditor = $patternEditor
 
 // import { datass } from 'datass'
 // import { listerine } from 'listerine'

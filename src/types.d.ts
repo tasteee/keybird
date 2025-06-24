@@ -252,16 +252,18 @@ type StrategicEntityT = {
 	maxVelocity?: number // 0-127
 }
 
-type SignalT = StrategicEntityT & {
+type SignalT = {
 	id: string
 	rowId: string
 	startDivision: number
 	endDivision: number
 	updatedTime: number
 	isMuted: boolean
+	minVelocity?: number // 0-127
+	maxVelocity?: number // 0-127
 }
 
-type SignalRowT = StrategicEntityT & {
+type SignalRowT = {
 	id: string
 	label: string
 	index: number
@@ -307,10 +309,27 @@ type ProjectT = {
 	ppqResolution: number
 	timeingNumerator: number
 	timeingDenominator: number
-	baseOctave: number
+	defaultOctave: number
 	defaultChordVoicing: string
 	defaultChordInversion: number
 	defaultMaxVelocity: number
 	defaultMinVelocity: number
 	defaultSpeedMultiplier: number
+}
+
+type PerformedNoteT = {
+	rowId: string
+	signalId: string
+	note: string | null
+	startDivision: number
+	endDivision: number
+	startTicks: number
+	endTicks: number
+	velocity: number
+	startMs: number
+	endMs: number
+	absoluteStartTicks?: number
+	absoluteEndTicks?: number
+	absoluteStartMs?: number
+	absoluteEndMs?: number
 }

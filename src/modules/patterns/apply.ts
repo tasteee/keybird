@@ -1,4 +1,5 @@
 import { Note, Scale, Interval, Chord } from 'tonal'
+import random from 'random'
 
 // Constants
 const HARMONIC_INTERVALS = [
@@ -23,7 +24,6 @@ const MAX_EXTENSION_NOTES = 50
 const MAX_HARMONIC_INDEX = 20
 const SAFETY_LOOP_LIMIT = 50
 
-// Types
 type ExtensionStrategyT = 'cycling' | 'scaleBased' | 'intervalBased' | 'harmonicSeries'
 
 type ParsedSignalIdT = {
@@ -49,6 +49,11 @@ type PerformedNoteT = {
 	note: string | null
 	startDivision: number
 	endDivision: number
+	startMs: number
+	endMs: number
+	startTicks: number
+	endTicks: number
+	velocity: number
 }
 
 type ApplyOptionsT = {
@@ -58,7 +63,6 @@ type ApplyOptionsT = {
 	strategy: ExtensionStrategyT
 }
 
-// Strategy definitions
 const STRATEGIES = {
 	cycling: {
 		label: 'Cycling',
@@ -82,7 +86,6 @@ const STRATEGIES = {
 	}
 } as const
 
-// Pure utility functions
 const clamp = (value: number, min: number, max: number): number => Math.max(min, Math.min(max, value))
 const clampOctave = (octave: number): number => clamp(octave, OCTAVE_RANGE_MIN, OCTAVE_RANGE_MAX)
 const getNoteOctave = (note: string): number => Note.get(note).oct || DEFAULT_OCTAVE
@@ -93,6 +96,8 @@ const isNonEmptyArray = (target: any) => Array.isArray(target) && target.length 
 const isNoteIndexWithinChord = (noteIndex: number, chordSize: number): boolean => noteIndex < chordSize
 const hasValidChordNotes = (chord: CustomChordT): boolean => isNonEmptyArray(chord.notes)
 const hasValidScale = (scale: any): boolean => isNonEmptyArray(scale.notes)
+const buildScaleKey = (project: ProjectT): string => `${project.scaleRootNote} ${project.scaleType}`
+const getBaseOctave = (project: ProjectT, chord: CustomChordT): number => project.defaultOctave + chord.octaveOffset
 
 const signalIdRegex = /^N(\d+)([+-]\d+)?$/
 
@@ -103,7 +108,6 @@ const parseSignalId = (signalId: string): ParsedSignalIdT => {
 	return { noteIndex, octaveOffset }
 }
 
-// Direct chord note mapping
 const mapDirectChordNote = (noteIndex: number, octaveOffset: number, chord: CustomChordT): string => {
 	const targetNote = chord.notes[noteIndex]
 	const currentOctave = getNoteOctave(targetNote)
@@ -123,10 +127,6 @@ function mapWithCycling(context: ExtensionContextT): string {
 	return buildNoteString(pitchClass, finalOctave)
 }
 
-// Strategy 2: Scale-based extension
-const buildScaleKey = (project: ProjectT): string => `${project.scaleRootNote} ${project.scaleType}`
-const getBaseOctave = (project: ProjectT, chord: CustomChordT): number => project.baseOctave + chord.octaveOffset
-
 const checkNoteInCollection = (candidateNote: string, existingNotes: string[]): boolean => {
 	const candidatePC = getNotePitchClass(candidateNote)
 	return existingNotes.some((note) => getNotePitchClass(note) === candidatePC)
@@ -135,7 +135,7 @@ const checkNoteInCollection = (candidateNote: string, existingNotes: string[]): 
 const buildExtendedNotesFromScale = (
 	chord: CustomChordT,
 	scale: any,
-	baseOctave: number,
+	defaultOctave: number,
 	targetLength: number
 ): string[] => {
 	const extendedNotes: string[] = [...chord.notes]
@@ -144,7 +144,7 @@ const buildExtendedNotesFromScale = (
 	while (extendedNotes.length <= targetLength && scaleIndex < SAFETY_LOOP_LIMIT) {
 		const scaleDegree = scale.notes[scaleIndex % scale.notes.length]
 		const octaveBoost = Math.floor(scaleIndex / scale.notes.length)
-		const candidateNote = `${scaleDegree}${baseOctave + octaveBoost}`
+		const candidateNote = `${scaleDegree}${defaultOctave + octaveBoost}`
 		const shouldAddNote = !checkNoteInCollection(candidateNote, extendedNotes)
 		if (shouldAddNote) extendedNotes.push(candidateNote)
 		scaleIndex++
@@ -157,8 +157,8 @@ function mapWithScale(context: ExtensionContextT): string {
 	const scaleKey = buildScaleKey(context.project)
 	const scale = Scale.get(scaleKey)
 	if (!hasValidScale(scale)) return mapWithCycling(context)
-	const baseOctave = getBaseOctave(context.project, context.chord)
-	const extendedNotes = buildExtendedNotesFromScale(context.chord, scale, baseOctave, context.noteIndex)
+	const defaultOctave = getBaseOctave(context.project, context.chord)
+	const extendedNotes = buildExtendedNotesFromScale(context.chord, scale, defaultOctave, context.noteIndex)
 	const hasEnoughNotes = context.noteIndex < extendedNotes.length
 	if (!hasEnoughNotes) return mapWithCycling(context)
 	const targetNote = extendedNotes[context.noteIndex]
@@ -184,7 +184,9 @@ const calculateThirdAbove = (lastNote: string, scale: any): string => {
 	const nextNoteObj = Note.get(nextNote)
 	const lastNoteObj = Note.get(lastNote)
 	let finalOctave = nextNoteObj.oct || lastNoteObj.oct || DEFAULT_OCTAVE
-	const didWrapDown = Note.get(nextNoteObj.pc).height < Note.get(lastNoteObj.pc).height
+	const nextNoteHeight = Note.get(nextNoteObj.pc).height
+	const lastNoteHeight = Note.get(lastNoteObj.pc).height
+	const didWrapDown = nextNoteHeight < lastNoteHeight
 	if (didWrapDown) finalOctave += 1
 	return `${nextNoteObj.pc}${finalOctave}`
 }
@@ -196,44 +198,32 @@ const buildExtendedNotesWithThirds = (chord: CustomChordT, project: ProjectT, ta
 	let lastNote = extendedNotes[extendedNotes.length - 1]
 
 	while (extendedNotes.length <= targetLength && extendedNotes.length < MAX_EXTENSION_NOTES) {
-		try {
-			const nextNote = calculateThirdAbove(lastNote, scale)
-			extendedNotes.push(nextNote)
-			lastNote = nextNote
-		} catch (error) {
-			break
-		}
+		const nextNote = calculateThirdAbove(lastNote, scale)
+		extendedNotes.push(nextNote)
+		lastNote = nextNote
 	}
 
 	return extendedNotes
 }
 
 function mapWithIntervals(context: ExtensionContextT): string {
-	const { chord, project, noteIndex, octaveOffset } = context
-
 	try {
-		const extendedNotes = buildExtendedNotesWithThirds(chord, project, noteIndex)
-
-		const hasEnoughNotes = noteIndex < extendedNotes.length
-		if (!hasEnoughNotes) {
-			return mapWithCycling(context)
-		}
-
-		const targetNote = extendedNotes[noteIndex]
+		const extendedNotes = buildExtendedNotesWithThirds(context.chord, context.project, context.noteIndex)
+		const hasEnoughNotes = context.noteIndex < extendedNotes.length
+		if (!hasEnoughNotes) return mapWithCycling(context)
+		const targetNote = extendedNotes[context.noteIndex]
 		const currentOctave = getNoteOctave(targetNote)
-		const newOctave = currentOctave + octaveOffset
+		const newOctave = currentOctave + context.octaveOffset
 		const pitchClass = getNotePitchClass(targetNote)
-
 		return buildNoteString(pitchClass, newOctave)
 	} catch (error) {
 		return mapWithCycling(context)
 	}
 }
 
-// Strategy 4: Harmonic series extension
 const buildFundamentalNote = (chord: CustomChordT, project: ProjectT): string => {
-	const baseOctave = getBaseOctave(project, chord)
-	return `${chord.rootNote}${baseOctave}`
+	const defaultOctave = getBaseOctave(project, chord)
+	return `${chord.rootNote}${defaultOctave}`
 }
 
 const buildExtendedNotesFromHarmonics = (chord: CustomChordT, fundamentalNote: string, targetLength: number): string[] => {
@@ -244,17 +234,11 @@ const buildExtendedNotesFromHarmonics = (chord: CustomChordT, fundamentalNote: s
 		try {
 			const interval = HARMONIC_INTERVALS[harmonicIndex]
 			const harmonicNote = Note.transpose(fundamentalNote, interval)
-
 			const shouldAddHarmonic = !checkNoteInCollection(harmonicNote, extendedNotes)
-			if (shouldAddHarmonic) {
-				extendedNotes.push(harmonicNote)
-			}
-		} catch (error) {
-			// Skip invalid intervals
-		}
+			if (shouldAddHarmonic) extendedNotes.push(harmonicNote)
+		} catch (error) {}
 
 		harmonicIndex++
-
 		if (harmonicIndex > MAX_HARMONIC_INDEX) break
 	}
 
@@ -272,7 +256,6 @@ const fillRemainingWithCycling = (extendedNotes: string[], chordNotes: string[],
 		const currentOctave = getNoteOctave(baseNote)
 		const boostedOctave = currentOctave + cycleOctaveBoost
 		const pitchClass = getNotePitchClass(baseNote)
-
 		result.push(`${pitchClass}${boostedOctave}`)
 	}
 
@@ -280,75 +263,64 @@ const fillRemainingWithCycling = (extendedNotes: string[], chordNotes: string[],
 }
 
 function mapWithHarmonicSeries(context: ExtensionContextT): string {
-	const { chord, project, noteIndex, octaveOffset } = context
+	const fundamentalNote = buildFundamentalNote(context.chord, context.project)
+	let extendedNotes = buildExtendedNotesFromHarmonics(context.chord, fundamentalNote, context.noteIndex)
+	const needsMoreNotes = extendedNotes.length <= context.noteIndex
+	const hasEnoughNotes = context.noteIndex < extendedNotes.length
 
-	const fundamentalNote = buildFundamentalNote(chord, project)
-	let extendedNotes = buildExtendedNotesFromHarmonics(chord, fundamentalNote, noteIndex)
-
-	const needsMoreNotes = extendedNotes.length <= noteIndex
 	if (needsMoreNotes) {
-		extendedNotes = fillRemainingWithCycling(extendedNotes, chord.notes, noteIndex)
+		extendedNotes = fillRemainingWithCycling(extendedNotes, context.chord.notes, context.noteIndex)
 	}
 
-	const hasEnoughNotes = noteIndex < extendedNotes.length
-	if (!hasEnoughNotes) {
-		return mapWithCycling(context)
-	}
-
-	const targetNote = extendedNotes[noteIndex]
+	if (!hasEnoughNotes) return mapWithCycling(context)
+	const targetNote = extendedNotes[context.noteIndex]
 	const currentOctave = getNoteOctave(targetNote)
-	const newOctave = currentOctave + octaveOffset
+	const newOctave = currentOctave + context.octaveOffset
 	const pitchClass = getNotePitchClass(targetNote)
-
 	return buildNoteString(pitchClass, newOctave)
 }
 
-// Main mapping function
-const mapSignalToNote = (
-	signalId: string,
-	chord: CustomChordT,
-	project: ProjectT,
-	strategy: ExtensionStrategyT
-): string | null => {
-	try {
-		if (!hasValidChordNotes(chord)) return null
-
-		const { noteIndex, octaveOffset } = parseSignalId(signalId)
-		const isDirectMapping = isNoteIndexWithinChord(noteIndex, chord.notes.length)
-
-		if (isDirectMapping) {
-			return mapDirectChordNote(noteIndex, octaveOffset, chord)
-		}
-
-		const context: ExtensionContextT = { chord, project, noteIndex, octaveOffset }
-		const strategyFunction = STRATEGIES[strategy]?.function || mapWithCycling
-
-		return strategyFunction(context)
-	} catch (error) {
-		console.error('Error mapping signal to note:', error)
-		return null
-	}
+const mapSignalToNote = (signalId: string, chord: CustomChordT, project: ProjectT, strategy: ExtensionStrategyT): string => {
+	const { noteIndex, octaveOffset } = parseSignalId(signalId)
+	const isDirectMapping = isNoteIndexWithinChord(noteIndex, chord.notes.length)
+	if (isDirectMapping) return mapDirectChordNote(noteIndex, octaveOffset, chord)
+	const context: ExtensionContextT = { chord, project, noteIndex, octaveOffset }
+	const strategyFunction = STRATEGIES[strategy]?.function || mapWithCycling
+	return strategyFunction(context)
 }
 
-// Batch operations
 const mapSignalsToNotes = (
 	signals: SignalT[],
 	chord: CustomChordT,
 	project: ProjectT,
 	strategy: ExtensionStrategyT
-): MappingResultT[] =>
-	signals.map((signal) => ({
-		signal,
-		note: mapSignalToNote(signal.id, chord, project, strategy)
+): MappingResultT[] => {
+	return signals.map((signal) => ({
+		note: mapSignalToNote(signal.id, chord, project, strategy),
+		signal
 	}))
+}
 
-const createPerformedNote = (signal: SignalT, note: string | null): PerformedNoteT => ({
-	note,
-	rowId: signal.rowId,
-	signalId: signal.id,
-	startDivision: signal.startDivision,
-	endDivision: signal.endDivision
-})
+const createPerformedNote = (signal: SignalT, note: string | null, project: ProjectT): PerformedNoteT => {
+	const velocity = random.int(signal.minVelocity, signal.maxVelocity)
+	const startTicks = 32 * signal.startDivision
+	const endTicks = 32 * signal.endDivision
+	const startMs = (startTicks * (60000 / project.bpm)) / project.ppqResolution
+	const endMs = (endTicks * (60000 / project.bpm)) / project.ppqResolution
+
+	return {
+		note,
+		rowId: signal.rowId,
+		signalId: signal.id,
+		startMs,
+		endMs,
+		startDivision: signal.startDivision,
+		endDivision: signal.endDivision,
+		startTicks: 32 * signal.startDivision,
+		endTicks: 32 * signal.endDivision,
+		velocity: 110
+	}
+}
 
 const applyPatternToChord = (options: ApplyOptionsT): PerformedNoteT[] => {
 	const { signalRows, chord, project, strategy } = options
@@ -356,96 +328,16 @@ const applyPatternToChord = (options: ApplyOptionsT): PerformedNoteT[] => {
 
 	Object.values(signalRows).forEach((row) => {
 		row.signals.forEach((signal) => {
-			const note = mapSignalToNote(signal.id, chord, project, strategy)
-			result.push(createPerformedNote(signal, note))
+			const note = mapSignalToNote(signal.rowId, chord, project, strategy)
+			const performance = createPerformedNote(signal, note, project)
+			result.push(performance)
 		})
 	})
 
+	console.log({ chord, result })
 	return result
 }
 
-// Demo function
-const createTestProject = (): ProjectT => ({
-	id: 'proj1',
-	name: 'Test Project',
-	description: 'Test',
-	artworkUrl: '',
-	bpm: 120,
-	scaleRootNote: 'C',
-	scaleType: 'major',
-	scaleSymbol: 'C',
-	ppqResolution: 480,
-	timeingNumerator: 4,
-	timeingDenominator: 4,
-	baseOctave: 4,
-	defaultChordVoicing: 'closed',
-	defaultChordInversion: 0,
-	defaultMaxVelocity: 127,
-	defaultMinVelocity: 1,
-	defaultSpeedMultiplier: 1.0
-})
+export { mapSignalToNote, mapSignalsToNotes, applyPatternToChord, STRATEGIES }
 
-const createTestChord = (): CustomChordT => ({
-	id: 'chord1',
-	octaveOffset: 0,
-	rootNote: 'D',
-	symbol: 'Dm7',
-	degree: 'ii',
-	voicing: 'closed',
-	inversion: 0,
-	durationBeats: 4,
-	bassNote: 'D',
-	notes: ['D4', 'F4', 'A4', 'C5'],
-	minVelocity: 60,
-	maxVelocity: 100
-})
-
-const demonstrateStrategies = (): void => {
-	const project = createTestProject()
-	const chord = createTestChord()
-
-	console.log('=== Strategy Comparison for Dm7 chord ===')
-	console.log('Chord notes:', chord.notes)
-	console.log('')
-
-	const testIndices = [
-		'N0',
-		'N1',
-		'N2',
-		'N3',
-		'N4',
-		'N5',
-		'N6',
-		'N7',
-		'N8',
-		'N0+1',
-		'N1+1',
-		'N2+1',
-		'N3+1',
-		'N4+1',
-		'N5+1',
-		'N6+1',
-		'N7+1',
-		'N8+1'
-	]
-
-	const strategyKeys = Object.keys(STRATEGIES) as ExtensionStrategyT[]
-
-	strategyKeys.forEach((strategy) => {
-		console.log(`--- ${strategy.toUpperCase()} Strategy ---`)
-		testIndices.forEach((index) => {
-			const result = mapSignalToNote(index, chord, project, strategy)
-			console.log(`${index} -> ${result}`)
-		})
-		console.log('')
-	})
-}
-
-// Exports
-export { mapSignalToNote, mapSignalsToNotes, applyPatternToChord, demonstrateStrategies, STRATEGIES }
-export type {
-	ExtensionStrategyT as ExtensionStrategy,
-	MappingResultT as MappingResult,
-	PerformedNoteT as PerformedNote,
-	ApplyOptionsT as ApplyOptions
-}
+export type { ExtensionStrategyT, MappingResultT, PerformedNoteT, ApplyOptionsT }

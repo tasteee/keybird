@@ -1,5 +1,5 @@
 import { datass, PreparedObjectStoreT } from 'datass'
-import { WebMidi, Output } from 'webmidi'
+import { Output } from 'webmidi'
 import { INSTRUMENT_NAMES } from '#/configuration/keyboard/constants/instrumentNames'
 import Soundfont, { InstrumentName, Player } from 'soundfont-player'
 import { playNote, stopNote, playChord, stopChord } from '#/modules/playInstrument'
@@ -77,3 +77,5 @@ $output.play = (...args) => playNote(...args)
 $output.stop = (...args) => stopNote(...args)
 $output.playChord = (...args) => playChord(...args)
 $output.stopChord = (...args) => stopChord(...args)
+
+globalThis.$output = $output

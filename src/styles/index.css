@@ -71,6 +71,10 @@ main {
 	width: 100vw;
 }
 
+#root {
+	isolation: isolate;
+}
+
 .normalFont {
 	font-family: var(--default-font-family) !important;
 }

@@ -5,6 +5,9 @@ import { $progressionPanel } from './$progressionPanel'
 import { ProgressionChord, TempProgressionChord } from './ProgressionChord'
 import { useOnClickOutside } from 'usehooks-ts'
 import { $output, $progression } from '#/stores'
+import { useHotkeys } from '#/modules/hooks'
+import { useDatass } from 'datass'
+import { $patternEditor } from '#/views/patterns/patternEditor.store'
 
 const TOTAL_BEATS = 16 // e.g., 4 bars of 4/4
 
@@ -87,6 +90,27 @@ export const ProgressionGrid = () => {
 }
 
 export const InnerProgressionGrid = (props) => {
+	const isPlaying = useDatass.boolean(false)
+
+	useHotkeys([' '], () => {
+		console.log('doing it...')
+		if (isPlaying.state) {
+			$progression.stopLoop()
+			isPlaying.set(false)
+			return
+		}
+
+		if ($progression.state.length === 0) return
+		isPlaying.set(true)
+		$progression.playLoop()
+	})
+
+	useHotkeys(['Shift', 'S'], () => {
+		console.log('Shift + S pressed')
+		$progression.save()
+		$patternEditor.toJson()
+	})
+
 	return (
 		<Flex.Row ref={props.ref} className="ProgressionGrid" position="relative" width="100%" height="64px">
 			<Flex.Row height="100%" width="100%" className="gridBackground" style={{ position: 'relative' }}>

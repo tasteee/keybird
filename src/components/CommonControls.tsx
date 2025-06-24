@@ -46,17 +46,17 @@ export const ScaleTypeSelect = () => {
 }
 
 export const BaseOctaveController = () => {
-	const baseOctave = $project.use.lookup('baseOctave') as number
-	const value = String(baseOctave)
+	const defaultOctave = $project.use.lookup('defaultOctave') as number
+	const value = String(defaultOctave)
 
 	const handleChange = (newOctave: string) => {
-		$project.set.lookup('baseOctave', Number(newOctave))
+		$project.set.lookup('defaultOctave', Number(newOctave))
 	}
 
 	return (
 		<Select.Root size="1" value={value} onValueChange={handleChange}>
 			<Select.Trigger>
-				<Text>Base Octave {baseOctave}</Text>
+				<Text>Base Octave {defaultOctave}</Text>
 			</Select.Trigger>
 			<Select.Content position="popper">
 				{[-3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8].map((octave) => (

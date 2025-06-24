@@ -3,6 +3,8 @@
 	height: var(--blockHeight) !important;
 	min-height: var(--blockHeight) !important;
 	max-height: var(--blockHeight) !important;
+	max-width: 200px;
+	width: 100%;
 	border: 1px solid var(--sand-8);
 	border-radius: 4px;
 	background: linear-gradient(to top right, var(--sand-a1), var(--sand-a2));

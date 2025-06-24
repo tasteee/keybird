@@ -93,7 +93,7 @@ export const ChordMenu = (props: PropsT) => {
 							</Select.Content>
 						</Select.Root>
 					</Flex.Row>
-					<Flex.Row gap="2" width="100%">
+					{/* <Flex.Row gap="2" width="100%">
 						<Button size="2" variant="soft" color="teal" style={{ flex: 1 }}>
 							<Icon name="thumbsUp1" size="12px" color="white" />
 							<Text>Like</Text>
@@ -102,7 +102,7 @@ export const ChordMenu = (props: PropsT) => {
 							<Icon name="thumbsDown1" size="12px" color="white" />
 							<Text>Dislike</Text>
 						</Button>
-					</Flex.Row>
+					</Flex.Row> */}
 				</Flex.Column>
 			</ContextMenu.Content>
 		</ContextMenu.Root>

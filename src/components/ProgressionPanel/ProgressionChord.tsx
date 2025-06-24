@@ -1,12 +1,9 @@
 import './ProgressionChord.css'
 import { Flex } from '#/components/layout/Flex'
-import { useDatass } from 'datass'
 import { Badge, Card, Kbd, Text } from '@radix-ui/themes'
-import { $output, $progression } from '#/stores/$main'
+import { $progression } from '#/stores/$main'
 import classNames from 'classnames'
-import { useNewChord } from '#/stores/$progression'
-import { cssColorVars, getAccentColorClassName } from '#/modules/color'
-import { $progressionPanel } from './$progressionPanel'
+import { getAccentColorClassName } from '#/modules/color'
 import { ChordMenu } from '../ChordMenu'
 
 type PropsT = {
@@ -31,7 +28,7 @@ type TempProgressionChordPropsT = {
 }
 
 export const TempProgressionChord = (props: TempProgressionChordPropsT) => {
-	const chord = useNewChord(props.symbol, {
+	const chord = $progression.useNewChord(props.symbol, {
 		inversion: props.inversion,
 		octaveOffset: props.octaveOffset,
 		voicing: props.voicing
@@ -42,7 +39,6 @@ export const TempProgressionChord = (props: TempProgressionChordPropsT) => {
 
 export const ProgressionChord = (props) => {
 	const chord = $progression.useChord(props.id)
-	// const onClick = () => $progressionPanel.selectedChordId.set(props.id)
 	return <InnerProgressionChord {...chord} />
 }
 

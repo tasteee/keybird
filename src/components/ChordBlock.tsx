@@ -4,7 +4,7 @@ import { Flex } from '#/components/layout/Flex'
 import { Cross2Icon, DotsHorizontalIcon, GearIcon, KeyboardIcon, PlusCircledIcon, TrashIcon } from '@radix-ui/react-icons'
 import React from 'react'
 import { Text, Select, TextField, Button, Kbd } from '@radix-ui/themes'
-import { $progression, useNewChord } from '#/stores/$progression'
+import { $progression } from '#/stores/progressions/$progression'
 import { cssColorVars, getAccentColorClassName } from '#/modules/color'
 import { ChordMenu } from './ChordMenu'
 import { $input, $output } from '#/stores'
@@ -16,7 +16,7 @@ type ChordBlockPropsT = {
 }
 
 export const ChordBlock = (props: ChordBlockPropsT) => {
-	const chord = useNewChord(props.symbol)
+	const chord = $progression.useNewChord(props.symbol)
 	const accentsClassName = getAccentColorClassName(chord.state.rootNote)
 	if (!chord.state.rootNote || !accentsClassName) return null
 	const addChord = () => $progression.addChord(chord.state)

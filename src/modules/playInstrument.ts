@@ -3,6 +3,20 @@ import { $output } from '#/stores/$output'
 const DEFAULT_INSTRUMENT_NAME = 'acoustic_grand_piano'
 const nodes = {}
 
+export const performChord = (notes) => {
+	const name = $output.state.selectedInstrumentName
+	const instrument = $output.state.loadedInstruments[name]
+	const audioContext = $output.state.audioContext
+
+	notes.forEach((n) => {
+		const { note, velocity, absoluteStartMs, absoluteEndMs, ...options } = n
+		const duration = (absoluteEndMs - absoluteStartMs) / 1000 // Convert ms to seconds
+		const time = audioContext.currentTime + absoluteStartMs / 1000 // Convert ms to seconds
+		const attack = 0
+		nodes[n] = instrument.play(note, time, { duration, attack, loop: true })
+	})
+}
+
 const playInstrument = (instrumentName = DEFAULT_INSTRUMENT_NAME) => {
 	const name = instrumentName || $output.state.selectedInstrumentName
 	const instrument = $output.state.loadedInstruments[name]
@@ -109,7 +123,7 @@ export const stopNote = (note, options = {}) => {
 // Convenience function for playing chords
 export const playChord = (chord, options = {}) => {
 	const notes = getChordNotes(chord)
-	// console.log({ chord, notes })
+	console.log({ chord, notes })
 	playNote(notes, options)
 }
 

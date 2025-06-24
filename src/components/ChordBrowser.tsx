@@ -55,10 +55,10 @@ const ChordsGrid = React.memo(() => {
 	const scaleChords = useScaleChords(scaleSymbol) as string[]
 
 	return (
-		<Grid columns="3" gap="3" rows="repeat(3), var(--blockHeight)" width="auto" p="4">
+		<Flex.Row gap="3" p="4" wrap="wrap">
 			{scaleChords.map((chordSymbol, index) => {
 				return <ChordBlock key={chordSymbol} symbol={chordSymbol} index={index} />
 			})}
-		</Grid>
+		</Flex.Row>
 	)
 })

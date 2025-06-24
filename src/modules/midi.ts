@@ -7,7 +7,7 @@ const handleMidiEnabled = () => {
 	$output.set.lookup('midiOutputIds', ids)
 	$output.set.lookup('midiOutputId', ids[0])
 	$output.set.lookup('midiOutput', WebMidi.getOutputById(ids[0]))
-	console.log('handleMidiEnabled', { ids, output: $output.state.midiOutput })
+	console.warn('\n\n\nhandleMidiEnabled', { ids, output: $output.state.midiOutput })
 }
 
 const handleMidiError = (error: any) => {
@@ -37,8 +37,14 @@ const stopNote = (note: string) => {
 	channel.stopNote(note.toUpperCase())
 }
 
-const playChord = (settings: any) => {
-	const channel = getChannel(1)
+const playChord = (notes: PerformedNoteT[]) => {
+	notes.forEach((note) => {
+		$output.state.midiOutput.playNote(note.note, {
+			time: note.absoluteStartMs,
+			duration: note.absoluteEndMs - note.absoluteStartMs,
+			rawAttack: note.velocity
+		})
+	})
 }
 
 export const midi = {

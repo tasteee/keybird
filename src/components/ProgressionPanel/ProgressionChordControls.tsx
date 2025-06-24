@@ -9,7 +9,7 @@ export const ProgressionChordControls = () => {
 	const selectedChordId = $progressionPanel.selectedChordId.use()
 	const chords = $progression.use()
 	const chord = chords.find((chord) => chord.id === selectedChordId) || null
-	console.log('ProgressionChordControls', chord, chords, selectedChordId)
+	// console.log('ProgressionChordControls', chord, chords, selectedChordId)
 	if (!chord) return null
 
 	const canMoveLeft = chords.length > 1 && chord.id !== chords[0].id

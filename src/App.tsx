@@ -8,12 +8,8 @@ import './styles/fonts.css'
 import './styles/accents.css'
 
 import { GrayTheme } from './components/layout/Themes'
-import './modules/scales'
 import { Router } from './views/Router'
 import { $input } from './stores'
-import { demonstrateStrategies } from './modules/patterns/apply'
-
-demonstrateStrategies()
 
 export const App = () => {
 	return (
