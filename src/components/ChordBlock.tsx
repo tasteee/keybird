@@ -13,7 +13,6 @@ import {
 import React, { useEffect } from 'react'
 import { Text, Select, TextField, Button, Kbd } from '@radix-ui/themes'
 import { $progression } from '#/stores/$progression'
-import { cssColorVars, getAccentColorClassName } from '#/modules/color'
 import { ChordMenu } from './ChordMenu'
 import { $input, $output, $player } from '#/stores'
 import classNames from 'classnames'
@@ -28,7 +27,7 @@ type ChordBlockPropsT = {
 	index: number
 }
 
-// =A chord block is a chord that is in the chord browser.
+// A chord block is a chord that is in the chord browser.
 // It is not yet added to a progression. It can be edited,
 // just like a progression chord, but it does not persist
 // if you refresh the page or change the scale on the chord browser.

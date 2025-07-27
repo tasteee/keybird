@@ -115,6 +115,23 @@ type CreatePerformedNoteArgsT = {
 	progression: ProgressionT
 }
 
+type PerformedNoteT = {
+	toneId: string
+	signalId: string
+	note: string | null
+	startDivision: number
+	endDivision: number
+	startTicks: number
+	endTicks: number
+	velocity: number
+	startMs: number
+	endMs: number
+	absoluteStartTicks?: number
+	absoluteEndTicks?: number
+	absoluteStartMs?: number
+	absoluteEndMs?: number
+}
+
 // Generates a single performed note from a signal and its context
 export const createPerformedNote = (options: CreatePerformedNoteArgsT): PerformedNoteT => {
 	const signalStartBeats = convertDivisionsToBeats(options.signal.startDivision)
@@ -193,13 +210,12 @@ export const createPerformedNote = (options: CreatePerformedNoteArgsT): Performe
 }
 
 type ApplyPatternArgsT = {
-	toneMap: ToneMapT
 	progression: ProgressionT
 	project: ProjectT
 	pattern: PatternT
 }
 
-export const applyPatternToChord = (args: ApplyPatternArgsT): PerformedNoteT[] => {
+export const applyPatternToChords = (args: ApplyPatternArgsT): PerformedNoteT[] => {
 	const hasNoSteps = args.progression.steps.length === 0
 	if (hasNoSteps) return []
 

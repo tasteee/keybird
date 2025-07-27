@@ -21,10 +21,13 @@ export const TimingWrapper = observer((props: TimingWrapperPropsT) => {
 	const { chord, totalBeats, totalChords } = props
 	const duration = chord.durationBeats || 4
 
+	// Calculate minimum width needed for proper display
+	const minimumGridWidth = Math.max(totalBeats * 60, 800) // same calculation as InnerProgressionGrid
+
 	// Account for the 2px gap between elements
 	const gapSize = 2
 	const totalGaps = Math.max(0, (totalChords || 1) - 1)
-	const availableWidth = props.totalWidth - totalGaps * gapSize
+	const availableWidth = minimumGridWidth - totalGaps * gapSize
 	const width = (availableWidth / totalBeats) * duration
 
 	const className = classNames('TimingWrapper', {

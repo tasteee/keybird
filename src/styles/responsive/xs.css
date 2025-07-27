@@ -1,0 +1,33 @@
+@media (min-width: 520px) {
+	.xs\:rt-r-va-baseline {
+		vertical-align: baseline;
+	}
+	.xs\:rt-r-va-top {
+		vertical-align: top;
+	}
+	.xs\:rt-r-va-middle {
+		vertical-align: middle;
+	}
+	.xs\:rt-r-va-bottom {
+		vertical-align: bottom;
+	}
+}
+
+@media (min-width: 520px) {
+	.rt-Section:where(.xs\:rt-r-size-1) {
+		padding-top: var(--space-5);
+		padding-bottom: var(--space-5);
+	}
+	.rt-Section:where(.xs\:rt-r-size-2) {
+		padding-top: var(--space-7);
+		padding-bottom: var(--space-7);
+	}
+	.rt-Section:where(.xs\:rt-r-size-3) {
+		padding-top: var(--space-9);
+		padding-bottom: var(--space-9);
+	}
+	.rt-Section:where(.xs\:rt-r-size-4) {
+		padding-top: calc(80px * var(--scaling));
+		padding-bottom: calc(80px * var(--scaling));
+	}
+}

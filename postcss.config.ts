@@ -8,9 +8,14 @@ module.exports = {
 			preset: [
 				'default',
 				{
+					discardDuplicates: true,
+					discardOverridden: true,
+					discardEmpty: true,
 					discardComments: {
 						removeAll: true
-					}
+					},
+					calc: false,
+					normalizeUrl: false
 				}
 			]
 		})

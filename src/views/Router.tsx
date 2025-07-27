@@ -39,7 +39,7 @@ const AuthedRouter = () => {
 window.addEventListener('keydown', (event) => {
 	// console.log('Key down:', event.key, event.code, event)
 	if (event.key === '`') {
-		const isChords = $input.qwertyPerformTarget.state === 'chords'
-		$input.qwertyPerformTarget.set(isChords ? 'progression' : 'chords')
+		const isChords = $input.qwertyPerformTarget === 'chords'
+		$input.setQwertyPerformTarget(isChords ? 'progression' : 'chords')
 	}
 })

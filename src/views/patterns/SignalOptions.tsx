@@ -1,16 +1,16 @@
 // import * as Label from '@radix-ui/react-label'
 // import { TextField, Button, IconButton } from '@radix-ui/themes'
 // import { Flex } from '#/components/common/Flex'
-// import { $patternEditor } from './patternEditor.store'
+// import { $pattern } from '#/stores/$pattern'
 // import { $progression } from '#/stores'
 // import { SpeakerLoudIcon, SpeakerOffIcon, ArrowLeftIcon, ArrowRightIcon, TrashIcon, CopyIcon } from '@radix-ui/react-icons'
 // import { observer } from 'mobx-react-lite'
 
 // export const SignalOptions = observer(() => {
-// 	const selection = $patternEditor.selectedSignalData
-// 	const signal = $patternEditor.useSignal({ toneId: selection.toneId, signalId: selection.id })
+// 	const selection = $pattern.selectedSignalData
+// 	const signal = $pattern.useSignal({ toneId: selection.toneId, signalId: selection.id })
 // 	// Get all signals in this row for move logic
-// 	const row = $patternEditor.useSignalRow(selection.toneId)
+// 	const row = $pattern.useSignalRow(selection.toneId)
 // 	const signals = row.signals
 // 	const index = signals.findIndex((s) => s.id === selection.id)
 // 	const isFirst = index === 0
@@ -18,26 +18,26 @@
 
 // 	// Handlers
 // 	const handleMuteToggle = () => {
-// 		$patternEditor.toggleMuteSignal({ toneId: selection.toneId, signalId: selection.id })
+// 		$pattern.toggleMuteSignal({ toneId: selection.toneId, signalId: selection.id })
 // 	}
 
 // 	const handleMoveLeft = () => {
-// 		// if (!isFirst) $patternEditor.moveSignal({ toneId: selection.toneId, signalId: selection.id, direction: 'left',  })
+// 		// if (!isFirst) $pattern.moveSignal({ toneId: selection.toneId, signalId: selection.id, direction: 'left',  })
 // 	}
 
 // 	const handleMoveRight = () => {
-// 		// if (!isLast) $patternEditor.moveSignal({ toneId: selection.toneId, signalId: selection.id, direction: 'right' })
+// 		// if (!isLast) $pattern.moveSignal({ toneId: selection.toneId, signalId: selection.id, direction: 'right' })
 // 	}
 
 // 	const handleDelete = () => {
-// 		$patternEditor.selectedSignalData.set.reset() // Clear selection after deletion
-// 		$patternEditor.removeSignal({ toneId: selection.toneId, signalId: selection.id })
+// 		$pattern.selectedSignalData.set.reset() // Clear selection after deletion
+// 		$pattern.removeSignal({ toneId: selection.toneId, signalId: selection.id })
 // 	}
 
 // 	const handleVelocityChange = (e) => {
 // 		const velocity = parseInt(e.target.value, 10)
 // 		if (!isNaN(velocity)) {
-// 			// $patternEditor.updateSignalVelocity({ toneId: selection.toneId, signalId: selection.id, velocity })
+// 			// $pattern.updateSignalVelocity({ toneId: selection.toneId, signalId: selection.id, velocity })
 // 		}
 // 	}
 

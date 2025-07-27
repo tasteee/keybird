@@ -1,5 +1,7 @@
-import { action, computed, observable } from 'mobx'
+import { action, autorun, computed, observable } from 'mobx'
 import { mdsa } from '#/modules/mdsa'
+import { midiEngine } from '#/modules/midiEngine'
+import { $pattern } from './$pattern'
 
 const dsa = mdsa(() => $project)
 
@@ -9,18 +11,18 @@ export class ProjectStore implements ProjectStoreT {
 	@observable accessor description = 'lorem ipsum dolor sit amet'
 	@observable accessor artworkUrl = ''
 	@observable accessor userId = ''
-	@observable accessor bpm = 123
+	@observable accessor bpm = 93
 	@observable accessor scaleRootNote = 'F#'
 	@observable accessor scaleType = 'minor'
-	@observable accessor ppqResolution = 128
+	@observable accessor ppqResolution = 96
 	@observable accessor timeingNumerator = 4
 	@observable accessor timeingDenominator = 4
 	@observable accessor baseOctave = 3
 	@observable accessor defaultBassOctave = 2
 	@observable accessor defaultChordVoicing = 'closed'
 	@observable accessor defaultChordInversion = 0
-	@observable accessor defaultMaxVelocity = 95
-	@observable accessor defaultMinVelocity = 75
+	@observable accessor defaultMaxVelocity = 85
+	@observable accessor defaultMinVelocity = 36
 	@observable accessor defaultSpeedMultiplier = 1
 	@observable accessor isSaved = false
 	@observable accessor isPublic = false
@@ -41,7 +43,6 @@ export class ProjectStore implements ProjectStoreT {
 	@action setTimeingNumerator = dsa('timeingNumerator')
 	@action setTimeingDenominator = dsa('timeingDenominator')
 	@action setBaseOctave = dsa('baseOctave')
-	@action setDefaultBassOctave = dsa('defaultBassOctave')
 	@action setDefaultChordVoicing = dsa('defaultChordVoicing')
 	@action setDefaultChordInversion = dsa('defaultChordInversion')
 	@action setDefaultMaxVelocity = dsa('defaultMaxVelocity')
@@ -55,3 +56,10 @@ export class ProjectStore implements ProjectStoreT {
 }
 
 export const $project = new ProjectStore()
+
+autorun(() => {
+	$project.bpm // subscribe to this
+	$project.ppqResolution // subscribe to this
+	if (!midiEngine.isReady) return
+	midiEngine.update({ project: $project })
+})

@@ -2,11 +2,15 @@ import appConfig from '#/configuration/app.config.json'
 import { numbers } from './numbers'
 
 export const createProgression = (overrides: Partial<ProgressionT> = {}): ProgressionT => {
+	const steps = overrides.steps ?? []
+	const totalLength = steps.reduce((sum, step) => sum + (step.durationBeats || 4), 0)
+	const lengthBars = Math.ceil(totalLength / 4)
+
 	return {
-		id: overrides.id || '',
-		lengthBars: overrides.lengthBars || 4,
-		steps: overrides.steps || [],
-		bpm: overrides.bpm || 93
+		steps,
+		bpm: overrides.bpm || 93,
+		id: overrides.id || crypto.randomUUID(),
+		lengthBars: overrides.lengthBars || lengthBars
 	}
 }
 
@@ -49,20 +53,38 @@ export const createSignal = (overrides: Partial<SignalT> = {}): SignalT => {
 	}
 }
 
+export const createRest = (overrides: Partial<ProgressionRestT> = {}): ProgressionRestT => {
+	return {
+		id: overrides.id || (crypto.randomUUID() as string),
+		isRest: true,
+		symbol: 'Rest',
+		color: 'gray',
+		durationBeats: overrides.durationBeats || 2,
+		inversion: overrides.inversion || 0,
+		voicing: overrides.voicing || 'closed',
+		octaveOffset: overrides.octaveOffset || 0,
+		notes: overrides.notes || [],
+		rootNote: overrides.rootNote || 'Rest',
+		bassNote: overrides.bassNote || '',
+		minVelocity: overrides.minVelocity || 70,
+		maxVelocity: overrides.maxVelocity || 90
+	}
+}
+
 type PartialStepT = Partial<ProgressionStepT> & { id?: string }
 
 export const createStep = (overrides: PartialStepT = {}): ProgressionStepT => {
 	const durationBeats = overrides.durationBeats || 4
-	const color = overrides.color || appConfig.rootNoteColors[overrides.tonic] || ''
+	const color = overrides.color || appConfig.rootNoteColors[overrides.rootNote] || ''
 
 	return {
 		id: overrides.id || (crypto.randomUUID() as string),
 		isRest: overrides.isRest || false,
 		inversion: overrides.inversion || 0,
 		voicing: overrides.voicing || 'closed',
-		octave: overrides.octave || 0,
+		octaveOffset: overrides.octaveOffset || 0,
 		notes: overrides.notes || [],
-		tonic: overrides.tonic || '',
+		rootNote: overrides.rootNote || '',
 		symbol: overrides.symbol || '',
 		bassNote: overrides.bassNote || '',
 		minVelocity: overrides.minVelocity || 70,

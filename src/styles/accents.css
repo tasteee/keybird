@@ -374,3 +374,31 @@
 	--accented11: var(--lime-11) !important;
 	--accented12: var(--lime-12) !important;
 }
+
+.grayAccents {
+	--accent-color: var(--sand-9) !important;
+	--accentedA1: var(--sand-a1) !important;
+	--accentedA2: var(--sand-a2) !important;
+	--accentedA3: var(--sand-a3) !important;
+	--accentedA4: var(--sand-a4) !important;
+	--accentedA5: var(--sand-a5) !important;
+	--accentedA6: var(--sand-a6) !important;
+	--accentedA7: var(--sand-a7) !important;
+	--accentedA8: var(--sand-a8) !important;
+	--accentedA9: var(--sand-a9) !important;
+	--accentedA10: var(--sand-a10) !important;
+	--accentedA11: var(--sand-a11) !important;
+	--accentedA12: var(--sand-a12) !important;
+	--accented1: var(--sand-1) !important;
+	--accented2: var(--sand-2) !important;
+	--accented3: var(--sand-3) !important;
+	--accented4: var(--sand-4) !important;
+	--accented5: var(--sand-5) !important;
+	--accented6: var(--sand-6) !important;
+	--accented7: var(--sand-7) !important;
+	--accented8: var(--sand-8) !important;
+	--accented9: var(--sand-9) !important;
+	--accented10: var(--sand-10) !important;
+	--accented11: var(--sand-11) !important;
+	--accented12: var(--sand-12) !important;
+}

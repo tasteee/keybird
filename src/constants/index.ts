@@ -1,13 +1,18 @@
 export const DEFAULT_PLAYER_SETTINGS = {
-	gain: 50,
+	gain: 75,
 	pan: 0,
 	velocity: 65,
 	minVelocity: 50,
 	maxVelocity: 75,
-	duration: 1500,
-	fadeOutTime: 800, // Increased from 250ms to 800ms for more natural release
-	fadeInTime: 45
+	duration: 1.5,
+	fadeOutTime: 0.8,
+	fadeInTime: 0.045
 }
+
+// A "beat" is 4 divisions. The UI grid is often based on beats.
+export const DIVISIONS_PER_BEAT = 4
+// The width of one division in pixels. (e.g., 32px per beat / 4 divisions per beat = 8px)
+export const DIVISION_WIDTH_PX = 8
 
 export const TOTAL_BEATS = 16 // e.g., 4 bars of 4/4
 

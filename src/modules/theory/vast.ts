@@ -1,3 +1,4 @@
+import mems from 'mems'
 import { Scale, Chord, Note } from 'tonal'
 import { theory } from '.'
 import { getAdjustedNotes } from '#/modules/getAdjustedNotes'
@@ -277,7 +278,7 @@ function getAllChromaticNotes(): string[] {
 /**
  * Get vast array of chords for a given scale
  */
-export function getVastScaleChords(scaleInput: string): TonalChordT[] {
+export const getVastScaleChords = mems((scaleInput: string): TonalChordT[] => {
 	const { tonic, scaleType } = parseScaleInput(scaleInput)
 	const scaleNotes = getScaleNotes(tonic, scaleType)
 	const allChords: TonalChordT[] = []
@@ -298,7 +299,7 @@ export function getVastScaleChords(scaleInput: string): TonalChordT[] {
 	})
 
 	return uniqueChords
-}
+})
 
 export function getChordStatistics(chords: TonalChordT[]): {
 	totalChords: number

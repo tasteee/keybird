@@ -2,7 +2,7 @@ import './PatternEditor.css'
 import { Flex } from '#/components/common/Flex'
 import { IconButton, SegmentedControl, Separator, Slider, Text, TextField } from '@radix-ui/themes'
 import range from 'array-range'
-import { $patternEditor } from './patternEditor.store'
+import { $pattern } from '#/stores/$pattern'
 import { GridSignalRow } from './GridSignalRow'
 import { Icon } from '#/components/common/Icon'
 import { observer } from 'mobx-react-lite'
@@ -12,7 +12,7 @@ const SIGNAL_INDEXES = range(1, 256)
 // This is the top row, like the header labels
 // for each column. (1, 2, 3... etc).
 const GridColumnMarkersRow = observer(() => {
-	const maxWidth = $patternEditor.beatsLength * 32 + 'px'
+	const maxWidth = $pattern.beatsLength * 32 + 'px'
 
 	return (
 		<Flex.Row
@@ -55,7 +55,7 @@ export const PatternEditor = observer(() => {
 	const deselect = (event: React.MouseEvent) => {
 		event.preventDefault() // Prevent default context menu on right-click
 		event.stopPropagation() // Stop the event from bubbling up
-		$patternEditor.selectedSignalId = '' // Deselect on right-click
+		$pattern.selectedSignalId = '' // Deselect on right-click
 	}
 
 	return (
@@ -74,7 +74,7 @@ export const PatternEditor = observer(() => {
 const RowLabels = observer(() => {
 	return (
 		<>
-			{$patternEditor.activeToneIds.map((toneId) => (
+			{$pattern.activeToneIds.map((toneId) => (
 				<Flex.Row key={toneId} className="rowLabelBox" align="center">
 					<Text className="rowIdLabel">{toneId}</Text>
 				</Flex.Row>
@@ -90,7 +90,7 @@ export const GridContainerColumn = observer((props) => {
 	return (
 		<Flex.Column className="GridColumn" width="100%">
 			<GridColumnMarkersRow />
-			{$patternEditor.activeToneIds.map((toneId) => (
+			{$pattern.activeToneIds.map((toneId) => (
 				<GridSignalRow key={toneId} toneId={toneId} />
 			))}
 		</Flex.Column>

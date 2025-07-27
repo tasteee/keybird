@@ -1,37 +1,52 @@
 import MidiWriter from 'midi-writer-js'
-import { Midi, Note } from 'tonal'
-import { $project } from '#/stores/$project'
+import { Note } from 'tonal'
 
-export const downloadProjectProgressionMidi = (project, progression: ProgressionT) => {
-	const fileName = `${project.name}-${$project.scaleSymbol}-${Date.now()}.mid`
+export const downloadProjectProgressionMidi = (project: ProjectT, progression: ProgressionT) => {
+  const fileName = `${project.name}-${project.scaleSymbol}-${Date.now()}.mid` // Use project.scaleSymbol directly
 
-	let previousTicks = 0
-	const TICKS_PER_BEAT = 128
-	const track = new MidiWriter.Track()
+  const TICKS_PER_BEAT = project.ppqResolution || 128 // Use project setting if present
+  const track = new MidiWriter.Track()
 
-	progression.steps.forEach((chord) => {
-		const midiNotes = chord.notes.map(Note.midi)
-		const durationTicks = chord.durationBeats * TICKS_PER_BEAT
+  // Set tempo
+  track.setTempo(project.bpm)
 
-		const noteEvent = new MidiWriter.NoteEvent({
-			pitch: midiNotes,
-			duration: `T${durationTicks}`, // Duration in ticks
-			velocity: Math.min(127, Math.max(0, chord.maxVelocity)) // Clamp velocity to 0-127 range
-		})
+  let first = true
 
-		previousTicks += durationTicks // Update the wait time for the next note
-		track.addEvent(noteEvent)
-	})
+  progression.steps.forEach((chord) => {
+    if (chord.isRest) {
+      first = false
+      return // Skip rests
+    }
 
-	// 4. Generate the MIDI file
-	const writer = new MidiWriter.Writer(track)
-	const dataUri = writer.dataUri()
+    const midiNotes = chord.notes
+      .map(note => Note.midi(note))
+      .filter(n => typeof n === "number") // remove nulls/non-founds
 
-	// 5. Trigger the download
-	const link = document.createElement('a')
-	link.href = dataUri
-	link.download = fileName.endsWith('.mid') ? fileName : `${fileName}.mid`
-	document.body.appendChild(link)
-	link.click()
-	document.body.removeChild(link)
+    const durationTicks = chord.durationBeats * TICKS_PER_BEAT
+
+    const noteEvent = new MidiWriter.NoteEvent({
+      pitch: midiNotes,
+      duration: `T${durationTicks}`,
+      velocity: Math.min(127, Math.max(0, chord.maxVelocity)),
+      wait: first ? null : `T0`, // Don't wait extra before first note
+    })
+
+    // For subsequent chords, set wait to duration of previous chord (i.e. durationTicks).
+    // However, midi-writer-js handles sequential events by default, so explicit "wait" is needed only if you have gaps/rests between chords.
+
+    track.addEvent(noteEvent)
+    first = false
+  })
+
+  // Generate the MIDI file
+  const writer = new MidiWriter.Writer(track)
+  const dataUri = writer.dataUri()
+
+  // Trigger the download
+  const link = document.createElement('a')
+  link.href = dataUri
+  link.download = fileName
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
 }

@@ -8,11 +8,10 @@ import { useOnClickOutside } from 'usehooks-ts'
 import { $output, $progression, $player } from '#/stores'
 import { useHotkeys } from '#/modules/hooks'
 import { useState } from 'react'
-import { $patternEditor } from '#/views/patterns/patternEditor.store'
+import { $pattern } from '#/stores/$pattern'
 import { observer } from 'mobx-react-lite'
 import { InnerProgressionGrid } from './InnerProgressionGrid'
 import { TimingWrapper } from './TimingWrapper'
-import { TOTAL_BEATS } from '#/constants'
 
 const useSizeAndClickRef = (ref) => {
 	useOnClickOutside(ref, (event: MouseEvent) => {
@@ -44,6 +43,7 @@ export const ProgressionGrid = observer(() => {
 	const steps = $progression.steps
 	const selectedId = $progressionPanel.selectedChordId
 	const totalChords = steps.length
+	const totalBeats = $progression.totalBeats
 	useSizeAndClickRef(ref)
 
 	const renderChords = () => {
@@ -51,7 +51,7 @@ export const ProgressionGrid = observer(() => {
 			<TimingWrapper
 				key={chord.id}
 				chord={chord}
-				totalBeats={TOTAL_BEATS}
+				totalBeats={totalBeats}
 				totalWidth={width}
 				totalChords={totalChords}
 				isSelected={chord.id === selectedId}

@@ -35,7 +35,6 @@ interface ProjectStoreT extends ProjectT {
 	setTimeingNumerator: (timeingNumerator: number) => void
 	setTimeingDenominator: (timeingDenominator: number) => void
 	setBaseOctave: (baseOctave: number) => void
-	setDefaultBassOctave: (defaultBassOctave: number) => void
 	setDefaultChordVoicing: (defaultChordVoicing: string) => void
 	setDefaultChordInversion: (defaultChordInversion: number) => void
 	setDefaultMaxVelocity: (defaultMaxVelocity: number) => void

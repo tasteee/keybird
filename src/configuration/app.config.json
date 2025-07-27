@@ -12,6 +12,7 @@
 	"scaleTypes": ["major", "minor"],
 
 	"rootNoteColors": {
+		"Rest": "gray",
 		"C": "mint",
 		"C#": "sky",
 		"Db": "sky",

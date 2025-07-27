@@ -58,6 +58,8 @@ type SignalT = {
 	maxVelocity: number
 }
 
+type PartialSignalWithIdT = Partial<SignalT> & { id: string }
+
 type PatternT = {
 	id: string
 	title: string

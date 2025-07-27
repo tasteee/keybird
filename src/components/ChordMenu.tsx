@@ -23,7 +23,7 @@ export const ChordMenu = observer((props: PropsT) => {
 
 	return (
 		<ContextMenu.Root modal={false}>
-			<ContextMenu.Trigger>{props.children}</ContextMenu.Trigger>
+			<ContextMenu.Trigger>{props.children as any}</ContextMenu.Trigger>
 			<ContextMenu.Content className={`ChordMenu ${accentsClassName}`}>
 				<Flex.Row gap="2" align="center" justify="center">
 					<span className="coloredCircle" />

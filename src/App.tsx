@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react'
 import { GrayTheme } from './components/common/Themes'
 import { Router } from './views/Router'
-import { $input, $progression, $player } from './stores'
+import { $input, $progression, $player, $project, $pattern } from './stores'
 import { $output } from './stores/output/$output'
 import { QWERTY_CHORD_KEYS } from './hooks/useGlobalChordKeyboard'
 import { observer } from 'mobx-react-lite'
 import { $chords } from './stores/$chords'
+import { midiEngine } from './modules/midiEngine'
 
 export const App = () => {
 	return (
 		<GrayTheme id="App">
-			<AudioBranch />
+			<InitBranch />
 			<Router />
 			<GlowPixels />
 			<KbdController />
@@ -18,12 +19,16 @@ export const App = () => {
 	)
 }
 
-const AudioBranch = React.memo(() => {
-	// This is a separate component to ensure it only runs once
-	// when the app is loaded, not on every render.
+const InitBranch = React.memo(() => {
 	React.useEffect(() => {
 		$output.initialize()
 		$player.initialize()
+
+		midiEngine.update({
+			progression: $progression,
+			project: $project,
+			pattern: $pattern
+		})
 	}, [])
 
 	return null

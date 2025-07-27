@@ -3,16 +3,20 @@ import { observable, action, computed, autorun, toJS } from 'mobx'
 import { $output } from './output/$output'
 import { $player } from './$player'
 import { computedFn } from 'mobx-utils'
-import store from 'store'
 import { applyPatternToChord } from '#/modules/patterns/apply'
-import { $patternEditor } from '#/views/patterns/patternEditor.store'
+import { $pattern } from './$pattern'
 import { $project } from './$project'
 import { useMemo } from 'react'
+import store from 'store'
+import { midiEngine } from '#/modules/midiEngine'
 
 const savedProgression = store.get('progression') || []
 
 const initialState = createProgression({
-	steps: savedProgression
+	steps: savedProgression.steps,
+	id: savedProgression.id || crypto.randomUUID(),
+	lengthBars: savedProgression.lengthBars || 4,
+	bpm: savedProgression.bpm || 93
 })
 
 class ProgressionStore {
@@ -22,6 +26,15 @@ class ProgressionStore {
 	@observable accessor steps: ProgressionStepT[] = initialState.steps
 	@observable accessor selectedStepId: string | null = null
 
+	toJS = () => {
+		const steps = this.steps.map((step) => toJS(step))
+		const selectedStepId = this.selectedStepId
+		const bpm = this.bpm
+		const lengthBars = this.lengthBars
+		const id = this.id
+		return { steps, selectedStepId, bpm, lengthBars, id }
+	}
+
 	checkIsSelectedId = computedFn((id: string) => {
 		if (!this.selectedStepId) return false
 		return this.selectedStepId === id
@@ -29,6 +42,14 @@ class ProgressionStore {
 
 	@computed get stepIds() {
 		return this.steps.map((item) => item.id)
+	}
+
+	@computed get totalBeats() {
+		return this.steps.reduce((total, step) => total + (step.durationBeats || 4), 0)
+	}
+
+	@computed get actualLengthBars() {
+		return Math.ceil(this.totalBeats / 4)
 	}
 
 	@action selectStep = (id: string) => {
@@ -54,6 +75,11 @@ class ProgressionStore {
 			Object.assign(step, updates)
 			break
 		}
+
+		// Update lengthBars if durationBeats was changed
+		if ('durationBeats' in updates) {
+			this.lengthBars = this.actualLengthBars
+		}
 	}
 
 	@action moveStep = (id: string, newIndex: number) => {
@@ -67,6 +93,9 @@ class ProgressionStore {
 	@action deleteStep = (id: string) => {
 		const index = this.steps.findIndex((step) => step.id === id)
 		this.steps.splice(index, 1)
+
+		// Update lengthBars after deletion
+		this.lengthBars = this.actualLengthBars
 	}
 
 	@action duplicateStep = (id: string) => {
@@ -95,22 +124,31 @@ class ProgressionStore {
 		jsChord.isRest = false
 		jsChord.id = newId
 		this.steps.push(jsChord)
+
+		// Update lengthBars based on actual total beats
+		this.lengthBars = this.actualLengthBars
+
 		console.log('Added chord:', jsChord, this.steps)
+		console.log('Total beats:', this.totalBeats, 'Length bars:', this.lengthBars)
 	}
 
-	@action addRest = () => {
+	@action addRest = (args?: { durationBeats?: number }) => {
+		const durationBeats = args?.durationBeats ?? 2
 		const id = crypto.randomUUID()
-		const restChord = { id, isRest: true } as any
+		const restChord = { id, isRest: true } as ProgressionRestT
 		restChord.symbol = 'Rest'
-		restChord.tonic = ''
+		restChord.rootNote = 'Rest'
 		restChord.notes = []
 		restChord.bassNote = ''
 		restChord.voicing = 'closed'
 		restChord.inversion = 0
-		restChord.octave = 0
+		restChord.octaveOffset = 0
 		restChord.color = 'gray'
-		restChord.durationBeats = 4
+		restChord.durationBeats = durationBeats
 		this.steps.push(restChord)
+
+		// Update lengthBars based on actual total beats
+		this.lengthBars = this.actualLengthBars
 	}
 
 	@action setStepDuration = (durationBeats: number, stepId?: string) => {
@@ -175,7 +213,7 @@ class ProgressionStore {
 				chord,
 				project: $project,
 				strategy: 'cycling',
-				toneMap: $patternEditor.signalRows
+				toneMap: $pattern.signalRows
 			})
 		})
 
@@ -185,8 +223,6 @@ class ProgressionStore {
 		const outputType = $output.outputType
 		const output = $output.midiOutput
 		const isMidi = outputType === 'midi'
-
-		console.log({ isMidi, outputType, output })
 
 		if (!isMidi) {
 			$player.performChord({ notes: absolutePerformances })
@@ -212,7 +248,7 @@ class ProgressionStore {
 	}
 
 	save = () => {
-		store.set('progression', this.steps)
+		store.set('progression', this.toJS())
 	}
 
 	useStep = (id: string) => {
@@ -223,12 +259,21 @@ class ProgressionStore {
 }
 
 export const $progression = new ProgressionStore()
+globalThis.$progression = $progression
 
 autorun(() => {
-	$output.engine.setProgression({
+	// Convert MobX store to plain object before passing to engine
+	const progressionData = {
 		id: $progression.id,
 		lengthBars: $progression.lengthBars,
 		bpm: $progression.bpm,
-		steps: $progression.steps
-	})
+		steps: $progression.steps.map((step) => toJS(step))
+	}
+
+	if (!midiEngine.isReady) return
+	midiEngine.update({ progression: progressionData })
 })
+
+setInterval(() => {
+	$progression.save()
+}, 30000)

@@ -2,6 +2,7 @@ import './ProgressionPanel.css'
 import { Flex } from '#/components/common/Flex'
 import { IconButton, Text } from '@radix-ui/themes'
 import { $progression, $project } from '#/stores'
+import { $output } from '#/stores/output/$output'
 import { Icon } from '../common/Icon'
 import { ProgressionChordControls } from './ProgressionChordControls'
 import { ProgressionGrid } from './ProgressionGrid'
@@ -22,7 +23,7 @@ export const ProgressionPanel = observer(() => {
 					{shouldShowLeftControls && (
 						<div
 							className="playButton"
-							onClick={() => $progression.playLoop()}
+							onClick={() => $output.perform()}
 							style={{
 								width: '27px',
 								height: '27px',
@@ -37,7 +38,12 @@ export const ProgressionPanel = observer(() => {
 								marginLeft: '8px'
 							}}
 						>
-							<Icon name="iconoir:play-solid" color="black" width="16px" height="16px" />
+							<Icon
+								name={$output.engine.isPlaying ? 'iconoir:stop-solid' : 'iconoir:play-solid'}
+								color="black"
+								width="16px"
+								height="16px"
+							/>
 						</div>
 					)}
 
@@ -50,6 +56,10 @@ export const ProgressionPanel = observer(() => {
 							<Icon name="download0" color="white" width="16px" height="16px" />
 						</IconButton>
 					)}
+
+					<IconButton variant="ghost" size="2" onClick={() => $progression.addRest()} style={{ marginLeft: '8px' }}>
+						<Icon name="mynaui:moon-star-solid" color="white" width="16px" height="16px" />
+					</IconButton>
 				</Flex.Row>
 
 				<ProgressionChordControls />

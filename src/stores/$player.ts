@@ -1,7 +1,7 @@
 import { to } from 'await-to-js'
 import isEmpty from 'is-empty'
 import { observable, action } from 'mobx'
-import { Soundfont } from 'smplr'
+import { Soundfont, SplendidGrandPiano } from 'smplr'
 import { numbers } from '#/modules/numbers'
 import { applyBaseOctaveOffset } from '#/modules/applyBaseOctaveOffset'
 import { DEFAULT_PLAYER_SETTINGS } from '#/constants'
@@ -59,6 +59,7 @@ const clampVelocity = numbers.createClamp({
 class PlayerStore {
 	audioContext: AudioContext | null = null
 	loadedInstruments: Record<string, Soundfont> = {}
+	piano: SplendidGrandPiano | null = null
 
 	@observable accessor volume = 50
 	@observable accessor pan = 0
@@ -70,6 +71,7 @@ class PlayerStore {
 	@observable accessor playingSounds = {} as Record<string, PlayingSoundT>
 
 	get instrument() {
+		return this.piano
 		const instrument = this.loadedInstruments[this.instrumentName]
 		if (instrument) return instrument
 		console.warn(`Instrument ${this.instrumentName} not loaded`)
@@ -98,6 +100,7 @@ class PlayerStore {
 		this.isInitializing = true
 		this.audioContext = context
 		this.isLoading = true
+		this.piano = await new SplendidGrandPiano(context, { decayTime: 0.25 })
 		await this.loadInstrument(this.instrumentName)
 		this.isLoading = false
 		this.isInitializing = false
@@ -134,7 +137,7 @@ class PlayerStore {
 	playNote = (arg: string | PlayNoteArgsT) => {
 		this.audioContext!.resume()
 		const options = this.buildPlayNoteArgs(arg)
-		const instrument = this.loadedInstruments[this.instrumentName]
+		const instrument = this.instrument
 		if (!this.audioContext) return hmu.noAudioContext()
 		if (!instrument) return hmu.noInstrument()
 
@@ -193,23 +196,15 @@ class PlayerStore {
 
 	play = (arg: string | ChordT | ProgressionChordT | PlayNoteArgsT) => {
 		const isString = typeof arg === 'string'
-		if (isString) {
-			this.playNote(arg)
-			return
-		}
-
-		const isChord = 'notes' in arg || 'adjustedNotes' in arg
-		if (isChord) {
-			this.playChord(arg as ChordT | ProgressionChordT)
-			return
-		}
-
+		if (isString) return this.playNote(arg)
+		const isChord = 'adjustedNotes' in arg
+		if (isChord) return this.playChord(arg as ChordT | ProgressionChordT)
 		this.playNote(arg as PlayNoteArgsT)
 	}
 
 	stopNote = (arg: string | StopNoteArgsT) => {
 		const options = this.buildStopOptions(arg)
-		const fadeOutTime = options.fadeOutTime || DEFAULT_PLAYER_SETTINGS.fadeOutTime
+		const fadeOutTime = options.fadeOutTime
 		const playingSound = this.playingSounds[options.note]
 		const isNotPlaying = !playingSound
 		if (isNotPlaying) return
@@ -247,7 +242,7 @@ class PlayerStore {
 			// Tighter stagger (1-3ms per note) for more cohesive chord sound
 			const staggerDelay = numbers.randomInt({
 				min: 1,
-				max: 10
+				max: 2
 			})
 
 			setTimeout(() => {

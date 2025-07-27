@@ -105,13 +105,17 @@
 }
 
 .grid-background,
-.bottom {
+.bottom,
+.ProgressionGrid,
+.scrollableContainer {
 	overflow-y: auto;
 	overflow-x: auto;
 	scrollbar-width: none; /* Firefox */
 }
 .grid-background::-webkit-scrollbar,
-.bottom::-webkit-scrollbar {
+.bottom::-webkit-scrollbar,
+.ProgressionGrid::-webkit-scrollbar,
+.scrollableContainer::-webkit-scrollbar {
 	display: none; /* Chrome, Safari, Opera */
 }
 
@@ -159,6 +163,81 @@ input {
 	width: 100%;
 	heigh: 56px;
 	border-radius: 4px;
+}
+
+/* Scroll indicators */
+.scrollIndicator {
+	position: fixed;
+	z-index: 20;
+	pointer-events: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	background: var(--sand-5);
+	border: 1px solid var(--sand-8);
+	border-radius: 50%;
+	box-shadow: 0 2px 8px var(--black-a6);
+}
+
+.scrollIndicatorLeft {
+	transform: translate(-70%, 85%) rotate(180deg);
+}
+
+.scrollIndicatorRight {
+	transform: translate(-110%, 85%);
+	right: 0px;
+}
+
+/* Scrollable container with shadows */
+.scrollableContainer {
+	position: relative;
+	/* Hide scrollbar */
+	scrollbar-width: none; /* Firefox */
+	-ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+/* Hide scrollbar for WebKit browsers */
+.scrollableContainer::-webkit-scrollbar {
+	display: none;
+}
+
+/* Left shadow - appears when can scroll left */
+.scrollableContainer::before {
+	content: '';
+	height: 60px;
+	position: fixed;
+	left: var(--space-8);
+	width: 20px;
+	background: linear-gradient(to right, var(--sand-1), transparent);
+	z-index: 10;
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 0.2s ease;
+}
+
+/* Right shadow - appears when can scroll right */
+.scrollableContainer::after {
+	content: '';
+	position: fixed;
+	right: var(--space-8);
+	height: 60px;
+	width: 20px;
+	background: linear-gradient(to left, var(--sand-1), transparent);
+	z-index: 10;
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 0.2s ease;
+}
+
+/* Show shadows when scrollable */
+.ProgressionGrid.canScrollLeft .scrollableContainer::before {
+	opacity: 1;
+}
+
+.ProgressionGrid.canScrollRight .scrollableContainer::after {
+	opacity: 1;
 }
 
 .ProgressionPanel .rt-Card:where(.rt-variant-surface)::before {

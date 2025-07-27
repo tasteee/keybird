@@ -1,5 +1,7 @@
 import { $output } from '#/stores/output/$output'
 import { $player } from '#/stores/$player'
+import { $progression } from '#/stores/$progression'
+import { $progressionPanel } from '#/components/ProgressionPanel/$progressionPanel'
 import { action, computed, observable } from 'mobx'
 import { computedFn } from 'mobx-utils'
 
@@ -122,6 +124,49 @@ class InputStore {
 
 		if (event.repeat) return
 		if (isInputFocused) return
+
+		// Handle progression chord selection navigation
+		const selectedChordId = $progressionPanel.selectedChordId
+		const hasSelectedChord = selectedChordId !== ''
+
+		if (hasSelectedChord) {
+			const steps = $progression.steps
+			const selectedIndex = steps.findIndex((step) => step.id === selectedChordId)
+			const hasValidSelection = selectedIndex !== -1
+
+			if (hasValidSelection) {
+				const canMoveLeft = selectedIndex > 0
+				const canMoveRight = selectedIndex < steps.length - 1
+
+				// Handle arrow keys for moving selected chord
+				if (event.code === 'ArrowLeft' && canMoveLeft) {
+					event.preventDefault()
+					$progression.moveStepLeft(selectedChordId)
+					return
+				}
+
+				if (event.code === 'ArrowRight' && canMoveRight) {
+					event.preventDefault()
+					$progression.moveStepRight(selectedChordId)
+					return
+				}
+
+				// Handle delete/backspace for removing selected chord
+				if (event.code === 'Backspace' || event.code === 'Delete') {
+					event.preventDefault()
+					$progressionPanel.setSelectedChordId('') // Clear selection after deletion
+					$progression.deleteStep(selectedChordId)
+					return
+				}
+			}
+		}
+
+		// Handle space key for playback toggle
+		if (event.code === 'Space') {
+			event.preventDefault()
+			$output.perform()
+			return
+		}
 
 		this.setPressedKeyCode(event.code, true)
 		if (!chord) return

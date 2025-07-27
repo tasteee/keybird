@@ -44,11 +44,11 @@ export const ProgressionChordControls = observer(() => {
 		<Flex.Row gap="3" className="ChordOptions" align="center" position="relative">
 			{hasSelectedChord && (
 				<ControlBox bottom="10px" position="relative">
-					<Button className="leftArrowIconButton" size="1" variant="surface" onClick={handleMoveLeft} disabled={!canMoveLeft}>
+					<Button className="leftArrowIconButton" size="1" variant="ghost" onClick={handleMoveLeft} disabled={!canMoveLeft}>
 						<Icon color="white" name="arrowLeft0" width="16px" height="16px" />
 					</Button>
 
-					<Button className="rightArrowIconButton" size="1" variant="surface" onClick={handleMoveRight} disabled={!canMoveRight}>
+					<Button className="rightArrowIconButton" size="1" variant="ghost" onClick={handleMoveRight} disabled={!canMoveRight}>
 						<Icon color="white" name="arrowRight0" width="16px" height="16px" />
 					</Button>
 

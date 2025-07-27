@@ -3,7 +3,7 @@ import { numbers } from '#/modules/numbers'
 import { theory } from '#/utilities/toner'
 import { action, computed, observable } from 'mobx'
 import { useMemo } from 'react'
-import { $project } from '../$project'
+import { $project } from '../stores/$project'
 import appConfig from '#/configuration/app.config.json'
 
 export class ChordStore {

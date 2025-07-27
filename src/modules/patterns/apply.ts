@@ -105,7 +105,7 @@ const signalIdRegex = /^N(\d+)([+-]\d+)?$/
 
 const parseSignalId = (signalId: string): ParsedSignalIdT => {
 	const match = signalId.match(signalIdRegex)!
-	const noteIndex = parseInt(match[1])
+	const noteIndex = parseInt(match[1]) // Uncaught TypeError: Cannot read properties of null (reading '1')
 	const octaveOffset = match[2] ? parseInt(match[2]) : 0
 	return { noteIndex, octaveOffset }
 }
