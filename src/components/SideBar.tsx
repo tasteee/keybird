@@ -1,5 +1,5 @@
 import { Text } from '@radix-ui/themes'
-import { Flex } from './layout/Flex'
+import { Flex } from './common/Flex'
 import cn from './SideBar.module.css'
 import { datass } from 'datass'
 

@@ -10,13 +10,29 @@
 	background: linear-gradient(to top right, var(--sand-a1), var(--sand-a2));
 	opacity: 1;
 	user-select: none;
+	will-change: transform, opacity;
 	transition:
 		opacity 0.15s ease,
 		border 0.15s,
 		background 0.15s;
 }
 
+.ChordBlockSkeleton,
+.ChordBlock {
+	opacity: 0; /* Start fully transparent */
+	scale: 0.85; /* Start slightly smaller */
+	animation: fadeIn 0.35s forwards; /* Animate opacity to 1 */
+}
+
+@keyframes fadeIn {
+	to {
+		scale: 1; /* End at normal size */
+		opacity: 1; /* End fully visible */
+	}
+}
+
 .ChordBlock:hover {
+	z-index: 110;
 	opacity: 1 !important;
 	border: 1px solid var(--accentedA11);
 	background: linear-gradient(to top right, var(--accentedA2), var(--accentedA1));
@@ -64,4 +80,9 @@
 .ChordProgression .ChordBlock:hover {
 	border: 1px solid var(--accentedA11);
 	background: linear-gradient(to top right, var(--accentedA2), var(--accentedA1));
+}
+
+.ChordBlock.isPlaying .keyIndicator {
+	background: var(--accentedA10);
+	color: black;
 }

@@ -2,21 +2,19 @@
 	"compilerOptions": {
 		"composite": true,
 		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-		"target": "ES2020",
+		"target": "es2023",
 		"useDefineForClassFields": true,
-		"lib": ["ES2020", "DOM", "DOM.Iterable"],
+		"lib": ["ES2023", "DOM", "DOM.Iterable"],
 		"module": "ESNext",
 
 		/* Bundler mode */
 		"moduleResolution": "bundler",
-		"allowImportingTsExtensions": true,
+		"allowImportingTsExtensions": false,
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"moduleDetection": "force",
-		"noEmit": true,
+		"noEmit": false,
 		"jsx": "react-jsx",
-
-		/* Linting */
 		"strict": false,
 		"noUnusedLocals": false,
 		"noUnusedParameters": false,
@@ -30,18 +28,18 @@
 		"noUncheckedIndexedAccess": false,
 		"noEmitOnError": false,
 		"skipLibCheck": true,
-
 		"baseUrl": ".",
 		"paths": {
-			"#/*": ["src/*"],
-			"#components/*": ["src/components/*"],
-			"#utilities/*": ["src/utilities/*"],
-			"#stores/*": ["src/stores/*"],
-			"#types/*": ["src/types/*"],
-			"#configuration/*": ["src/configuration/*"],
-			"#constants/*": ["src/configuration/keyboard/constants/*"],
-			"#views/*": ["src/views/*"]
+			"#/*": ["src/*"]
 		}
 	},
-	"include": ["src"]
+
+	"include": [
+		"src",
+		"src/components/common",
+		"src/components/.trash",
+		"src/components/common/Flex.tsx",
+		"src/components/common/Spacer.tsx",
+		"src/components/common/Themes.tsx"
+	]
 }

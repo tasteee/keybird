@@ -1,0 +1,12 @@
+:root {
+	--colors-other-orange-100: color(display-p3 0.95 0.9 0.8);
+	--colors-other-orange-200: color(display-p3 0.95 0.85 0.7);
+	--colors-other-orange-300: color(display-p3 0.95 0.8 0.6);
+	--colors-other-orange-400: color(display-p3 0.95 0.65 0.36);
+	--colors-other-orange-500: color(display-p3 0.95 0.6 0.3);
+	--colors-other-orange-600: color(display-p3 0.95 0.55 0.25);
+	--colors-other-orange-700: color(display-p3 0.95 0.5 0.2);
+	--colors-other-orange-800: color(display-p3 0.95 0.45 0.15);
+	--colors-other-orange-900: color(display-p3 0.95 0.4 0.1);
+	--colors-other-orange-950: color(display-p3 0.95 0.35 0.05);
+}

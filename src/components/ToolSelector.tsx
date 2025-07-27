@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as ToggleGroup from '@radix-ui/react-toggle-group'
-import { Icon } from './Icon' // Adjust import path as needed
+import { Icon } from './common/Icon' // Adjust import path as needed
 import classNames from 'classnames'
 import { SegmentedControl } from '@radix-ui/themes'
 

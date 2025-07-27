@@ -1,63 +1,72 @@
 import './ChordBrowser.css'
-import { Flex } from '#/components/layout/Flex'
-import { ProgressionChord } from './ProgressionPanel/ProgressionChord'
-import scalesChords from '#/constants/scaleChords.json'
-import { $project } from '#/stores/$main'
-import { useDatass } from 'datass'
-import { useMemo } from 'react'
-import { Button, Grid, Text } from '@radix-ui/themes'
+import { Flex } from '#/components/common/Flex'
+import { Button, IconButton, Text } from '@radix-ui/themes'
 import { ChordBlock } from './ChordBlock'
 import { $input } from '#/stores'
-import { QwertyTargetIndicator } from './QwertyTargetIndicator'
-import React from 'react'
 import classNames from 'classnames'
-import { SuggestionsDialog } from './SuggestionsDialog/SuggestionsDialog'
+import { observer } from 'mobx-react-lite'
+import { $settings } from '#/stores/$settings'
+import { $chords } from '#/stores/$chords'
+import { Icon } from '@iconify/react'
+import { useWait } from '#/modules/useWait'
 
-const PAST_SCALE_CHORDS = {}
-
-const useScaleChords = (scaleSymbol) => {
-	const list = scalesChords[scaleSymbol] || []
-	return Array.from(new Set(list))
-}
-
-export const ChordBrowser = () => {
-	const isCompact = useDatass.boolean(true)
-	const compactVariant = isCompact.state ? 'solid' : 'outline'
-	const toggleCompact = () => isCompact.set.toggle()
+export const ChordBrowser = observer(() => {
+	const isCompact = $settings.isChordBrowserCompact
+	const compactVariant = isCompact ? 'solid' : 'soft'
+	const toggleCompact = () => $settings.toggleChordBrowserCompact()
+	const qwertyTarget = $input.qwertyPerformTarget
 
 	const className = classNames('ChordBrowser', {
-		isCompact: isCompact.state
+		isCompact: isCompact
 	})
 
 	return (
 		<Flex.Column className={className}>
-			<Flex.Row className="top" justify="between" align="center" width="100%" p="4" pb="2">
+			<Flex.Row className="controlBar" justify="between" align="center" width="100%" p="6" pb="2">
 				<Flex.Row gap="2" align="center">
 					<Text size="2" weight="bold">
-						CHORDS
+						CHORDS <span>({$chords.chords.length})</span>
 					</Text>
-					<QwertyTargetIndicator target="chords" />
 				</Flex.Row>
 				<Flex.Row gap="2" align="center">
-					<Button size="1" color="violet" variant={compactVariant} onClick={toggleCompact}>
+					<Button size="1" highContrast variant={compactVariant} onClick={toggleCompact}>
 						Compact View
 					</Button>
-					<SuggestionsDialog />
+					<Button size="1" highContrast variant="soft" onClick={$chords.shuffleChords}>
+						Shuffle
+					</Button>
+					<BrowserActionIcons />
 				</Flex.Row>
 			</Flex.Row>
+
 			<ChordsGrid />
 		</Flex.Column>
 	)
+})
+
+const BrowserActionIcons = () => {
+	return (
+		<Flex.Row className="BrowserActionIcons" gap="2" align="center">
+			<IconButton onClick={$chords.reset} variant="soft">
+				<Icon icon="material-symbols:device-reset" width="18px" height="18px" />
+			</IconButton>
+			<IconButton onClick={$chords.reset} variant="soft">
+				<Icon icon="iconoir:dice-six" width="18px" height="18px" />
+			</IconButton>
+		</Flex.Row>
+	)
 }
 
-const ChordsGrid = React.memo(() => {
-	const scaleSymbol = $project.use.lookup<string>('scaleSymbol')
-	const scaleChords = useScaleChords(scaleSymbol) as string[]
+// Will update whenever key / scale changes by the user.
+// Will also update whenever shuffle is applied.
+const ChordsGrid = observer(() => {
+	const shouldRender = useWait(200)
+	if (!shouldRender) return null
 
 	return (
-		<Flex.Row gap="3" p="4" wrap="wrap">
-			{scaleChords.map((chordSymbol, index) => {
-				return <ChordBlock key={chordSymbol} symbol={chordSymbol} index={index} />
+		<Flex.Row className="ChordGrid" gap="3" p="4" pl="8" wrap="wrap" pb="40px">
+			{$chords.chords.map((chord, index) => {
+				return <ChordBlock key={chord.id} id={chord.id} index={index} />
 			})}
 		</Flex.Row>
 	)

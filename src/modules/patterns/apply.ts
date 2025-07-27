@@ -32,7 +32,7 @@ type ParsedSignalIdT = {
 }
 
 type ExtensionContextT = {
-	chord: CustomChordT
+	chord: ChordT
 	project: ProjectT
 	noteIndex: number
 	octaveOffset: number
@@ -44,7 +44,7 @@ type MappingResultT = {
 }
 
 type PerformedNoteT = {
-	rowId: string
+	toneId: string
 	signalId: string
 	note: string | null
 	startDivision: number
@@ -56,9 +56,11 @@ type PerformedNoteT = {
 	velocity: number
 }
 
+type ToneWithSignalsT = ToneT & { signals: SignalT[] }
+
 type ApplyOptionsT = {
-	signalRows: SignalRowsT
-	chord: CustomChordT
+	toneMap: Record<string, ToneWithSignalsT>
+	chord: ChordT
 	project: ProjectT
 	strategy: ExtensionStrategyT
 }
@@ -94,10 +96,10 @@ const buildNoteString = (pitchClass: string, octave: number): string => Note.sim
 const isValidSignalId = (signalId: string): boolean => signalIdRegex.test(signalId)
 const isNonEmptyArray = (target: any) => Array.isArray(target) && target.length > 0
 const isNoteIndexWithinChord = (noteIndex: number, chordSize: number): boolean => noteIndex < chordSize
-const hasValidChordNotes = (chord: CustomChordT): boolean => isNonEmptyArray(chord.notes)
+const hasValidChordNotes = (chord: ChordT): boolean => isNonEmptyArray(chord.notes)
 const hasValidScale = (scale: any): boolean => isNonEmptyArray(scale.notes)
 const buildScaleKey = (project: ProjectT): string => `${project.scaleRootNote} ${project.scaleType}`
-const getBaseOctave = (project: ProjectT, chord: CustomChordT): number => project.defaultOctave + chord.octaveOffset
+const getBaseOctave = (project: ProjectT, chord: ChordT): number => project.baseOctave + chord.octaveOffset
 
 const signalIdRegex = /^N(\d+)([+-]\d+)?$/
 
@@ -108,7 +110,7 @@ const parseSignalId = (signalId: string): ParsedSignalIdT => {
 	return { noteIndex, octaveOffset }
 }
 
-const mapDirectChordNote = (noteIndex: number, octaveOffset: number, chord: CustomChordT): string => {
+const mapDirectChordNote = (noteIndex: number, octaveOffset: number, chord: ChordT): string => {
 	const targetNote = chord.notes[noteIndex]
 	const currentOctave = getNoteOctave(targetNote)
 	const newOctave = currentOctave + octaveOffset
@@ -132,12 +134,7 @@ const checkNoteInCollection = (candidateNote: string, existingNotes: string[]): 
 	return existingNotes.some((note) => getNotePitchClass(note) === candidatePC)
 }
 
-const buildExtendedNotesFromScale = (
-	chord: CustomChordT,
-	scale: any,
-	defaultOctave: number,
-	targetLength: number
-): string[] => {
+const buildExtendedNotesFromScale = (chord: ChordT, scale: any, defaultOctave: number, targetLength: number): string[] => {
 	const extendedNotes: string[] = [...chord.notes]
 	let scaleIndex = 0
 
@@ -191,7 +188,7 @@ const calculateThirdAbove = (lastNote: string, scale: any): string => {
 	return `${nextNoteObj.pc}${finalOctave}`
 }
 
-const buildExtendedNotesWithThirds = (chord: CustomChordT, project: ProjectT, targetLength: number): string[] => {
+const buildExtendedNotesWithThirds = (chord: ChordT, project: ProjectT, targetLength: number): string[] => {
 	const scaleKey = buildScaleKey(project)
 	const scale = Scale.get(scaleKey)
 	const extendedNotes: string[] = [...chord.notes]
@@ -221,12 +218,12 @@ function mapWithIntervals(context: ExtensionContextT): string {
 	}
 }
 
-const buildFundamentalNote = (chord: CustomChordT, project: ProjectT): string => {
+const buildFundamentalNote = (chord: ChordT, project: ProjectT): string => {
 	const defaultOctave = getBaseOctave(project, chord)
 	return `${chord.rootNote}${defaultOctave}`
 }
 
-const buildExtendedNotesFromHarmonics = (chord: CustomChordT, fundamentalNote: string, targetLength: number): string[] => {
+const buildExtendedNotesFromHarmonics = (chord: ChordT, fundamentalNote: string, targetLength: number): string[] => {
 	const extendedNotes: string[] = [...chord.notes]
 	let harmonicIndex = 1
 
@@ -280,7 +277,15 @@ function mapWithHarmonicSeries(context: ExtensionContextT): string {
 	return buildNoteString(pitchClass, newOctave)
 }
 
-const mapSignalToNote = (signalId: string, chord: CustomChordT, project: ProjectT, strategy: ExtensionStrategyT): string => {
+type MapSignalToNoteOptionsT = {
+	signalId: string
+	chord: ChordT
+	project: ProjectT
+	strategy: ExtensionStrategyT
+}
+
+const mapSignalToNote = (options: MapSignalToNoteOptionsT): string => {
+	const { signalId, chord, project, strategy } = options
 	const { noteIndex, octaveOffset } = parseSignalId(signalId)
 	const isDirectMapping = isNoteIndexWithinChord(noteIndex, chord.notes.length)
 	if (isDirectMapping) return mapDirectChordNote(noteIndex, octaveOffset, chord)
@@ -291,12 +296,17 @@ const mapSignalToNote = (signalId: string, chord: CustomChordT, project: Project
 
 const mapSignalsToNotes = (
 	signals: SignalT[],
-	chord: CustomChordT,
+	chord: ChordT,
 	project: ProjectT,
 	strategy: ExtensionStrategyT
 ): MappingResultT[] => {
 	return signals.map((signal) => ({
-		note: mapSignalToNote(signal.id, chord, project, strategy),
+		note: mapSignalToNote({
+			signalId: signal.id,
+			chord,
+			project,
+			strategy
+		}),
 		signal
 	}))
 }
@@ -310,7 +320,7 @@ const createPerformedNote = (signal: SignalT, note: string | null, project: Proj
 
 	return {
 		note,
-		rowId: signal.rowId,
+		toneId: signal.toneId,
 		signalId: signal.id,
 		startMs,
 		endMs,
@@ -323,12 +333,18 @@ const createPerformedNote = (signal: SignalT, note: string | null, project: Proj
 }
 
 const applyPatternToChord = (options: ApplyOptionsT): PerformedNoteT[] => {
-	const { signalRows, chord, project, strategy } = options
+	const { toneMap, chord, project, strategy } = options
 	const result: PerformedNoteT[] = []
 
-	Object.values(signalRows).forEach((row) => {
-		row.signals.forEach((signal) => {
-			const note = mapSignalToNote(signal.rowId, chord, project, strategy)
+	Object.values(toneMap).forEach((tone) => {
+		tone.signals.forEach((signal) => {
+			const note = mapSignalToNote({
+				signalId: signal.id,
+				chord,
+				project,
+				strategy
+			})
+
 			const performance = createPerformedNote(signal, note, project)
 			result.push(performance)
 		})

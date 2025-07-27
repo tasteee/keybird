@@ -1,10 +1,10 @@
-import { datass } from 'datass'
-export { $progression } from './progressions/$progression'
-export { $output } from './$output'
-export { $project } from './$project'
+import { observable } from 'mobx'
 
-export const $main = {
-	isPreviewingChord: datass.boolean(false),
-	isPlayingProgressions: datass.boolean(false),
-	chordKeyBinds: {}
+class MMainStore {
+	@observable accessor isPreviewingChord = false
+	@observable accessor isPlayingProgressions = false
+	@observable accessor chordKeyBinds = {}
 }
+
+export const $main = new MMainStore()
+globalThis.$main = $main

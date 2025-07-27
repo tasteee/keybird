@@ -1,9 +1,12 @@
 import './GridSignalRow.css'
-import React, { useCallback, useEffect } from 'react'
-import { Flex } from '#/components/layout/Flex'
+import React, { useEffect } from 'react'
+import { Flex } from '#/components/common/Flex'
 import { $patternEditor } from './patternEditor.store'
 import classcat from 'classcat'
 import { useDatass } from 'datass'
+import { useOnClickOutside } from 'usehooks-ts'
+import { useRef } from 'react'
+import { observer } from 'mobx-react-lite'
 
 // A "beat" is 4 divisions. The UI grid is often based on beats.
 const DIVISIONS_PER_BEAT = 4
@@ -16,48 +19,44 @@ const clampDivision = (division: number, maxDivisions: number) => Math.max(0, Ma
 
 // --- Child Components ---
 
-type SignalRowCellsPropsT = { rowId: string }
+type SignalRowCellsPropsT = { toneId: string }
 
-const SignalRowCells = React.memo(({ rowId }: SignalRowCellsPropsT) => {
-	const beatsLength = $patternEditor.beatsLength.use()
-	const totalCells = beatsLength // One cell per beat
+const SignalRowCells = observer(({ toneId }: SignalRowCellsPropsT) => {
+	const totalCells = $patternEditor.beatsLength // One cell per beat
 
 	const onClick = (beatIndex: number) => (event: React.MouseEvent) => {
 		event.stopPropagation()
 
 		const startDivision = beatIndex * DIVISIONS_PER_BEAT
 		const endDivision = startDivision + DIVISIONS_PER_BEAT // Default to 1 beat long
-		const id = crypto.randomUUID() // Generate a unique ID for the signal
+		const id = crypto.randomUUID() as string // Generate a unique ID for the signal
 
 		$patternEditor.addSignal({
 			id,
-			rowId: rowId,
+			toneId: toneId,
 			startDivision,
 			endDivision
 		})
 
-		$patternEditor.selectedSignalId.set(id)
+		$patternEditor.selectedSignalId = id
 	}
 
 	const cells = []
 	for (let i = 0; i < totalCells; i++) {
 		cells.push(
-			<Flex.Row key={`${rowId}-${i}`} className="GridSignalCell" data-column={i + 1} data-row={rowId} onClick={onClick(i)} />
+			<Flex.Row key={`${toneId}-${i}`} className="GridSignalCell" data-column={i + 1} data-row={toneId} onClick={onClick(i)} />
 		)
 	}
 
 	return <>{cells}</>
 })
 
-import { useOnClickOutside } from 'usehooks-ts'
-import { useRef } from 'react' // Make sure to import useRef
-
 type DraggableSignalProps = {
 	signal: SignalT
-	rowId: string
+	toneId: string
 }
 
-const DraggableSignal = React.memo(({ signal, rowId }: DraggableSignalProps) => {
+const DraggableSignal = observer(({ signal, toneId }: DraggableSignalProps) => {
 	const { id: signalId, startDivision, endDivision } = signal
 	const ref = useRef<HTMLDivElement>(null)
 
@@ -69,8 +68,7 @@ const DraggableSignal = React.memo(({ signal, rowId }: DraggableSignalProps) => 
 	const originalEnd = useDatass.number(0)
 
 	// Use the correct selection state object from the store
-	const selectedSignalId = $patternEditor.selectedSignalId.use()
-	const isSelected = selectedSignalId === signalId
+	const isSelected = $patternEditor.selectedSignalId === signalId
 
 	// --- Event Handlers ---
 
@@ -78,15 +76,15 @@ const DraggableSignal = React.memo(({ signal, rowId }: DraggableSignalProps) => 
 	const selectSignal = (event: React.MouseEvent) => {
 		event.stopPropagation() // Prevent the row's deselect-all from firing
 		if (!isSelected) {
-			$patternEditor.selectedSignalId.set(signalId)
+			$patternEditor.selectedSignalId = signalId
 		}
 	}
 
 	// 2. DESELECT: Click outside the signal to deselect it.
 	useOnClickOutside(ref, (event) => {
 		if (isSelected) {
-			$patternEditor.selectedSignalId.set.reset()
-			$patternEditor.correctSignalOverlaps(rowId)
+			$patternEditor.selectedSignalId = ''
+			$patternEditor.correctSignalOverlaps(toneId)
 		}
 	})
 
@@ -111,7 +109,6 @@ const DraggableSignal = React.memo(({ signal, rowId }: DraggableSignalProps) => 
 
 	// 5. KEYBOARD: Move, resize, and delete with keys when selected.
 	useEffect(() => {
-		// Only attach listener if this specific signal is selected
 		if (!isSelected) return
 
 		const handleKeyDown = (event: KeyboardEvent) => {
@@ -122,9 +119,9 @@ const DraggableSignal = React.memo(({ signal, rowId }: DraggableSignalProps) => 
 				return
 			}
 
-			const allEnabledRows = $patternEditor.enabledSignalRowIds.state
-			const currentIndex = allEnabledRows.indexOf(rowId)
-			const beatsLength = $patternEditor.beatsLength.state
+			const allEnabledRows = $patternEditor.activeToneIds
+			const currentIndex = allEnabledRows.indexOf(toneId)
+			const beatsLength = $patternEditor.beatsLength
 			const maxDivisions = getMaxDivisions(beatsLength)
 
 			// --- Movement ---
@@ -135,7 +132,7 @@ const DraggableSignal = React.memo(({ signal, rowId }: DraggableSignalProps) => 
 					event.preventDefault()
 					const prevRowId = currentIndex > 0 ? allEnabledRows[currentIndex - 1] : null
 					if (prevRowId) {
-						$patternEditor.moveSignal({ id: signalId, rowId: prevRowId })
+						$patternEditor.moveSignal({ id: signalId, toneId: prevRowId })
 					}
 					break
 				}
@@ -143,7 +140,7 @@ const DraggableSignal = React.memo(({ signal, rowId }: DraggableSignalProps) => 
 					event.preventDefault()
 					const nextRowId = currentIndex < allEnabledRows.length - 1 ? allEnabledRows[currentIndex + 1] : null
 					if (nextRowId) {
-						$patternEditor.moveSignal({ id: signalId, rowId: nextRowId })
+						$patternEditor.moveSignal({ id: signalId, toneId: nextRowId })
 					}
 					break
 				}
@@ -152,7 +149,7 @@ const DraggableSignal = React.memo(({ signal, rowId }: DraggableSignalProps) => 
 					const newStart = signal.startDivision - moveAmount
 					if (newStart < 0) return // Boundary check
 					const newEnd = signal.endDivision - moveAmount
-					$patternEditor.moveSignal({ id: signalId, rowId: signal.rowId, startDivision: newStart, endDivision: newEnd })
+					$patternEditor.moveSignal({ id: signalId, toneId: signal.toneId, startDivision: newStart, endDivision: newEnd })
 					break
 				}
 				case 'ArrowRight': {
@@ -160,7 +157,7 @@ const DraggableSignal = React.memo(({ signal, rowId }: DraggableSignalProps) => 
 					const newEnd = signal.endDivision + moveAmount
 					if (newEnd > maxDivisions) return // Boundary check
 					const newStart = signal.startDivision + moveAmount
-					$patternEditor.moveSignal({ id: signalId, rowId: signal.rowId, startDivision: newStart, endDivision: newEnd })
+					$patternEditor.moveSignal({ id: signalId, toneId: signal.toneId, startDivision: newStart, endDivision: newEnd })
 					break
 				}
 			}
@@ -168,7 +165,7 @@ const DraggableSignal = React.memo(({ signal, rowId }: DraggableSignalProps) => 
 
 		window.addEventListener('keydown', handleKeyDown)
 		return () => window.removeEventListener('keydown', handleKeyDown)
-	}, [isSelected, signal, rowId]) // Re-run if selection or signal data changes
+	}, [isSelected, signal, toneId]) // Re-run if selection or signal data changes
 
 	// Global mouse move/up handler for resizing
 	useEffect(() => {
@@ -183,13 +180,13 @@ const DraggableSignal = React.memo(({ signal, rowId }: DraggableSignalProps) => 
 			let newEnd = originalEnd.state
 
 			if (draggingHandle.state === 'left') {
-				newStart = clampDivision(originalStart.state + deltaDivisions, getMaxDivisions($patternEditor.beatsLength.state))
+				newStart = clampDivision(originalStart.state + deltaDivisions, getMaxDivisions($patternEditor.beatsLength))
 				// Prevent resizing past the end handle
 				if (newStart >= originalEnd.state) {
 					newStart = originalEnd.state - 1
 				}
 			} else if (draggingHandle.state === 'right') {
-				newEnd = clampDivision(originalEnd.state + deltaDivisions, getMaxDivisions($patternEditor.beatsLength.state))
+				newEnd = clampDivision(originalEnd.state + deltaDivisions, getMaxDivisions($patternEditor.beatsLength))
 				// Prevent resizing smaller than 1 division
 				if (newEnd <= originalStart.state) {
 					newEnd = originalStart.state + 1
@@ -229,7 +226,7 @@ const DraggableSignal = React.memo(({ signal, rowId }: DraggableSignalProps) => 
 			ref={ref} // Attach the ref for useOnClickOutside
 			className={classcat([
 				'DraggableSignal',
-				`rowId-${rowId}`,
+				`toneId-${toneId}`,
 				isSelected && 'isSelected',
 				isDraggingHandle.use() && 'isDragging'
 			])}
@@ -247,25 +244,24 @@ const DraggableSignal = React.memo(({ signal, rowId }: DraggableSignalProps) => 
 	)
 })
 
-type GridSignalRowProps = { rowId: string }
+type GridSignalRowProps = { toneId: string }
 
-export const GridSignalRow = React.memo(({ rowId }: GridSignalRowProps) => {
+export const GridSignalRow = observer((props: GridSignalRowProps) => {
 	// FIX: Correctly derive signals for this row
-	const row = $patternEditor.rowMap.use.lookup(rowId)
-	const signalMap = $patternEditor.signalMap.use()
-	const signals = row.signalIds?.map((id) => signalMap[id]).filter(Boolean) || []
-	const selectedSignalId = $patternEditor.selectedSignalId.use()
+	const { toneId } = props
+	const row = $patternEditor.toneMap[props.toneId]
+	const signals = row?.signalIds?.map((id) => $patternEditor.signalMap[id]).filter(Boolean) || []
 
 	const classes = classcat([
 		'GridSignalRow',
-		`rowId-${rowId}`,
+		`toneId-${toneId}`,
 		signals.length > 0 && 'hasSignals',
-		selectedSignalId.id && 'hasSelectedSignal'
+		$patternEditor.selectedSignalId && 'hasSelectedSignal'
 	])
 
 	const deselectAll = (event: React.MouseEvent) => {
 		event.preventDefault()
-		$patternEditor.selectedSignalId.set.reset()
+		$patternEditor.selectedSignalId = ''
 	}
 
 	return (
@@ -275,12 +271,12 @@ export const GridSignalRow = React.memo(({ rowId }: GridSignalRowProps) => {
 			width="100%"
 			align="center"
 			style={{ position: 'relative' }}
-			data-row-id={rowId}
+			data-row-id={toneId}
 			onClick={deselectAll}
 		>
-			<SignalRowCells rowId={rowId} />
+			<SignalRowCells toneId={toneId} />
 			{signals.map((signal) => (
-				<DraggableSignal key={signal.id} signal={signal} rowId={rowId} />
+				<DraggableSignal key={signal.id} signal={signal} toneId={toneId} />
 			))}
 		</Flex.Row>
 	)

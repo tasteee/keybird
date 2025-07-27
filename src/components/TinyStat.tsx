@@ -1,6 +1,6 @@
-import { Icon } from '#/components/Icon'
-import { Flex } from '#/components/layout/Flex'
-import { Spacer } from '#/components/layout/Spacer'
+import { Icon } from '#/components/common/Icon'
+import { Flex } from '#/components/common/Flex'
+import { Spacer } from '#/components/common/Spacer'
 import { Text } from '@radix-ui/themes'
 import './TinyStat.css'
 

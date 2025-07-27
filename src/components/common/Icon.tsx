@@ -1,0 +1,124 @@
+import classNames from 'classnames'
+import { Icon as IconifyIcon } from '@iconify/react'
+import type { CommonElementPropsT, OnClickEventT } from '#/types/props'
+
+type PropsT = CommonElementPropsT & {
+	name: string
+	width?: string
+	height?: string
+	size?: string
+	color?: string
+
+	onClick?: OnClickEventT
+	isActive?: boolean
+	isDisabled?: boolean
+}
+
+const DEFAULT_PROPS = {
+	color: 'zinc-7',
+	size: '24px'
+}
+
+const getColor = (color: string) => {
+	if (color.startsWith('--')) return `var(${color})`
+	return color
+}
+
+export const Icon = (inputProps: PropsT) => {
+	const props = { ...DEFAULT_PROPS, ...inputProps }
+	const name = getIconName(props)
+	const sizes = getSizeProps(props)
+	const color = getColor(props.color)
+
+	const classes = classNames('Icon', props.className, {
+		isDisabled: props.isDisabled,
+		isActive: props.isActive
+	})
+
+	return (
+		<IconifyIcon
+			id={props.id}
+			className={classes}
+			icon={name}
+			width={sizes.width}
+			height={sizes.height}
+			color={color}
+			onClick={props.onClick}
+			style={props.style}
+		/>
+	)
+}
+
+const getSizeProps = (props: PropsT) => {
+	const width = props.width || props.size || '24px'
+	const height = props.height || props.width || props.size || '24px'
+	return { width, height }
+}
+
+const getIconName = (props: PropsT) => {
+	const name = ICON_NAME_MAP[props.name] || props.name
+	return name
+}
+
+export const ICON_NAME_MAP = {
+	infoOutline: 'icon-park-outline:info',
+	info: 'akar-icons:info',
+	info1: 'icomoon-free:info',
+	note0: 'gravity-ui:music-note',
+	info2: 'ri:information-line',
+	arrowLeft0: 'picon:left',
+	thumbsUp0: 'vaadin:thumbs-up-o',
+	thumbsDown0: 'vaadin:thumbs-down-o',
+	thumbsUp1: 'material-symbols:thumb-up',
+	thumbsDown1: 'material-symbols:thumb-down',
+	download0: 'material-symbols:download',
+	arrowLeft1: 'fa-solid:arrow-left',
+	arrowRight0: 'picon:right',
+	info3: 'streamline-plump:information-circle-solid',
+	info4: 'streamline-sharp:information-circle-remix',
+	question0: 'mdi:tooltip-question-outline',
+	question1: 'fa-regular:question-circle',
+	question2: 'iconamoon:question-mark-circle-bold',
+	question3: 'mage:message-question-mark-round-fill',
+	bolt: 'bxs:bolt',
+	star: 'f7:star',
+	edit0: 'mingcute:edit-line',
+	edit1: 'lucide:edit',
+	chartBar: 'f7:chart-bar',
+	person: 'codicon:person',
+	calendar: 'fe:calendar',
+	chevronRight: 'mingcute:right-fill',
+	crossBox0: 'entypo:squared-cross',
+	xBox0: 'emojione-monotone:cross-mark-button',
+	pointer: 'mingcute:navigation-fill',
+	list0: 'solar:list-bold',
+	bulletPoint0: 'nrk:bullet-square',
+	close0: 'famicons:close',
+	list1: 'fluent:list-16-filled',
+	list2: 'gg:list',
+	hash0: 'ic:baseline-numbers',
+	trash0: 'iconamoon:trash',
+	expand0: 'fad:h-expand',
+	numberList0: 'ph:list-numbers-fill',
+	numbersSquare0: 'fluent-emoji-high-contrast:input-numbers',
+	people0: 'ic:round-people-alt',
+	calendar0: 'tabler:calendar-filled',
+	quote0: 'mingcute:quote-right-fill',
+	flag0: 'tdesign:flag-1',
+	flag1: 'fa6-solid:flag-usa',
+	flag2: 'streamline-plump:rectangle-flag-solid',
+	flag3: 'streamline-ultimate:love-it-flag-bold',
+	pirateFlag0: 'streamline-ultimate:love-it-flag-bold',
+	fist0: 'fa6-solid:hand-fist',
+	fist1: 'ph:hand-fist-fill',
+	warning0: 'fa:warning',
+	swords0: 'ri:sword-fill',
+	receipt0: 'material-symbols:receipt',
+	compare0: 'eos-icons:compare-states',
+	addBox0: 'mingcute:add-square-fill',
+	addBoxOutline0: 'mingcute:add-square-line',
+	subtractBox0: 'mingcute:minus-square-fill',
+	subtractBoxOutline0: 'mingcute:minus-square-line',
+	resize0: 'uil:arrows-resize-h',
+	move0: 'mingcute:move-line'
+}

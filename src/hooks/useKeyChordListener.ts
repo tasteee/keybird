@@ -1,9 +1,10 @@
+import { $output } from '#/stores/output/$output'
+import { $player } from '#/stores/$player'
 import { $input } from '#/stores'
-import { $output } from '#/stores/$output'
 import React, { useEffect } from 'react'
 
 export const useChordKeyListener = (index, chord, targetMode) => {
-	const qwertyTarget = $input.qwertyPerformTarget.use()
+	const qwertyTarget = $input.qwertyPerformTarget
 	const isTarget = qwertyTarget === targetMode
 
 	useEffect(() => {
@@ -14,14 +15,14 @@ export const useChordKeyListener = (index, chord, targetMode) => {
 			if (!isTarget) return
 			if (event.repeat) return // Ignore repeated key presses
 			if (event.code === key) {
-				$output.playChord(chord.state)
+				$player.play(chord.state)
 			}
 		}
 
 		const handleKeyUp = (event) => {
-			if (!$input.qwertyPerformTarget.state === targetMode) return
+			if (!$input.qwertyPerformTarget === targetMode) return
 			if (event.code === key) {
-				$output.stopChord(chord.state)
+				$player.stop(chord.state)
 			}
 		}
 

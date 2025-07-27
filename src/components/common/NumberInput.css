@@ -1,0 +1,140 @@
+.NumberInput__overflow-wrapper {
+	position: relative;
+	display: flex;
+	align-items: center;
+	height: var(--space-6);
+	z-index: 10;
+	width: 120px;
+}
+
+.NumberInput {
+	gap: 4px;
+}
+
+.NumberInput__subLabel {
+	font-size: var(--font-size-1);
+	font-weight: normal;
+	color: var(--gray-9);
+	text-transform: uppercase;
+	letter-spacing: 0.01em;
+}
+
+.NumberInput__label {
+	font-size: var(--font-size-1);
+	font-weight: bold;
+	color: var(--gray-11);
+	text-transform: uppercase;
+	letter-spacing: 0.025em;
+	padding: 0;
+	white-space: nowrap;
+	text-align: center;
+}
+
+.NumberInput__container {
+	background: var(--gray-2);
+	border: 1px solid var(--gray-6);
+	border-radius: var(--radius-2);
+	overflow: hidden;
+	transition: all 0.15s ease;
+	position: relative;
+	min-width: 80px;
+}
+
+.NumberInput__container:hover {
+	border-color: var(--gray-7);
+	background: var(--gray-3);
+}
+
+.NumberInput__container:focus-within {
+	border-color: var(--accent-8);
+	box-shadow: 0 0 0 1px var(--accent-8);
+}
+
+.NumberInput--dragging .NumberInput__container {
+	border-color: var(--accent-9);
+	box-shadow: 0 0 0 2px var(--accent-8);
+	background: var(--gray-4);
+}
+
+.NumberInput__button {
+	background: none;
+	border: none;
+	padding: 0;
+	width: var(--space-6);
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: all 0.15s ease;
+	position: relative;
+}
+
+.NumberInput__button:hover:not(:disabled) {
+	background: var(--gray-5);
+}
+
+.NumberInput__button:active:not(:disabled) {
+	background: var(--gray-6);
+}
+
+.NumberInput__button:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.NumberInput--disabled .NumberInput__container {
+	opacity: 0.6;
+	background: var(--gray-1);
+	border-color: var(--gray-5);
+}
+
+.NumberInput--disabled .NumberInput__input {
+	cursor: not-allowed;
+	color: var(--gray-9);
+}
+
+.NumberInput--disabled .NumberInput__label {
+	color: var(--gray-9);
+}
+
+.NumberInput__button--decrement {
+	border-right: 1px solid var(--gray-6);
+}
+
+.NumberInput__button--increment {
+	border-left: 1px solid var(--gray-6);
+}
+
+.NumberInput__input {
+	background: none;
+	border: none;
+	outline: none;
+	font-size: var(--font-size-2);
+	font-weight: bold;
+	color: var(--gray-12);
+	text-align: center;
+	flex: 1;
+	height: 100%;
+	padding: 0 var(--space-2);
+	min-width: 0;
+}
+
+.NumberInput__input::-webkit-outer-spin-button,
+.NumberInput__input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+.NumberInput__input[type='number'] {
+	-moz-appearance: textfield;
+}
+
+.NumberInput__input::selection {
+	background: var(--accent-9);
+	color: white;
+}
+
+.NumberInput__input:focus {
+	color: var(--gray-12);
+}

@@ -1,74 +1,80 @@
-import * as Label from '@radix-ui/react-label'
-import { Icon } from '../Icon'
-import { $progression } from '#/stores'
-import { TextField, Button } from '@radix-ui/themes'
-import { Flex } from '#/components/layout/Flex'
+import { Icon } from '../common/Icon'
+import { NumberInput } from '../common/NumberInput'
+import { $progression } from '#/stores/$progression'
+import { Button } from '@radix-ui/themes'
+import { Flex } from '#/components/common/Flex'
 import { $progressionPanel } from './$progressionPanel'
+import { observer } from 'mobx-react-lite'
+import { ControlBox } from '../common/ControlBox'
 
-export const ProgressionChordControls = () => {
-	const selectedChordId = $progressionPanel.selectedChordId.use()
-	const chords = $progression.use()
+export const ProgressionChordControls = observer(() => {
+	const selectedChordId = $progressionPanel.selectedChordId
+	const chords = $progression.steps
 	const chord = chords.find((chord) => chord.id === selectedChordId) || null
-	// console.log('ProgressionChordControls', chord, chords, selectedChordId)
-	if (!chord) return null
 
-	const canMoveLeft = chords.length > 1 && chord.id !== chords[0].id
-	const canMoveRight = chords.length > 1 && chord.id !== chords[chords.length - 1].id
+	// Chord can be moved left if it is NOT the first chord in the progression.
+	// Chord can be moved right if it is NOT the last chord in the progression.
+	// If there is only one chord, it cannot be moved.
+	const hasSelectedChord = chord !== null
+	const canMoveLeft = hasSelectedChord && chords.length > 1 && chord.id !== chords[0].id
+	const canMoveRight = hasSelectedChord && chords.length > 1 && chord.id !== chords[chords.length - 1].id
 
 	const handleMoveLeft = () => {
-		$progression.moveChordLeft(selectedChordId)
+		$progression.moveStepLeft(selectedChordId)
 	}
 
 	const handleMoveRight = () => {
-		$progression.moveChordRight(selectedChordId)
+		$progression.moveStepRight(selectedChordId)
 	}
 
 	const handleDelete = () => {
-		$progressionPanel.selectedChordId.set('') // Clear selection after deletion
-		$progression.deleteChord(selectedChordId)
+		$progressionPanel.setSelectedChordId('') // Clear selection after deletion
+		$progression.deleteStep(selectedChordId)
 	}
 
-	const handleDurationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const newDuration = parseInt(event.target.value, 10)
+	const handleDuplicate = () => {
+		$progression.duplicateStep(selectedChordId)
+	}
 
-		if (!isNaN(newDuration)) {
-			$progression.updateChordDuration(chord.id, newDuration)
-		}
+	const handleDurationChange = (args: { value: number }) => {
+		$progression.setStepDuration(args.value, selectedChordId)
 	}
 
 	return (
-		<Flex.Row gap="3" className="ChordOptions" align="center" style={{ position: 'absolute', right: 16 }}>
-			<Flex.Row gap="2" align="center">
-				<Label.Root className="LabelRoot" htmlFor="duration">
-					Duration
-				</Label.Root>
-				<TextField.Root
-					size="1"
-					className="durationInput"
-					type="number"
-					min="1"
-					max="16"
-					id="duration"
-					step="1"
-					value={chord.durationBeats}
-					onChange={handleDurationChange}
-				/>
-			</Flex.Row>
+		<Flex.Row gap="3" className="ChordOptions" align="center" position="relative">
+			{hasSelectedChord && (
+				<ControlBox bottom="10px" position="relative">
+					<Button className="leftArrowIconButton" size="1" variant="surface" onClick={handleMoveLeft} disabled={!canMoveLeft}>
+						<Icon color="white" name="arrowLeft0" width="16px" height="16px" />
+					</Button>
 
-			{canMoveLeft && (
-				<Button className="leftArrowIconButton" size="1" variant="surface" onClick={handleMoveLeft}>
-					<Icon color="white" name="arrowLeft0" width="16px" height="16px" />
-				</Button>
-			)}
-			{canMoveRight && (
-				<Button className="rightArrowIconButton" size="1" variant="surface" onClick={handleMoveRight}>
-					<Icon color="white" name="arrowRight0" width="16px" height="16px" />
-				</Button>
-			)}
+					<Button className="rightArrowIconButton" size="1" variant="surface" onClick={handleMoveRight} disabled={!canMoveRight}>
+						<Icon color="white" name="arrowRight0" width="16px" height="16px" />
+					</Button>
 
-			<Button size="1" variant="outline" onClick={handleDelete}>
-				<Icon color="white" name="trash0" width="16px" height="16px" />
-			</Button>
+					<Button size="1" variant="ghost" onClick={handleDelete}>
+						<Icon color="white" name="trash0" width="16px" height="16px" />
+					</Button>
+
+					<Button size="1" variant="ghost" onClick={handleDuplicate}>
+						<Icon color="white" name="cil:clone" width="16px" height="16px" />
+					</Button>
+
+					<div id="SEPARATOR" style={{ height: 50, minHeight: '100%', minWidth: 1, background: 'var(--gray-5)' }} />
+
+					<NumberInput
+						label="Duration"
+						subLabel="(Beats)"
+						value={chord.durationBeats}
+						onChange={handleDurationChange}
+						dragStep={0.25}
+						min={1}
+						max={16}
+						step={1}
+						testId="duration"
+					/>
+				</ControlBox>
+			)}
 		</Flex.Row>
 	)
-}
+})

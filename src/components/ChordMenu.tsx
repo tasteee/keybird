@@ -1,9 +1,10 @@
-import { Flex } from '#/components/layout/Flex'
+import { Flex } from '#/components/common/Flex'
 import { Box, Text, ContextMenu, Select, TextField, Button } from '@radix-ui/themes'
 import { TinyStat } from './TinyStat'
 import './ChordMenu.css'
 import { getAccentColorClassName } from '#/modules/color'
-import { Icon } from './Icon'
+import { Icon } from './common/Icon'
+import { observer } from 'mobx-react-lite'
 
 type PropsT = {
 	setVoicing?: (value: string) => void
@@ -13,12 +14,12 @@ type PropsT = {
 	removeChord?: () => void
 	setMinVelocity?: (value: number) => void
 	setMaxVelocity?: (value: number) => void
-	state: CustomChordT
+	chord: ChordT
 	children?: React.ReactNode
 }
 
-export const ChordMenu = (props: PropsT) => {
-	const accentsClassName = getAccentColorClassName(props.state.rootNote)
+export const ChordMenu = observer((props: PropsT) => {
+	const accentsClassName = getAccentColorClassName(props.chord.rootNote)
 
 	return (
 		<ContextMenu.Root modal={false}>
@@ -26,7 +27,7 @@ export const ChordMenu = (props: PropsT) => {
 			<ContextMenu.Content className={`ChordMenu ${accentsClassName}`}>
 				<Flex.Row gap="2" align="center" justify="center">
 					<span className="coloredCircle" />
-					<Text>{props.state.symbol}</Text>
+					<Text>{props.chord.symbol}</Text>
 				</Flex.Row>
 
 				<ContextMenu.Separator />
@@ -35,10 +36,10 @@ export const ChordMenu = (props: PropsT) => {
 					<Flex.Row gap="2" width="100%">
 						<TinyStat.Number
 							label="Octave Offset"
-							min={-3}
-							max={8}
+							min={-4}
+							max={4}
 							step={1}
-							value={props.state.octaveOffset}
+							value={props.chord.octaveOffset}
 							style={{ width: '50%', flexGrow: 1 }}
 							onValueChange={(value) => props.setOctaveOffset(value)}
 						/>
@@ -47,7 +48,7 @@ export const ChordMenu = (props: PropsT) => {
 							min={-3}
 							max={3}
 							step={1}
-							value={props.state.inversion}
+							value={props.chord.inversion}
 							style={{ width: '50%', flexGrow: 1 }}
 							onValueChange={(value) => props.setInversion(value)}
 						/>
@@ -59,7 +60,7 @@ export const ChordMenu = (props: PropsT) => {
 							min={0}
 							max={127}
 							step={5}
-							value={props.state.minVelocity}
+							value={props.chord.minVelocity}
 							style={{ width: '50%', flexGrow: 1 }}
 							onValueChange={(value) => props.setMinVelocity(value)}
 						/>
@@ -68,7 +69,7 @@ export const ChordMenu = (props: PropsT) => {
 							min={0}
 							max={127}
 							step={5}
-							value={props.state.maxVelocity}
+							value={props.chord.maxVelocity}
 							style={{ width: '50%', flexGrow: 1 }}
 							onValueChange={(value) => props.setMaxVelocity(value)}
 						/>
@@ -77,9 +78,9 @@ export const ChordMenu = (props: PropsT) => {
 					<ContextMenu.Separator />
 
 					<Flex.Row gap="2" width="100%">
-						<Select.Root size="3" value={props.state.voicing} onValueChange={(value) => props.setVoicing(value)}>
+						<Select.Root size="3" value={props.chord.voicing} onValueChange={(value) => props.setVoicing(value)}>
 							<Select.Trigger style={{ width: '100%' }}>
-								<Text className="normalFont">Voicing: {props.state.voicing}</Text>
+								<Text className="normalFont">Voicing: {props.chord.voicing}</Text>
 							</Select.Trigger>
 							<Select.Content>
 								<Select.Item value="closed">Closed</Select.Item>
@@ -107,4 +108,4 @@ export const ChordMenu = (props: PropsT) => {
 			</ContextMenu.Content>
 		</ContextMenu.Root>
 	)
-}
+})

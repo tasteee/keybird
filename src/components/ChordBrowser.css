@@ -31,3 +31,8 @@
 	display: flex;
 	align-items: center;
 }
+
+.ChordGrid {
+	position: relative;
+	min-height: 200px; /* Ensure there's enough room for the animations */
+}

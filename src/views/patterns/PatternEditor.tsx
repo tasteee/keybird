@@ -1,18 +1,18 @@
 import './PatternEditor.css'
-import { Flex } from '#/components/layout/Flex'
+import { Flex } from '#/components/common/Flex'
 import { IconButton, SegmentedControl, Separator, Slider, Text, TextField } from '@radix-ui/themes'
 import range from 'array-range'
 import { $patternEditor } from './patternEditor.store'
 import { GridSignalRow } from './GridSignalRow'
-import { Icon } from '#/components/Icon'
+import { Icon } from '#/components/common/Icon'
+import { observer } from 'mobx-react-lite'
 
 const SIGNAL_INDEXES = range(1, 256)
 
 // This is the top row, like the header labels
 // for each column. (1, 2, 3... etc).
-const GridColumnMarkersRow = () => {
-	const beatsLength = $patternEditor.beatsLength.use()
-	const maxWidth = beatsLength * 32 + 'px'
+const GridColumnMarkersRow = observer(() => {
+	const maxWidth = $patternEditor.beatsLength * 32 + 'px'
 
 	return (
 		<Flex.Row
@@ -30,7 +30,7 @@ const GridColumnMarkersRow = () => {
 			))}
 		</Flex.Row>
 	)
-}
+})
 
 // This adds a spacer above the left side (row labels)
 // so that they align with the grid to their rigt, below the column lables.
@@ -51,11 +51,11 @@ const LeftColumnSpacerRow = () => {
 // note 1 minus 1 octave). N2M1O, etc, etc, N7M2O...
 // And goingup, we have N1A1O, N2M1O, etc, etc.
 
-export const PatternEditor = () => {
-	const deselect = (event) => {
+export const PatternEditor = observer(() => {
+	const deselect = (event: React.MouseEvent) => {
 		event.preventDefault() // Prevent default context menu on right-click
 		event.stopPropagation() // Stop the event from bubbling up
-		$patternEditor.selectedSignalId.set.reset() // Deselect on right-click
+		$patternEditor.selectedSignalId = '' // Deselect on right-click
 	}
 
 	return (
@@ -69,30 +69,30 @@ export const PatternEditor = () => {
 			</Flex.Row>
 		</Flex.Column>
 	)
-}
+})
 
-const RowLabels = () => {
+const RowLabels = observer(() => {
 	return (
 		<>
-			{$patternEditor.enabledSignalRowIds.use().map((rowId) => (
-				<Flex.Row key={rowId} className="rowLabelBox" align="center">
-					<Text className="rowIdLabel">{rowId}</Text>
+			{$patternEditor.activeToneIds.map((toneId) => (
+				<Flex.Row key={toneId} className="rowLabelBox" align="center">
+					<Text className="rowIdLabel">{toneId}</Text>
 				</Flex.Row>
 			))}
 		</>
 	)
-}
+})
 
 // This is the main container for the top (column labels)
 // row and the whole grid below it. It is used to track its
 // width so we can adjust the cignal ells to fill up the space.
-export const GridContainerColumn = (props) => {
+export const GridContainerColumn = observer((props) => {
 	return (
 		<Flex.Column className="GridColumn" width="100%">
 			<GridColumnMarkersRow />
-			{$patternEditor.enabledSignalRowIds.use().map((rowId) => (
-				<GridSignalRow key={rowId} rowId={rowId} />
+			{$patternEditor.activeToneIds.map((toneId) => (
+				<GridSignalRow key={toneId} toneId={toneId} />
 			))}
 		</Flex.Column>
 	)
-}
+})

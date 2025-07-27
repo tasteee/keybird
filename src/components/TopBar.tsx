@@ -1,5 +1,5 @@
 import './TopBar.css'
-import { Flex } from '#/components/layout/Flex'
+import { Flex } from '#/components/common/Flex'
 import { Text, Box, Link, Tabs, Select } from '@radix-ui/themes'
 import { useLocation } from 'wouter'
 import { BaseOctaveController, ScaleRootNoteSelect, ScaleTypeSelect } from '#/components/CommonControls'

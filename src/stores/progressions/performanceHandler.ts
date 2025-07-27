@@ -1,19 +1,10 @@
 import { WebMidi, Output } from 'webmidi'
 import { Note } from 'tonal'
 import MidiWriter from 'midi-writer-js'
-
-type PerformedNoteT = {
-	rowId: string
-	signalId: string
-	note: string | null
-	startDivision: number
-	endDivision: number
-	startTicks: number
-	endTicks: number
-	velocity: number
-	startMs: number
-	endMs: number
-}
+import { applyPatternToChord } from '#/modules/patterns/apply'
+import { $patternEditor } from '#/views/patterns/patternEditor.store'
+import { $progression } from '../'
+import { $project } from '../$project'
 
 interface MidiPlaybackOptions {
 	output?: Output
@@ -74,8 +65,8 @@ class MidiPerformanceHandler {
 				try {
 					const midiNote = this.noteToMidiNumber(note.note!)
 					output.playNote(midiNote, {
-						channel,
-						velocity: note.velocity / 127, // Normalize velocity
+						channels: channel - 1, // WebMidi channels are 0-indexed
+						attack: note.velocity / 127, // Normalize velocity
 						duration: note.endMs - note.startMs
 					})
 
@@ -105,13 +96,7 @@ class MidiPerformanceHandler {
 
 		// Stop all notes on all channels (panic button)
 		WebMidi.outputs.forEach((output) => {
-			for (let channel = 1; channel <= 16; channel++) {
-				try {
-					output.sendAllNotesOff({ channel })
-				} catch (error) {
-					// Ignore errors for unavailable channels
-				}
-			}
+			output.sendAllNotesOff({ channels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16] })
 		})
 	}
 
@@ -126,7 +111,7 @@ class MidiPerformanceHandler {
 
 		// Set track properties
 		track.setTempo(tempo)
-		track.setTimeSignature(...timeSignature)
+		track.setTimeSignature(...timeSignature, 24, 8)
 		track.addEvent(new MidiWriter.ProgramChangeEvent({ instrument: 1 }))
 
 		// Flatten all performances
@@ -267,12 +252,12 @@ class MidiPerformanceHandler {
 
 // Usage in your playLoop function:
 $progression.playLoop = async () => {
-	const performances: PerformedNoteT[][] = $progression.state.map((chord) => {
+	const performances: PerformedNoteT[][] = $progression.chords.map((chord) => {
 		return applyPatternToChord({
 			chord,
-			project: $project.state,
+			project: $project,
 			strategy: 'cycling',
-			signalRows: $patternEditor.getSignalRows()
+			toneMap: $patternEditor.signalRows
 		})
 	})
 

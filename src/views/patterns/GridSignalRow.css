@@ -27,7 +27,7 @@
 .DraggableSignal {
 	width: var(--cellWidth);
 	height: 28px;
-	background: #f2e1ca;
+	background: #767d74;
 	outline: 1px solid var(--sand-9);
 	border-radius: 2px;
 	cursor: pointer;

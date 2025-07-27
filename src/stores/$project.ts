@@ -1,27 +1,57 @@
-import { datass } from 'datass'
+import { action, computed, observable } from 'mobx'
+import { mdsa } from '#/modules/mdsa'
 
-const createProject = () => {
-	return {
-		id: crypto.randomUUID(),
-		name: '',
-		description: '',
-		artworkUrl: '',
-		bpm: 123,
-		scaleRootNote: 'F#',
-		scaleType: 'minor',
-		scaleSymbol: 'F# minor',
-		ppqResolution: 128,
-		timeingNumerator: 4,
-		timeingDenominator: 4,
-		defaultOctave: 3,
-		defaultBassOctave: 2,
-		defaultChordVoicing: 'closed',
-		defaultChordInversion: 0,
-		defaultMaxVelocity: 95,
-		defaultMinVelocity: 75,
-		defaultSpeedMultiplier: 1
+const dsa = mdsa(() => $project)
+
+export class ProjectStore implements ProjectStoreT {
+	@observable accessor id = crypto.randomUUID() as string
+	@observable accessor name = 'lorem ipsum dolor sit amet'
+	@observable accessor description = 'lorem ipsum dolor sit amet'
+	@observable accessor artworkUrl = ''
+	@observable accessor userId = ''
+	@observable accessor bpm = 123
+	@observable accessor scaleRootNote = 'F#'
+	@observable accessor scaleType = 'minor'
+	@observable accessor ppqResolution = 128
+	@observable accessor timeingNumerator = 4
+	@observable accessor timeingDenominator = 4
+	@observable accessor baseOctave = 3
+	@observable accessor defaultBassOctave = 2
+	@observable accessor defaultChordVoicing = 'closed'
+	@observable accessor defaultChordInversion = 0
+	@observable accessor defaultMaxVelocity = 95
+	@observable accessor defaultMinVelocity = 75
+	@observable accessor defaultSpeedMultiplier = 1
+	@observable accessor isSaved = false
+	@observable accessor isPublic = false
+	@observable accessor createdDate = new Date().toISOString()
+	@observable accessor updatedDate = new Date().toISOString()
+
+	@computed get scaleSymbol() {
+		return `${this.scaleRootNote} ${this.scaleType}`
 	}
+
+	@action setName = dsa('name')
+	@action setDescription = dsa('description')
+	@action setArtworkUrl = dsa('artworkUrl')
+	@action setBpm = dsa('bpm')
+	@action setScaleRootNote = dsa('scaleRootNote')
+	@action setScaleType = dsa('scaleType')
+	@action setPpqResolution = dsa('ppqResolution')
+	@action setTimeingNumerator = dsa('timeingNumerator')
+	@action setTimeingDenominator = dsa('timeingDenominator')
+	@action setBaseOctave = dsa('baseOctave')
+	@action setDefaultBassOctave = dsa('defaultBassOctave')
+	@action setDefaultChordVoicing = dsa('defaultChordVoicing')
+	@action setDefaultChordInversion = dsa('defaultChordInversion')
+	@action setDefaultMaxVelocity = dsa('defaultMaxVelocity')
+	@action setDefaultMinVelocity = dsa('defaultMinVelocity')
+	@action setDefaultSpeedMultiplier = dsa('defaultSpeedMultiplier')
+	@action setIsSaved = dsa('isSaved')
+	@action setIsPublic = dsa('isPublic')
+	@action setCreatedDate = dsa('createdDate')
+	@action setUpdatedDate = dsa('updatedDate')
+	@action setId = dsa('id')
 }
 
-const initialProject = createProject()
-export const $project = datass.object(initialProject)
+export const $project = new ProjectStore()

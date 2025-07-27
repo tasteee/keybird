@@ -139,5 +139,5 @@ window.addEventListener('keydown', (event) => {
 })
 
 window.addEventListener('keyup', (event) => {
-	setKeyPressed(event.key)(true)
+	setKeyPressed(event.key)(false)
 })

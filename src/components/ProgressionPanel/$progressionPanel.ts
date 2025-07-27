@@ -1,12 +1,19 @@
-import { datass } from 'datass'
+import { observable, action, computed } from 'mobx'
+import { computedFn } from 'mobx-utils'
 
-const $selectedChordId = datass.string('')
+class ProgressionPanelStore {
+	@observable accessor selectedChordId: string = ''
+	@observable accessor isEditing: boolean = false
+	@observable accessor isDragging: boolean = false
+	@observable accessor isResizing: boolean = false
 
-const useIsSelected = (id: string) => {
-	return $selectedChordId.use() === id
+	checkSelectedIdMatch = computedFn((id: string) => {
+		return this.selectedChordId === id
+	})
+
+	@action setSelectedChordId = (id: string) => {
+		this.selectedChordId = id
+	}
 }
 
-export const $progressionPanel = {
-	selectedChordId: $selectedChordId,
-	useIsSelected
-}
+export const $progressionPanel = new ProgressionPanelStore()

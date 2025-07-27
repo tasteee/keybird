@@ -1,78 +1,49 @@
 import './ProgressionChord.css'
-import { Flex } from '#/components/layout/Flex'
-import { Badge, Card, Kbd, Text } from '@radix-ui/themes'
-import { $progression } from '#/stores/$main'
-import classNames from 'classnames'
-import { getAccentColorClassName } from '#/modules/color'
-import { ChordMenu } from '../ChordMenu'
+import { $progression } from '#/stores/$progression'
+import { observer } from 'mobx-react-lite'
+import { InnerProgressionChord } from './InnerProgressionChord'
 
 type PropsT = {
-	setVoicing?: (value: string) => void
-	setInversion?: (value: number) => void
-	setOctaveOffset?: (value: number) => void
-	addChord?: () => void
-	removeChord?: () => void
-	setMinVelocity?: (value: number) => void
-	setMaxVelocity?: (value: number) => void
-	playChord: () => void
-	stopChord: () => void
-	onClick?: () => void
-	state: CustomChordT
+	id: string
 }
 
-type TempProgressionChordPropsT = {
-	symbol: string
-	inversion?: number
-	octaveOffset?: number
-	voicing?: string
-}
+export const ProgressionChord = observer((props: PropsT) => {
+	const chord = $progression.useStep(props.id)
+	if (!chord) return null
 
-export const TempProgressionChord = (props: TempProgressionChordPropsT) => {
-	const chord = $progression.useNewChord(props.symbol, {
-		inversion: props.inversion,
-		octaveOffset: props.octaveOffset,
-		voicing: props.voicing
-	})
+	const setMinVelocity = (value: number) => {
+		$progression.updateStep({ id: props.id, minVelocity: value })
+	}
 
-	return <InnerProgressionChord {...chord} />
-}
+	const setMaxVelocity = (value: number) => {
+		$progression.updateStep({ id: props.id, maxVelocity: value })
+	}
 
-export const ProgressionChord = (props) => {
-	const chord = $progression.useChord(props.id)
-	return <InnerProgressionChord {...chord} />
-}
+	const setOctaveOffset = (value: number) => {
+		$progression.updateStep({ id: props.id, octaveOffset: value })
+	}
 
-const InnerProgressionChord = (props: PropsT) => {
-	const accentsClassName = getAccentColorClassName(props.state.rootNote)
-	const className = classNames('ProgressionChord', accentsClassName)
-	const showOctaveBadge = props.state.octaveOffset !== 0
-	const showInversionBadge = props.state.inversion !== 0
-	const showResetIcon = showOctaveBadge || showInversionBadge
-	const removeChord = () => $progression.removeChord(props.state.id)
+	const setInversion = (value: number) => {
+		$progression.updateStep({ id: props.id, inversion: value })
+	}
 
-	if (!props.state.symbol || !accentsClassName) return null
+	const setBassNote = (value: string) => {
+		$progression.updateStep({ id: props.id, bassNote: value })
+	}
 
-	const onMouseDown = () => props.playChord()
-	const onMouseUp = () => props.stopChord()
+	const setVoicing = (value: string) => {
+		$progression.updateStep({ id: props.id, voicing: value })
+	}
 
 	return (
-		<Flex.Column
-			className={className}
-			tabIndex={0}
-			onMouseDown={onMouseDown}
-			onMouseUp={onMouseUp}
-			onClick={props.onClick}
-			p="12px"
-			width="100%"
-			height="100%"
-		>
-			<ChordMenu {...props}>
-				<Flex.Row gap="2" align="center" justify="between">
-					<Text size="2" weight="bold" className="symbol">
-						{props.state.symbol}
-					</Text>
-				</Flex.Row>
-			</ChordMenu>
-		</Flex.Column>
+		<InnerProgressionChord
+			{...chord}
+			setMinVelocity={setMinVelocity}
+			setMaxVelocity={setMaxVelocity}
+			setOctaveOffset={setOctaveOffset}
+			setInversion={setInversion}
+			setBassNote={setBassNote}
+			setVoicing={setVoicing}
+		/>
 	)
-}
+})

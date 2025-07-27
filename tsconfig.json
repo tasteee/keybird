@@ -1,24 +1,13 @@
 {
 	"files": [],
-	"references": [
-		{
-			"path": "./tsconfig.app.json"
-		},
-		{
-			"path": "./tsconfig.node.json"
-		}
-	],
+	"references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }],
+
+	"include": ["src/**/*.d.ts", "src/**/*.tsx", "src/**/*.ts"],
+
 	"compilerOptions": {
 		"baseUrl": ".",
 		"paths": {
-			"#/*": ["src/*"],
-			"#components/*": ["src/components/*"],
-			"#utilities/*": ["src/utilities/*"],
-			"#stores/*": ["src/stores/*"],
-			"#types/*": ["src/types/*"],
-			"#configuration/*": ["src/configuration/*"],
-			"#constants/*": ["src/configuration/keyboard/constants/*"],
-			"#views/*": ["src/views/*"]
+			"#/*": ["src/*"]
 		}
 	}
 }

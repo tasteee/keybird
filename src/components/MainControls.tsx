@@ -1,6 +1,6 @@
 import './MainControls.css'
 
-import { Flex } from '#/components/layout/Flex'
+import { Flex } from '#/components/common/Flex'
 import { $output, $project } from '#/stores'
 import {
 	BaseOctaveController,
@@ -12,6 +12,7 @@ import {
 } from './CommonControls'
 import { Switch } from '@radix-ui/themes/dist/esm/components/index.js'
 import { OutputControlSwitch } from './OutputControlSwitch'
+import { observer } from 'mobx-react-lite'
 
 export const GlobalControlsRow = () => {
 	return (
@@ -23,9 +24,8 @@ export const GlobalControlsRow = () => {
 	)
 }
 
-export const OutputControlsRow = () => {
-	const { outputType } = $output.use()
-	const isInstrumentSelected = outputType === 'instrument'
+export const OutputControlsRow = observer(() => {
+	const isInstrumentSelected = $output.outputType === 'instrument'
 
 	return (
 		<Flex.Row px="4" height="32px" gap="2" bg="--sand-4" width="100%" align="center" className="OutputControlsRow">
@@ -34,13 +34,13 @@ export const OutputControlsRow = () => {
 			{isInstrumentSelected ? <InstrumentSelect /> : <MidiOutputSelect />}
 		</Flex.Row>
 	)
-}
+})
 
-const OutputStatusIndicator = (props) => {
-	const pulseColor = $output.use.lookup('isOutputEnabled') ? 'var(--grass-9)' : 'var(--red-9)'
+const OutputStatusIndicator = observer((props) => {
+	const pulseColor = $output.isOutputEnabled ? 'var(--grass-9)' : 'var(--red-9)'
 	const style = { '--pulseColor': pulseColor, '--dotColor': pulseColor, marginRight: 3 } as React.CSSProperties
 	return <span className="DotIndicator" style={style} {...props} />
-}
+})
 
 export const MainControls = () => {
 	return (
