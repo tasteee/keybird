@@ -10,6 +10,9 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+*.sf3
+*.sf2
+
 node_modules
 dist
 dist-ssr
