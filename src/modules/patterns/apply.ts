@@ -1,5 +1,6 @@
 import { Note, Scale, Interval, Chord } from 'tonal'
 import random from 'random'
+import { createPerformedNote } from '../creators'
 
 // Constants
 const HARMONIC_INTERVALS = [
@@ -41,19 +42,6 @@ type ExtensionContextT = {
 type MappingResultT = {
 	signal: SignalT
 	note: string | null
-}
-
-type PerformedNoteT = {
-	toneId: string
-	signalId: string
-	note: string | null
-	startDivision: number
-	endDivision: number
-	startMs: number
-	endMs: number
-	startTicks: number
-	endTicks: number
-	velocity: number
 }
 
 type ToneWithSignalsT = ToneT & { signals: SignalT[] }
@@ -311,27 +299,6 @@ const mapSignalsToNotes = (
 	}))
 }
 
-const createPerformedNote = (signal: SignalT, note: string | null, project: ProjectT): PerformedNoteT => {
-	const velocity = random.int(signal.minVelocity, signal.maxVelocity)
-	const startTicks = 32 * signal.startDivision
-	const endTicks = 32 * signal.endDivision
-	const startMs = (startTicks * (60000 / project.bpm)) / project.ppqResolution
-	const endMs = (endTicks * (60000 / project.bpm)) / project.ppqResolution
-
-	return {
-		note,
-		toneId: signal.toneId,
-		signalId: signal.id,
-		startMs,
-		endMs,
-		startDivision: signal.startDivision,
-		endDivision: signal.endDivision,
-		startTicks: 32 * signal.startDivision,
-		endTicks: 32 * signal.endDivision,
-		velocity: 110
-	}
-}
-
 const applyPatternToChord = (options: ApplyOptionsT): PerformedNoteT[] => {
 	const { toneMap, chord, project, strategy } = options
 	const result: PerformedNoteT[] = []
@@ -356,4 +323,4 @@ const applyPatternToChord = (options: ApplyOptionsT): PerformedNoteT[] => {
 
 export { mapSignalToNote, mapSignalsToNotes, applyPatternToChord, STRATEGIES }
 
-export type { ExtensionStrategyT, MappingResultT, PerformedNoteT, ApplyOptionsT }
+export type { ExtensionStrategyT, MappingResultT, ApplyOptionsT }

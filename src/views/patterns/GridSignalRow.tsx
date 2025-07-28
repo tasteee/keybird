@@ -14,7 +14,7 @@ const DIVISIONS_PER_BEAT = 4
 const DIVISION_WIDTH_PX = 8
 
 // --- Helper Functions ---
-const getMaxDivisions = (beatsLength: number) => beatsLength * DIVISIONS_PER_BEAT
+const getMaxDivisions = (lengthBeats: number) => lengthBeats * DIVISIONS_PER_BEAT
 const clampDivision = (division: number, maxDivisions: number) => Math.max(0, Math.min(division, maxDivisions))
 
 // --- Child Components ---
@@ -22,7 +22,7 @@ const clampDivision = (division: number, maxDivisions: number) => Math.max(0, Ma
 type SignalRowCellsPropsT = { toneId: string }
 
 const SignalRowCells = observer(({ toneId }: SignalRowCellsPropsT) => {
-	const totalCells = $pattern.beatsLength // One cell per beat
+	const totalCells = $pattern.lengthBeats // One cell per beat
 
 	const onClick = (beatIndex: number) => (event: React.MouseEvent) => {
 		event.stopPropagation()
@@ -118,8 +118,8 @@ const DraggableSignal = observer(({ signal, toneId }: DraggableSignalProps) => {
 
 			const allEnabledRows = $pattern.activeToneIds
 			const currentIndex = allEnabledRows.indexOf(toneId)
-			const beatsLength = $pattern.beatsLength
-			const maxDivisions = getMaxDivisions(beatsLength)
+			const lengthBeats = $pattern.lengthBeats
+			const maxDivisions = getMaxDivisions(lengthBeats)
 
 			// --- Movement ---
 			const moveAmount = event.ctrlKey ? 1 : event.shiftKey ? 8 : DIVISIONS_PER_BEAT
@@ -177,13 +177,13 @@ const DraggableSignal = observer(({ signal, toneId }: DraggableSignalProps) => {
 			let newEnd = originalEnd.state
 
 			if (draggingHandle.state === 'left') {
-				newStart = clampDivision(originalStart.state + deltaDivisions, getMaxDivisions($pattern.beatsLength))
+				newStart = clampDivision(originalStart.state + deltaDivisions, getMaxDivisions($pattern.lengthBeats))
 				// Prevent resizing past the end handle
 				if (newStart >= originalEnd.state) {
 					newStart = originalEnd.state - 1
 				}
 			} else if (draggingHandle.state === 'right') {
-				newEnd = clampDivision(originalEnd.state + deltaDivisions, getMaxDivisions($pattern.beatsLength))
+				newEnd = clampDivision(originalEnd.state + deltaDivisions, getMaxDivisions($pattern.lengthBeats))
 				// Prevent resizing smaller than 1 division
 				if (newEnd <= originalStart.state) {
 					newEnd = originalStart.state + 1

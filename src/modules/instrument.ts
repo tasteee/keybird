@@ -4,8 +4,8 @@ import * as Tonal from 'tonal'
 // Declare WebAudioFont globals
 declare global {
 	interface Window {
-		WebAudioFontPlayer: any
-		_tone_0253_Acoustic_Guitar_sf2_file: any
+		// WebAudioFontPlayer: any
+		// _tone_0253_Acoustic_Guitar_sf2_file: any
 		AudioContext: any
 		webkitAudioContext: any
 	}
@@ -96,33 +96,15 @@ class Instrument {
 	playingChords = new Set<ChordT>()
 
 	playChord = (chord: ChordT) => {
-		if (!this.isLoaded) {
-			console.warn('Instrument not yet loaded')
-			return
-		}
-
-		if (this.playingChords.has(chord)) {
-			console.warn('Chord is already playing:', chord.symbol)
-			return
-		}
-
+		if (!this.isLoaded) return console.warn('Instrument not yet loaded')
+		if (this.playingChords.has(chord)) return console.warn('Chord is already playing:', chord.symbol)
 		this.playingChords.add(chord)
 		const notesToPlay = chord.adjustedNotes || chord.notes
 		const notes = applyBaseOctaveOffset(notesToPlay)
 		const midiNumbers = notes.map(this.noteToMidiNumber)
-
-		// Validate that we have valid MIDI numbers
 		const validMidiNumbers = midiNumbers.filter((num) => num >= 0 && num <= 127)
-
-		if (validMidiNumbers.length === 0) {
-			console.warn('No valid MIDI numbers for chord:', chord)
-			return
-		}
-
-		// Ensure audio context is running
-		if (this.audioContext.state === 'suspended') {
-			this.audioContext.resume()
-		}
+		if (validMidiNumbers.length === 0) return console.warn('No valid MIDI numbers for chord:', chord)
+		if (this.audioContext.state === 'suspended') this.audioContext.resume()
 
 		try {
 			// Play individual notes with slight delay for natural strum effect

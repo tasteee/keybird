@@ -15,24 +15,21 @@ const savedProgression = store.get('progression') || []
 const initialState = createProgression({
 	steps: savedProgression.steps,
 	id: savedProgression.id || crypto.randomUUID(),
-	lengthBars: savedProgression.lengthBars || 4,
-	bpm: savedProgression.bpm || 93
+	lengthBars: savedProgression.lengthBars || 4
 })
 
 class ProgressionStore {
 	@observable accessor id: string = initialState.id
 	@observable accessor lengthBars: number = initialState.lengthBars
-	@observable accessor bpm: number = initialState.bpm
 	@observable accessor steps: ProgressionStepT[] = initialState.steps
 	@observable accessor selectedStepId: string | null = null
 
 	toJS = () => {
 		const steps = this.steps.map((step) => toJS(step))
 		const selectedStepId = this.selectedStepId
-		const bpm = this.bpm
 		const lengthBars = this.lengthBars
 		const id = this.id
-		return { steps, selectedStepId, bpm, lengthBars, id }
+		return { steps, selectedStepId, lengthBars, id }
 	}
 
 	checkIsSelectedId = computedFn((id: string) => {
@@ -58,10 +55,6 @@ class ProgressionStore {
 
 	@action setlengthBars = (lengthBars: number) => {
 		this.lengthBars = lengthBars
-	}
-
-	@action setBpm = (bpm: number) => {
-		this.bpm = bpm
 	}
 
 	@action addStep = (step: Partial<ProgressionStepT>) => {
@@ -169,84 +162,6 @@ class ProgressionStore {
 		this.steps.splice(index + 1, 0, chord)
 	}
 
-	getFinalPerformanceNotes = (performances: PerformedNoteT[][]) => {
-		// Convert relative timing to absolute timing
-		const absolutePerformances: PerformedNoteT[][] = []
-		let cumulativeStartTicks = 0
-		let cumulativeStartMs = 0
-
-		for (let chordIndex = 0; chordIndex < performances.length; chordIndex++) {
-			const chordNotes = performances[chordIndex]
-
-			// Find the maximum end time for this chord to know when the next chord starts
-			let maxEndTicks = 0
-			let maxEndMs = 0
-
-			// First pass: find the chord duration
-			for (const note of chordNotes) {
-				maxEndTicks = Math.max(maxEndTicks, note.endTicks)
-				maxEndMs = Math.max(maxEndMs, note.endMs)
-			}
-
-			// Second pass: create notes with absolute timing
-			const absoluteChordNotes: PerformedNoteT[] = chordNotes.map((note) => ({
-				...note,
-				absoluteStartTicks: cumulativeStartTicks + note.startTicks,
-				absoluteEndTicks: cumulativeStartTicks + note.endTicks,
-				absoluteStartMs: cumulativeStartMs + note.startMs,
-				absoluteEndMs: cumulativeStartMs + note.endMs
-			}))
-
-			absolutePerformances.push(absoluteChordNotes)
-
-			// Update cumulative timing for next chord
-			cumulativeStartTicks += maxEndTicks
-			cumulativeStartMs += maxEndMs
-		}
-
-		return absolutePerformances.flat()
-	}
-
-	playLoop = () => {
-		const performances: PerformedNoteT[][] = this.steps.map((chord) => {
-			return applyPatternToChord({
-				chord,
-				project: $project,
-				strategy: 'cycling',
-				toneMap: $pattern.signalRows
-			})
-		})
-
-		const absolutePerformances = this.getFinalPerformanceNotes(performances)
-		console.log('Absolute Performances:', absolutePerformances)
-
-		const outputType = $output.outputType
-		const output = $output.midiOutput
-		const isMidi = outputType === 'midi'
-
-		if (!isMidi) {
-			$player.performChord({ notes: absolutePerformances })
-			// absolutePerformances.forEach((note) => {
-			// 	output.playNote(note.note, {
-			// 		time: note.absoluteStartMs,
-			// 		duration: note.absoluteEndMs - note.absoluteStartMs,
-			// 		rawAttack: note.velocity
-			// 	})
-			// })
-		}
-
-		// performances[0] is an array of the performance pattern applied to the
-		// first chord in the progression, performances[1] for the second chord, etc.
-		// each performance note has timing (startTicks, endTicks), velocity, note
-		// and everything needed to produce midi. (and startMs, endMs for timing too...)
-
-		// please help me now take progressions array and turn it into a a midi format
-		// that I can then either (1) play through a midi output using WebMidi or (2)
-		// download as a midi file.
-
-		console.log({ performances })
-	}
-
 	save = () => {
 		store.set('progression', this.toJS())
 	}
@@ -260,19 +175,6 @@ class ProgressionStore {
 
 export const $progression = new ProgressionStore()
 globalThis.$progression = $progression
-
-autorun(() => {
-	// Convert MobX store to plain object before passing to engine
-	const progressionData = {
-		id: $progression.id,
-		lengthBars: $progression.lengthBars,
-		bpm: $progression.bpm,
-		steps: $progression.steps.map((step) => toJS(step))
-	}
-
-	if (!midiEngine.isReady) return
-	midiEngine.update({ progression: progressionData })
-})
 
 setInterval(() => {
 	$progression.save()

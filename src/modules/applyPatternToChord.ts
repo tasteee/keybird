@@ -126,10 +126,10 @@ type PerformedNoteT = {
 	velocity: number
 	startMs: number
 	endMs: number
-	absoluteStartTicks?: number
-	absoluteEndTicks?: number
-	absoluteStartMs?: number
-	absoluteEndMs?: number
+	absoluteStartTicks: number
+	absoluteEndTicks: number
+	absoluteStartMs: number
+	absoluteEndMs: number
 }
 
 // Generates a single performed note from a signal and its context
@@ -142,42 +142,42 @@ export const createPerformedNote = (options: CreatePerformedNoteArgsT): Performe
 
 	const startTicks = convertBeatsToTicks({
 		beats: signalStartBeats,
-		ppq: options.project.ppqResolution
+		ppq: options.project.ppq
 	})
 
 	const endTicks = convertBeatsToTicks({
 		beats: signalEndBeats,
-		ppq: options.project.ppqResolution
+		ppq: options.project.ppq
 	})
 
 	const absoluteStartTicks = convertBeatsToTicks({
 		beats: absoluteStartBeats,
-		ppq: options.project.ppqResolution
+		ppq: options.project.ppq
 	})
 
 	const absoluteEndTicks = convertBeatsToTicks({
 		beats: absoluteEndBeats,
-		ppq: options.project.ppqResolution
+		ppq: options.project.ppq
 	})
 
 	const startMs = convertBeatsToMs({
 		beats: signalStartBeats,
-		bpm: options.progression.bpm
+		bpm: options.project.bpm
 	})
 
 	const endMs = convertBeatsToMs({
 		beats: signalEndBeats,
-		bpm: options.progression.bpm
+		bpm: options.project.bpm
 	})
 
 	const absoluteStartMs = convertBeatsToMs({
 		beats: absoluteStartBeats,
-		bpm: options.progression.bpm
+		bpm: options.project.bpm
 	})
 
 	const absoluteEndMs = convertBeatsToMs({
 		beats: absoluteEndBeats,
-		bpm: options.progression.bpm
+		bpm: options.project.bpm
 	})
 
 	const useChordVelocity = options.signal.minVelocity === 0 && options.signal.maxVelocity === 0
@@ -216,15 +216,16 @@ type ApplyPatternArgsT = {
 }
 
 export const applyPatternToChords = (args: ApplyPatternArgsT): PerformedNoteT[] => {
+	console.log('applyPatternToChords.....', args)
 	const hasNoSteps = args.progression.steps.length === 0
 	if (hasNoSteps) return []
 
-	const hasNoSignals = isEmpty(args.pattern.signals)
+	const hasNoSignals = isEmpty(args.pattern.signalMap)
 	if (hasNoSignals) return []
 
 	const performedNotes: PerformedNoteT[] = []
 	// TODO: Use properties from project to determine time signature.
-	const patternLengthBeats = args.pattern.lengthBars * 4 // Assuming 4/4 time
+	const patternLengthBeats = args.pattern.lengthBeats
 	const patternRepetitions = calculatePatternRepetitions({
 		progression: args.progression,
 		patternLengthBeats
@@ -235,8 +236,8 @@ export const applyPatternToChords = (args: ApplyPatternArgsT): PerformedNoteT[] 
 		const patternBeatOffset = repetitionIndex * patternLengthBeats
 
 		// Process each signal in the pattern
-		for (const signalId in args.pattern.signals) {
-			const signal = args.pattern.signals[signalId]
+		for (const signalId in args.pattern.signalMap) {
+			const signal = args.pattern.signalMap[signalId]
 			const isMuted = signal.isMuted
 			if (isMuted) continue
 

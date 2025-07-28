@@ -8,10 +8,10 @@ import { midiEngine } from '#/modules/midiEngine'
 const initialValues = store.get('$pattern') || {}
 
 const toneIndexSort = (a: ToneT, b: ToneT) => a.index - b.index
-const setTool = (tool: string) => ($pattern.tool = tool)
-const goUpOctave = () => ($pattern.octave += 1)
-const goDownOctave = () => ($pattern.octave -= 1)
-const getSignal = (id: string): SignalT => $pattern.signalMap[id]
+// const setTool = (tool: string) => ($pattern.tool = tool)
+// const goUpOctave = () => ($pattern.octave += 1)
+// const goDownOctave = () => ($pattern.octave -= 1)
+// const getSignal = (id: string): SignalT => $pattern.signalMap[id]
 
 type ToggleRowSignalIdArgsT = {
 	toneId: string
@@ -25,20 +25,21 @@ type MoveSignalArgsT = {
 	endDivision?: number
 }
 
-type UpdateSignalArgsT = {
-	updates: Partial<SignalT>
-}
-
 class PatternStore {
+	id = crypto.randomUUID()
 	@observable accessor octave: number = 0
 	@observable accessor signalMap: SignalMapT = initialValues.signalMap || {}
 	@observable accessor toneMap: ToneMapT = initialValues.toneMap || TONE_ROWS
 	@observable accessor selectedSignalId: string = initialValues.selectedSignalId || ''
-	@observable accessor beatsLength: number = initialValues.beatsLength || 32
+	@observable accessor lengthBeats: number = initialValues.lengthBeats || 32
 	@observable accessor cellWidth: number = initialValues.cellWidth || 20
 
 	@computed get signalRows() {
 		return this.getSignalRows()
+	}
+
+	@computed get lengthBars() {
+		return this.lengthBeats / 4
 	}
 
 	// Derived list of all tones of the active octave.
@@ -60,7 +61,7 @@ class PatternStore {
 		this.signalMap = {}
 		this.toneMap = buildToneRows()
 		this.selectedSignalId = ''
-		this.beatsLength = 32
+		this.lengthBeats = 32
 		this.cellWidth = 20
 	}
 
@@ -278,12 +279,11 @@ class PatternStore {
 	toJson = () => {
 		return toJS({
 			octave: this.octave,
-			tool: this.tool,
 			signalRows: this.signalRows,
 			signalMap: this.signalMap,
 			rowMap: this.toneMap,
 			selectedSignalId: this.selectedSignalId,
-			beatsLength: this.beatsLength,
+			lengthBeats: this.lengthBeats,
 			cellWidth: this.cellWidth
 		})
 	}
@@ -291,21 +291,15 @@ class PatternStore {
 	toJS = () => {
 		const signalMap = toJS(this.signalMap)
 		const selectedStepId = toJS(this.selectedSignalId)
-		const beatsLength = toJS(this.beatsLength)
+		const lengthBeats = toJS(this.lengthBeats)
 		const toneMap = toJS(this.toneMap)
-		return { signalMap, selectedStepId, beatsLength, toneMap }
+		return { signalMap, selectedStepId, lengthBeats, toneMap }
 	}
 
 	save = () => {
 		store.set('$pattern', this.toJS())
 	}
 }
-
-autorun(() => {
-	$pattern.signalMap // subscribe to this
-	if (!midiEngine.isReady) return
-	midiEngine.update({ pattern: $pattern })
-})
 
 export const $pattern = new PatternStore()
 globalThis.$pattern = $pattern

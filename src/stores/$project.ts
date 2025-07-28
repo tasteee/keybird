@@ -14,7 +14,7 @@ export class ProjectStore implements ProjectStoreT {
 	@observable accessor bpm = 93
 	@observable accessor scaleRootNote = 'F#'
 	@observable accessor scaleType = 'minor'
-	@observable accessor ppqResolution = 96
+	@observable accessor ppq = 96
 	@observable accessor timeingNumerator = 4
 	@observable accessor timeingDenominator = 4
 	@observable accessor baseOctave = 3
@@ -39,7 +39,7 @@ export class ProjectStore implements ProjectStoreT {
 	@action setBpm = dsa('bpm')
 	@action setScaleRootNote = dsa('scaleRootNote')
 	@action setScaleType = dsa('scaleType')
-	@action setPpqResolution = dsa('ppqResolution')
+	@action setppq = dsa('ppq')
 	@action setTimeingNumerator = dsa('timeingNumerator')
 	@action setTimeingDenominator = dsa('timeingDenominator')
 	@action setBaseOctave = dsa('baseOctave')
@@ -56,10 +56,3 @@ export class ProjectStore implements ProjectStoreT {
 }
 
 export const $project = new ProjectStore()
-
-autorun(() => {
-	$project.bpm // subscribe to this
-	$project.ppqResolution // subscribe to this
-	if (!midiEngine.isReady) return
-	midiEngine.update({ project: $project })
-})

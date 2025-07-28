@@ -1,16 +1,29 @@
-import { $project } from '../stores/$project'
-import { Note } from 'tonal'
+import { $project } from '#/stores/$project'
 
-// Apply base octave offset from project settings
 export const applyBaseOctaveOffset = (notes: string[]): string[] => {
 	const baseOctave = $project.baseOctave
-	if (baseOctave === 3) return notes
-	const baseOffset = baseOctave - 3
+	const hasNoNotes = !notes || notes.length === 0
+	if (hasNoNotes) return []
 
 	return notes.map((note) => {
-		const noteObj = Note.get(note)
-		const currentOctave = noteObj.oct || 3
-		const newOctave = Math.max(1, Math.min(8, currentOctave + baseOffset)) // Clamp to valid range
-		return noteObj.pc + newOctave
+		// Validate note format
+		const noteMatch = note.match(/^([A-G]#?)(\d+)$/)
+		const isInvalidFormat = !noteMatch
+		if (isInvalidFormat) {
+			console.warn(`Invalid note format in applyBaseOctaveOffset: ${note}`)
+			return note
+		}
+
+		const noteName = noteMatch[1]
+		const octave = parseInt(noteMatch[2])
+
+		// Apply base octave offset
+		const newOctave = octave + (baseOctave - 3) // Assuming base octave 3 is the default
+
+		// Clamp to valid range
+		const clampedOctave = Math.max(0, Math.min(8, newOctave))
+		const adjustedNote = `${noteName}${clampedOctave}`
+
+		return adjustedNote
 	})
 }

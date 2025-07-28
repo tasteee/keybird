@@ -5,9 +5,14 @@ export const DEFAULT_PLAYER_SETTINGS = {
 	minVelocity: 50,
 	maxVelocity: 75,
 	duration: 1.5,
-	fadeOutTime: 0.8,
-	fadeInTime: 0.045
+	fadeOutTime: 0.05,
+	fadeInTime: 2
 }
+
+// Schedule ahead by this many milliseconds
+export const SCHEDULE_AHEAD_MS = 200
+// Check for new notes to schedule every this many milliseconds
+export const SCHEDULE_INTERVAL_MS = 50
 
 // A "beat" is 4 divisions. The UI grid is often based on beats.
 export const DIVISIONS_PER_BEAT = 4

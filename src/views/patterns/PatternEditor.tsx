@@ -6,13 +6,14 @@ import { $pattern } from '#/stores/$pattern'
 import { GridSignalRow } from './GridSignalRow'
 import { Icon } from '#/components/common/Icon'
 import { observer } from 'mobx-react-lite'
+import { PlaybackMarkerPattern } from './PlaybackMarkerPattern'
 
 const SIGNAL_INDEXES = range(1, 256)
 
 // This is the top row, like the header labels
 // for each column. (1, 2, 3... etc).
 const GridColumnMarkersRow = observer(() => {
-	const maxWidth = $pattern.beatsLength * 32 + 'px'
+	const maxWidth = $pattern.lengthBeats * 32 + 'px'
 
 	return (
 		<Flex.Row
@@ -87,8 +88,11 @@ const RowLabels = observer(() => {
 // row and the whole grid below it. It is used to track its
 // width so we can adjust the cignal ells to fill up the space.
 export const GridContainerColumn = observer((props) => {
+	const maxWidth = $pattern.lengthBeats * 32
+
 	return (
-		<Flex.Column className="GridColumn" width="100%">
+		<Flex.Column className="GridColumn" width="100%" position="relative">
+			<PlaybackMarkerPattern containerWidth={maxWidth} />
 			<GridColumnMarkersRow />
 			{$pattern.activeToneIds.map((toneId) => (
 				<GridSignalRow key={toneId} toneId={toneId} />

@@ -35,10 +35,10 @@ type PerformedNoteT = {
 	velocity: number
 	startMs: number
 	endMs: number
-	absoluteStartTicks?: number
-	absoluteEndTicks?: number
-	absoluteStartMs?: number
-	absoluteEndMs?: number
+	absoluteStartTicks: number
+	absoluteEndTicks: number
+	absoluteStartMs: number
+	absoluteEndMs: number
 }
 
 type WithoutT<T, K extends keyof T> = {

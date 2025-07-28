@@ -38,7 +38,7 @@ const createMockProgression = (args) => {
 const createMockProject = (args) => {
 	return {
 		id: 'test-project',
-		ppqResolution: args.ppqResolution || 480
+		ppq: args.ppq || 480
 	}
 }
 
@@ -419,7 +419,7 @@ describe('applyPatternToChord', () => {
 		})
 
 		const pattern = createMockPattern({ signals: { signal1: signal } })
-		const project = createMockProject({ ppqResolution: 480 })
+		const project = createMockProject({ ppq: 480 })
 		const toneMap = createMockToneMap()
 
 		const result = applyPatternToChord({

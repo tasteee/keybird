@@ -7,6 +7,7 @@ import { $pattern } from '#/stores/$pattern'
 import { Text } from '@radix-ui/themes'
 import { observer } from 'mobx-react-lite'
 import { useState, useMemo, useEffect, useRef } from 'react'
+import { PlaybackMarkerProgression } from './PlaybackMarkerProgression'
 
 type PropsT = {
 	ref: React.RefObject<HTMLDivElement>
@@ -119,6 +120,7 @@ export const InnerProgressionGrid = observer((props: PropsT) => {
 					className="gridBackground"
 					style={{ position: 'relative', minWidth: `${minimumGridWidth}px` }}
 				>
+					<PlaybackMarkerProgression containerWidth={minimumGridWidth} totalBeats={totalBeats} />
 					{generateGridBlocks()}
 				</Flex.Row>
 				<Flex.Row

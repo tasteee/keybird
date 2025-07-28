@@ -2,8 +2,12 @@ import { $output } from '#/stores/output/$output'
 import { $player } from '#/stores/$player'
 import { $progression } from '#/stores/$progression'
 import { $progressionPanel } from '#/components/ProgressionPanel/$progressionPanel'
-import { action, computed, observable } from 'mobx'
+import { action, autorun, computed, observable, observe } from 'mobx'
 import { computedFn } from 'mobx-utils'
+import { midiEngine } from '#/modules/midiEngine'
+import { $pattern } from './$pattern'
+import { $project } from './$project'
+import { just } from '#/modules/just'
 
 // IDEA: Instead of iterating so much shit...
 // What if we stored both QWERTY_CHORD_KEYS string[]
@@ -164,8 +168,9 @@ class InputStore {
 		// Handle space key for playback toggle
 		if (event.code === 'Space') {
 			event.preventDefault()
-			$output.perform()
-			return
+			const isPlaying = midiEngine.isPlaying
+			if (isPlaying) return midiEngine.stop()
+			return midiEngine.start()
 		}
 
 		this.setPressedKeyCode(event.code, true)
@@ -183,3 +188,60 @@ class InputStore {
 }
 
 export const $input = new InputStore()
+
+export const setUp = () => {
+	let isSetUp = false
+
+	const updateMidiEngine = () => {
+		console.log('about to update midi engine')
+		if (!midiEngine.isReady) return console.warn('engine not ready')
+		console.log('sending stores to engine.....')
+
+		midiEngine.update({
+			pattern: $pattern,
+			progression: $progression,
+			project: $project
+		})
+	}
+
+	// Initial setup with autorun for comprehensive updates
+	autorun(() => {
+		// Pattern dependencies
+		const lengthBeats = $pattern.lengthBeats
+		const signalMap = $pattern.signalMap
+		const toneMap = $pattern.toneMap
+		// const octave = $pattern.octave
+		// const selectedSignalId = $pattern.selectedSignalId
+		// const cellWidth = $pattern.cellWidth
+
+		// Progression dependencies
+		const lengthBars = $progression.lengthBars
+		const steps = $progression.steps
+		const id = $progression.id
+
+		// Project dependencies
+		const ppq = $project.ppq
+		const bpm = $project.bpm
+		// const scaleRootNote = $project.scaleRootNote
+		// const scaleType = $project.scaleType
+		// const baseOctave = $project.baseOctave
+
+		console.log('Autorun triggered - updating midi engine with all dependencies')
+		midiEngine.update({
+			pattern: { ...$pattern, lengthBeats, signalMap, toneMap },
+			progression: { ...$progression, steps, lengthBars, id },
+			project: { ...$project, bpm, ppq }
+		})
+	})
+
+	const clicker = just.throttle(200, () => {
+		console.log('INITIAL CLICK SETUP')
+		if (isSetUp) return
+		isSetUp = true
+		console.log('removing click event listener')
+		window.removeEventListener('click', clicker)
+		console.log('setup complete - autorun will handle all updates')
+	})
+
+	window.addEventListener('click', clicker)
+}

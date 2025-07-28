@@ -10,6 +10,14 @@ const createDebouncer = (delay: number) => {
 	}
 }
 
+const afterMS = (ms: number, fn) => {
+	return setTimeout(fn, ms)
+}
+
+const repeatMS = (ms: number, fn) => {
+	return setInterval(fn, ms)
+}
+
 // const throttle = createThrottler(50)
 // throttle(() => console.log('hello'))
 const createThrottler = (delay: number) => {
@@ -32,5 +40,7 @@ export const just = {
 	createDebouncer,
 	createThrottler,
 	debounce,
-	throttle
+	throttle,
+	repeatMS,
+	afterMS
 }

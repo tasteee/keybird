@@ -62,13 +62,10 @@ type PartialSignalWithIdT = Partial<SignalT> & { id: string }
 
 type PatternT = {
 	id: string
-	title: string
-	description: string
-	tags: string[]
-	strategy: 'cycling'
+	lengthBeats: number
 	lengthBars: number
-	signals: Record<string, SignalT>
-	tones: Record<string, ToneT>
+	signalMap: Record<string, SignalT>
+	toneMap: Record<string, ToneT>
 }
 
 type SignalMapT = Record<string, SignalT>

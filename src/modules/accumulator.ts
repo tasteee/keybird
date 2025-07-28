@@ -2,8 +2,9 @@ export function accumulator(fn) {
 	const data = {}
 
 	function accumulate(patch = {}) {
+		const final = fn({ ...data, ...patch })
 		Object.assign(data, patch)
-		return fn({ ...data })
+		return final
 	}
 
 	accumulate.reset = () => {

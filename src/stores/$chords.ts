@@ -9,7 +9,7 @@ class ChordsStore {
 	// The chords for the specifically chosen scale.
 	// Not a computed because we need to be able to
 	// modify these chords.
-	@observable accessor chords = []
+	@observable accessor chords = [] as ChordT[]
 
 	// User can pin chords to create a collection
 	// of ones they specifically like for this project.

@@ -130,21 +130,21 @@ export const ChordBlock = observer((props: ChordBlockPropsT) => {
 	const hasVoicingModifier = chord.voicing !== 'closed'
 	const shouldShowResetIcon = hasOctaveModifier || hasInversionModifier || hasVoicingModifier
 
-	const onMouseDown = (e: React.MouseEvent) => {
-		const isLeftButton = e.button === 0
+	const onMouseDown = (event: React.MouseEvent) => {
+		const isLeftButton = event.button === 0
 		if (!isLeftButton) return
-		e.preventDefault()
-		e.stopPropagation()
+		event.preventDefault()
+		event.stopPropagation()
 		console.log('Playing chord:', chord.symbol, toJS(chord))
 		instrument.playChord(chord)
 		isMouseDown.set(true)
 	}
 
-	const onMouseUp = (e: React.MouseEvent) => {
-		const isLeftButton = e.button === 0
+	const onMouseUp = (eevent: React.MouseEvent) => {
+		const isLeftButton = event.button === 0
 		if (!isLeftButton) return
-		e.preventDefault()
-		e.stopPropagation()
+		event.preventDefault()
+		event.stopPropagation()
 		instrument.stopChord(chord)
 		isMouseDown.set(false)
 	}

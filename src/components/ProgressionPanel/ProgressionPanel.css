@@ -284,3 +284,62 @@ input {
 	padding-left: 8px;
 	padding-right: 4px;
 }
+
+/* Play Button Styles */
+.playButton {
+	width: 27px;
+	height: 27px;
+	border-radius: 50%;
+	margin-right: 4px;
+	padding-left: 2px;
+	background-color: var(--gray-9);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	margin-left: 8px;
+	transition: all 0.2s ease;
+	border: 2px solid transparent;
+}
+
+.playButton:hover {
+	background-color: var(--gray-8);
+	transform: scale(1.05);
+}
+
+.playButton.isPlaying {
+	transform: scale(1.1);
+	background-color: white;
+	border: 2px solid rgba(255, 255, 255, 0.8);
+	box-shadow:
+		0 0 8px rgba(255, 255, 255, 0.6),
+		0 0 16px rgba(255, 255, 255, 0.4),
+		0 0 24px rgba(255, 255, 255, 0.2),
+		0 0 32px rgba(255, 255, 255, 0.1),
+		inset 0 1px 0 rgba(255, 255, 255, 0.9),
+		inset 0 -1px 2px rgba(0, 0, 0, 0.1);
+	animation: playButtonPulse 2s ease-in-out infinite;
+}
+
+@keyframes playButtonPulse {
+	0%,
+	100% {
+		box-shadow:
+			0 0 8px rgba(255, 255, 255, 0.6),
+			0 0 16px rgba(255, 255, 255, 0.4),
+			0 0 24px rgba(255, 255, 255, 0.2),
+			0 0 32px rgba(255, 255, 255, 0.1),
+			inset 0 1px 0 rgba(255, 255, 255, 0.9),
+			inset 0 -1px 2px rgba(0, 0, 0, 0.1);
+	}
+	50% {
+		box-shadow:
+			0 0 12px rgba(255, 255, 255, 0.8),
+			0 0 20px rgba(255, 255, 255, 0.6),
+			0 0 28px rgba(255, 255, 255, 0.4),
+			0 0 36px rgba(255, 255, 255, 0.2),
+			inset 0 1px 0 rgba(255, 255, 255, 1),
+			inset 0 -1px 2px rgba(0, 0, 0, 0.05);
+		transform: scale(1.12);
+	}
+}

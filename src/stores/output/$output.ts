@@ -1,11 +1,11 @@
 import { WebMidi, Output } from 'webmidi'
 import { observable, action, computed, autorun } from 'mobx'
-import { createMidiEngine } from '#/modules/midiEngine'
 import { $progression } from '#/stores'
 import { $pattern } from '../$pattern'
+import { midiEngine } from '#/modules/midiEngine'
 
 class OutputStore {
-	engine = createMidiEngine()
+	engine = midiEngine
 
 	@observable accessor isSettingUp = false
 	@observable accessor isMidiConnected = false
@@ -56,36 +56,18 @@ class OutputStore {
 	}
 
 	@action perform = () => {
-		if ($progression.steps.length === 0) {
-			console.warn('No steps in progression to play.')
-			return
-		}
+		if ($progression.steps.length === 0) return console.warn('No steps in progression to play.')
 
-		console.log('Engine isPlaying:', this.engine.isPlaying)
-		console.log('Progression steps:', $progression.steps.length)
-		console.log('Output enabled:', this.isOutputEnabled)
-		console.log('Output type:', this.outputType)
-
-		if (this.engine.isPlaying) {
+		if (this.engine.state.isPlaying) {
 			console.log('was playing. stopping.')
 			this.engine.stop()
 			return
 		}
 
-		// Extract signals from the pattern store and send to engine
-		const signals = Object.values($pattern.signalMap)
-		console.log('Setting signals count:', signals.length)
-		this.engine.setSignals(signals)
 		console.log('playing progression')
-		this.engine.play()
+		this.engine.start()
 	}
 }
 
 export const $output = new OutputStore()
 globalThis.$output = $output
-
-// Auto-sync signals with MIDI engine whenever signalMap changes
-autorun(() => {
-	const signals = Object.values($pattern.signalMap)
-	$output.engine.setSignals(signals)
-})

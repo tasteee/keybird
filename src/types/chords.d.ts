@@ -21,38 +21,20 @@ type VoicingT =
 // When a ChordT is added to a progression, it just evolves into a
 // ProgressionChordT, which is a more concrete version of the chord
 // that has a duration and is marked as not a rest.
-// type ChordT = {
-// 	id: string
-// 	symbol: string
-// 	bassNote: string
-// 	tonic: string
-// 	inversion: number
-// 	voicing: VoicingT | string
-// 	octave: number
-// 	color?: string
-// 	notes: string[]
-// 	adjustedNotes: string[]
-// 	minVelocity: number
-// 	maxVelocity: number
-// }
-
 type TonalChordT = TonalChord.Chord
 
-// Derived from a tonal chord, but with additional properties
-// for use in the app.
 type ChordT = {
 	id: string
-	color: string // e.g., "red", "blue", etc.
-	adjustedNotes?: string[] // Notes adjusted for the project's base octave
-	octaveOffset: number // offset from projects base octave
-	rootNote: string // "C", "D#", "F", etc.
-	symbol: string // e.g., "C", "Dm7", "G7#9"
-	// degree: string // Roman numeral or Nashville notation.
-	voicing: string // e.g., "closed", "open", etc.
-	inversion: number // 0 for root position, 1 for first inversion, etc.
-	durationBeats: number // e.g., 4 for a whole note, 2 for a half note, etc.
-	bassNote: string // e.g., "C", "D#", "F", etc.
-	notes: string[] // Array of notes in the chord
-	minVelocity: number // Minimum velocity for MIDI playback
-	maxVelocity: number // Maximum velocity for MIDI playback
+	color: string
+	adjustedNotes?: string[]
+	octaveOffset: number
+	rootNote: string
+	symbol: string
+	voicing: string
+	inversion: number
+	durationBeats: number
+	bassNote: string
+	notes: string[]
+	minVelocity: number
+	maxVelocity: number
 }

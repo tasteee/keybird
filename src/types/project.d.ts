@@ -7,7 +7,7 @@ type ProjectT = {
 	bpm: number
 	scaleRootNote: string
 	scaleType: string
-	ppqResolution: number
+	ppq: number
 	timeingNumerator: number
 	timeingDenominator: number
 	baseOctave: number
@@ -31,7 +31,7 @@ interface ProjectStoreT extends ProjectT {
 	setBpm: (bpm: number) => void
 	setScaleRootNote: (scaleRootNote: string) => void
 	setScaleType: (scaleType: string) => void
-	setPpqResolution: (ppqResolution: number) => void
+	setppq: (ppq: number) => void
 	setTimeingNumerator: (timeingNumerator: number) => void
 	setTimeingDenominator: (timeingDenominator: number) => void
 	setBaseOctave: (baseOctave: number) => void

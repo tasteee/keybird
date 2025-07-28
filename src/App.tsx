@@ -7,6 +7,10 @@ import { QWERTY_CHORD_KEYS } from './hooks/useGlobalChordKeyboard'
 import { observer } from 'mobx-react-lite'
 import { $chords } from './stores/$chords'
 import { midiEngine } from './modules/midiEngine'
+import { autorun, observe } from 'mobx'
+import { just } from './modules/just'
+import { setUp } from './stores/$input'
+import { LoadingOverlay } from './components/LoadingOverlay'
 
 export const App = () => {
 	return (
@@ -15,19 +19,17 @@ export const App = () => {
 			<Router />
 			<GlowPixels />
 			<KbdController />
+			<LoadingOverlay />
 		</GrayTheme>
 	)
 }
 
 const InitBranch = React.memo(() => {
 	React.useEffect(() => {
-		$output.initialize()
-		$player.initialize()
-
-		midiEngine.update({
-			progression: $progression,
-			project: $project,
-			pattern: $pattern
+		just.afterMS(250, () => {
+			$output.initialize()
+			$player.initialize()
+			setUp()
 		})
 	}, [])
 

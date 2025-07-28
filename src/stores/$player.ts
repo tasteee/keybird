@@ -1,6 +1,6 @@
 import { to } from 'await-to-js'
 import isEmpty from 'is-empty'
-import { observable, action } from 'mobx'
+import { observable, action, computed } from 'mobx'
 import { Soundfont, SplendidGrandPiano } from 'smplr'
 import { numbers } from '#/modules/numbers'
 import { applyBaseOctaveOffset } from '#/modules/applyBaseOctaveOffset'
@@ -66,16 +66,28 @@ class PlayerStore {
 
 	@observable accessor isLoading = false
 	@observable accessor isInitializing = false
+	@observable accessor isFullyLoaded = false
+	@observable accessor loadingError: string | null = null
+	@observable accessor loadingProgress = 0 // 0-100
+	@observable accessor currentLoadingStep = ''
 
 	@observable accessor instrumentName = 'acoustic_grand_piano'
 	@observable accessor playingSounds = {} as Record<string, PlayingSoundT>
 
 	get instrument() {
 		return this.piano
-		const instrument = this.loadedInstruments[this.instrumentName]
-		if (instrument) return instrument
-		console.warn(`Instrument ${this.instrumentName} not loaded`)
-		return null
+	}
+
+	@computed get canPlaySounds() {
+		const result = this.isFullyLoaded && this.piano && this.audioContext
+		if (!result) {
+			console.log('[canPlaySounds] Not ready:', {
+				isFullyLoaded: this.isFullyLoaded,
+				hasPiano: !!this.piano,
+				hasAudioContext: !!this.audioContext
+			})
+		}
+		return result
 	}
 
 	@action setVolume = (volume: number) => {
@@ -88,22 +100,75 @@ class PlayerStore {
 		const instrument = this.loadedInstruments[name]
 		if (instrument) return console.log('[loadInstrument] already loaded:', name)
 
-		const newInstrument = new Soundfont(this.audioContext!, { instrument: name })
-		console.log('[loadInstrument] loaded:', { name, instrument: newInstrument })
-		this.loadedInstruments[name] = newInstrument
+		try {
+			// Simulate progress for soundfont loading
+			const soundfontLoadingInterval = setInterval(() => {
+				if (this.loadingProgress < 95) {
+					this.loadingProgress += 2
+				}
+			}, 150)
+
+			const newInstrument = new Soundfont(this.audioContext!, { instrument: name })
+			await newInstrument.load
+			clearInterval(soundfontLoadingInterval)
+			console.log('[loadInstrument] loaded:', { name, instrument: newInstrument })
+			this.loadedInstruments[name] = newInstrument
+		} catch (error) {
+			console.error('[loadInstrument] Failed to load soundfont:', error)
+			throw error
+		}
 	}
 
 	@action initialize = async () => {
 		if (this.isInitializing) return
 		console.log('[PlayerStore] Initializing audio context and loading instrument')
-		const context = new AudioContext()
-		this.isInitializing = true
-		this.audioContext = context
-		this.isLoading = true
-		this.piano = await new SplendidGrandPiano(context, { decayTime: 0.25 })
-		await this.loadInstrument(this.instrumentName)
-		this.isLoading = false
-		this.isInitializing = false
+
+		try {
+			this.isInitializing = true
+			this.isLoading = true
+			this.loadingError = null
+			this.loadingProgress = 0
+			this.currentLoadingStep = 'Initializing audio context...'
+
+			const context = new AudioContext()
+			this.audioContext = context
+			this.loadingProgress = 10
+
+			// Wait for the piano to fully load
+			this.currentLoadingStep = 'Loading piano samples...'
+			console.log('[PlayerStore] Creating SplendidGrandPiano...')
+			this.piano = new SplendidGrandPiano(context, { decayTime: 0.25 })
+
+			// Simulate progress for piano loading since onProgress might not be available
+			const pianoLoadingInterval = setInterval(() => {
+				if (this.loadingProgress < 65) {
+					this.loadingProgress += 2
+				}
+			}, 100)
+
+			console.log('[PlayerStore] Waiting for piano to load...')
+			await this.piano.load
+			clearInterval(pianoLoadingInterval)
+			console.log('[PlayerStore] Piano loaded successfully')
+			this.loadingProgress = 70
+
+			this.currentLoadingStep = 'Loading additional instruments...'
+			console.log('[PlayerStore] Loading soundfont instrument...')
+			await this.loadInstrument(this.instrumentName)
+			console.log('[PlayerStore] Soundfont loaded successfully')
+			this.loadingProgress = 100
+
+			this.currentLoadingStep = 'Ready!'
+			this.isFullyLoaded = true
+			console.log('[PlayerStore] Fully initialized and loaded')
+		} catch (error) {
+			console.error('[PlayerStore] Failed to initialize:', error)
+			this.loadingError = error.message || 'Failed to load audio instruments'
+			this.currentLoadingStep = 'Error loading audio'
+		} finally {
+			this.isLoading = false
+			this.isInitializing = false
+		}
 	}
 
 	@action selectInstrument = async (instrumentName: string) => {
@@ -135,29 +200,45 @@ class PlayerStore {
 	// $player.playNote({ note: 'C4', velocity: 80 })
 	// $player.playNote('C3')
 	playNote = (arg: string | PlayNoteArgsT) => {
+		if (!this.canPlaySounds) {
+			console.warn('[PlayerStore] Cannot play sounds - instruments not ready')
+			return
+		}
+
 		this.audioContext!.resume()
 		const options = this.buildPlayNoteArgs(arg)
 		const instrument = this.instrument
 		if (!this.audioContext) return hmu.noAudioContext()
 		if (!instrument) return hmu.noInstrument()
 
-		const isAlreadyPlaying = this.playingSounds[options.note]
+		// const isAlreadyPlaying = this.playingSounds[options.note]
 		const stopOptions = {} as StopNoteArgsT
 		stopOptions.note = options.note
 		stopOptions.fadeOutTime = options.fadeOutTime
-		if (isAlreadyPlaying) hmu.alreadyPlaying(options.note)
-		if (isAlreadyPlaying) this.stopNote(stopOptions)
+		// if (isAlreadyPlaying) hmu.alreadyPlaying(options.note)
+		// if (isAlreadyPlaying) this.stopNote(stopOptions)
 
-		const stop = instrument.start({
-			note: options.note,
-			velocity: options.velocity,
-			duration: options.duration
-		})
+		try {
+			const stop = instrument.start({
+				note: options.note,
+				velocity: options.velocity,
+				duration: options.duration
+			})
 
-		this.playingSounds[options.note] = {
-			startTime: this.audioContext.currentTime,
-			note: options.note,
-			stop
+			this.playingSounds[options.note] = {
+				startTime: this.audioContext.currentTime,
+				note: options.note,
+				stop
+			}
+		} catch (error) {
+			// Handle missing samples gracefully
+			if (error.message && error.message.includes('Sample not found')) {
+				console.warn(
+					`[PlayerStore] Sample not found for note: ${options.note}. This may indicate the instrument is still loading.`
+				)
+			} else {
+				console.error('[PlayerStore] Error playing note:', error)
+			}
 		}
 	}
 
@@ -204,14 +285,22 @@ class PlayerStore {
 
 	stopNote = (arg: string | StopNoteArgsT) => {
 		const options = this.buildStopOptions(arg)
-		const fadeOutTime = options.fadeOutTime
+		const fadeOutTime = options.fadeOutTime || 0.35 // Default 0.35s quick release
 		const playingSound = this.playingSounds[options.note]
 		const isNotPlaying = !playingSound
 		if (isNotPlaying) return
 
-		// For now, let's try the most common smplr API pattern
-		// smplr typically uses no parameters for natural release
-		playingSound.stop()
+		if (!this.audioContext) {
+			console.warn('No AudioContext available for quick release')
+			playingSound.stop()
+			delete this.playingSounds[options.note]
+			return
+		}
+
+		// Use smplr's time parameter for quick release
+		// Time is AudioContext currentTime + fade duration
+		const stopTime = this.audioContext.currentTime + fadeOutTime
+		playingSound.stop({ time: stopTime })
 		delete this.playingSounds[options.note]
 	}
 
@@ -227,6 +316,11 @@ class PlayerStore {
 	}
 
 	playChord = (chord: ChordT | ProgressionChordT) => {
+		if (!this.canPlaySounds) {
+			console.warn('[PlayerStore] Cannot play sounds - instruments not ready')
+			return
+		}
+
 		const notes = applyBaseOctaveOffset(chord.adjustedNotes || chord.notes)
 		const minVelocity = chord.minVelocity || 40
 		const maxVelocity = chord.maxVelocity || 80
@@ -234,6 +328,13 @@ class PlayerStore {
 		// NOTE: Duration...
 		const normalizedDuration = this.normalizeDuration(chord.durationBeats)
 		const duration = chord.durationBeats || DEFAULT_PLAYER_SETTINGS.duration
+
+		// Stop any existing notes for this chord first to prevent "already playing" warnings
+		notes.forEach((note) => {
+			if (this.playingSounds[note]) {
+				this.stopNote(note)
+			}
+		})
 
 		notes.forEach((note, index) => {
 			// Random velocity between min and max
@@ -261,10 +362,22 @@ class PlayerStore {
 		const isPlayingSoundsEmpty = isEmpty(this.playingSounds)
 		if (isPlayingSoundsEmpty) return
 
+		if (!this.audioContext) {
+			console.warn('No AudioContext available for quick release')
+			for (const note in this.playingSounds) {
+				const playingSound = this.playingSounds[note]
+				delete this.playingSounds[note]
+				playingSound.stop()
+			}
+			return
+		}
+
+		// Quick release all notes with 0.35s fade
+		const quickReleaseTime = this.audioContext.currentTime + 0.35
 		for (const note in this.playingSounds) {
 			const playingSound = this.playingSounds[note]
 			delete this.playingSounds[note]
-			to(playingSound.stop())
+			playingSound.stop({ time: quickReleaseTime })
 		}
 	}
 

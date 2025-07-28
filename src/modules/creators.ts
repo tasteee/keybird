@@ -17,13 +17,9 @@ export const createProgression = (overrides: Partial<ProgressionT> = {}): Progre
 export const createPattern = (overrides: Partial<PatternT> = {}): PatternT => {
 	return {
 		id: overrides.id || '',
-		title: overrides.title || '',
-		description: overrides.description || '',
-		tags: overrides.tags || [],
-		strategy: overrides.strategy || 'cycling',
 		lengthBars: overrides.lengthBars || 4,
-		signals: overrides.signals || {},
-		tones: overrides.tones || {}
+		signalMap: overrides.signalMap || {},
+		toneMap: overrides.toneMap || {}
 	}
 }
 
@@ -139,5 +135,30 @@ export const createChord = (overrides: Partial<TonalChordT> = {}): TonalChordT =
 		minVelocity: overrides.minVelocity || 60,
 		maxVelocity: overrides.maxVelocity || 85,
 		color
+	}
+}
+
+export const createPerformedNote = (signal: SignalT, note: string | null, project: ProjectT): PerformedNoteT => {
+	const velocity = numbers.randomInt(signal.minVelocity, signal.maxVelocity)
+	const startTicks = 32 * signal.startDivision
+	const endTicks = 32 * signal.endDivision
+	const startMs = (startTicks * (60000 / project.bpm)) / project.ppq
+	const endMs = (endTicks * (60000 / project.bpm)) / project.ppq
+
+	return {
+		note,
+		toneId: signal.toneId,
+		signalId: signal.id,
+		startMs,
+		endMs,
+		velocity: 110,
+		startDivision: signal.startDivision,
+		endDivision: signal.endDivision,
+		startTicks: 32 * signal.startDivision,
+		endTicks: 32 * signal.endDivision,
+		absoluteEndMs: endMs,
+		absoluteStartMs: startMs,
+		absoluteStartTicks: startTicks,
+		absoluteEndTicks: endMs
 	}
 }
