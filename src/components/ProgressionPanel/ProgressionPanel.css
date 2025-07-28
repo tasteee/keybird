@@ -251,8 +251,9 @@ input {
 
 .gridBlock {
 	height: 100%;
-	width: 100%;
+	width: 60px; /* Fixed width per beat for consistent spacing */
 	display: flex;
+	flex-shrink: 0; /* Prevent compression when container is smaller */
 }
 
 .gridBlock:not(:last-child) {
@@ -275,6 +276,10 @@ input {
 	background: var(--sand-2);
 }
 
+.gridBlock.darker {
+	background: var(--sand-3);
+}
+
 .rightArrowIconButton {
 	padding-left: 4px;
 	padding-right: 8px;
@@ -292,7 +297,9 @@ input {
 	border-radius: 50%;
 	margin-right: 4px;
 	padding-left: 2px;
-	background-color: var(--gray-9);
+	background-color: var(--sand-5);
+	border: 1px solid var(--sand-8);
+	color: white;
 	display: flex;
 	align-items: center;
 	justify-content: center;

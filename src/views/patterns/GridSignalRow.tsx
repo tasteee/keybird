@@ -7,6 +7,7 @@ import { useDatass } from 'datass'
 import { useOnClickOutside } from 'usehooks-ts'
 import { useRef } from 'react'
 import { observer } from 'mobx-react-lite'
+import { playPreviewNote } from '#/modules/patternPreview'
 
 // A "beat" is 4 divisions. The UI grid is often based on beats.
 const DIVISIONS_PER_BEAT = 4
@@ -37,6 +38,9 @@ const SignalRowCells = observer(({ toneId }: SignalRowCellsPropsT) => {
 		})
 
 		$pattern.selectedSignalId = id
+
+		// Play preview note when placing a signal
+		playPreviewNote({ toneId, duration: 0.5 })
 	}
 
 	const cells = []
@@ -75,6 +79,8 @@ const DraggableSignal = observer(({ signal, toneId }: DraggableSignalProps) => {
 		event.stopPropagation() // Prevent the row's deselect-all from firing
 		if (!isSelected) {
 			$pattern.selectedSignalId = signalId
+			// Play preview note when selecting a signal
+			playPreviewNote({ toneId, duration: 0.3 })
 		}
 	}
 
@@ -130,6 +136,8 @@ const DraggableSignal = observer(({ signal, toneId }: DraggableSignalProps) => {
 					const prevRowId = currentIndex > 0 ? allEnabledRows[currentIndex - 1] : null
 					if (prevRowId) {
 						$pattern.moveSignal({ id: signalId, toneId: prevRowId })
+						// Play preview note when moving vertically
+						playPreviewNote({ toneId: prevRowId, duration: 0.3 })
 					}
 					break
 				}
@@ -138,6 +146,8 @@ const DraggableSignal = observer(({ signal, toneId }: DraggableSignalProps) => {
 					const nextRowId = currentIndex < allEnabledRows.length - 1 ? allEnabledRows[currentIndex + 1] : null
 					if (nextRowId) {
 						$pattern.moveSignal({ id: signalId, toneId: nextRowId })
+						// Play preview note when moving vertically
+						playPreviewNote({ toneId: nextRowId, duration: 0.3 })
 					}
 					break
 				}

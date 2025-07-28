@@ -10,16 +10,6 @@ export const LoadingOverlay = observer(() => {
 	const progress = $player.loadingProgress
 	const currentStep = $player.currentLoadingStep
 
-	console.log('[LoadingOverlay]', {
-		isActivelyLoading,
-		hasError,
-		isFullyLoaded,
-		progress,
-		currentStep,
-		isLoading: $player.isLoading,
-		isInitializing: $player.isInitializing
-	})
-
 	// Only show if we're actively loading or have an error
 	if (!isActivelyLoading && !hasError) return null
 

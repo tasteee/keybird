@@ -12,12 +12,20 @@ import { $pattern } from '#/stores/$pattern'
 import { observer } from 'mobx-react-lite'
 import { InnerProgressionGrid } from './InnerProgressionGrid'
 import { TimingWrapper } from './TimingWrapper'
+import { useLocation } from 'wouter'
 
 const useSizeAndClickRef = (ref) => {
+	const [location] = useLocation()
+	const isInPatternView = location.startsWith('/patterns')
+
 	useOnClickOutside(ref, (event: MouseEvent) => {
 		const target = event?.target as HTMLElement
 		const isInsideChordOptions = target.closest?.('.ChordOptions')
 		if (isInsideChordOptions) return
+
+		// Don't allow deselection when in pattern view - always keep one chord selected
+		if (isInPatternView) return
+
 		$progressionPanel.setSelectedChordId('')
 	})
 }
@@ -46,13 +54,14 @@ export const ProgressionGrid = observer(() => {
 	const totalBeats = $progression.totalBeats
 	useSizeAndClickRef(ref)
 
-	const renderChords = () => {
+	const renderChords = (gridWidth: number, beatsToShow: number) => {
 		return steps.map((chord) => (
 			<TimingWrapper
 				key={chord.id}
 				chord={chord}
 				totalBeats={totalBeats}
-				totalWidth={width}
+				effectiveBeats={beatsToShow}
+				gridWidth={gridWidth}
 				totalChords={totalChords}
 				isSelected={chord.id === selectedId}
 				onMouseDown={onMouseDown(chord)}

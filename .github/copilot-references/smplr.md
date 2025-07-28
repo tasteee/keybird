@@ -1,4 +1,4 @@
-# [smplr](https://github.com/danigb/smplr)
+# smplr
 
 > `smplr` is a collection of sampled instruments for Web Audio API ready to be used with no setup required.
 

@@ -11,7 +11,7 @@ import { PlaybackMarkerProgression } from './PlaybackMarkerProgression'
 
 type PropsT = {
 	ref: React.RefObject<HTMLDivElement>
-	renderChords: () => JSX.Element[]
+	renderChords: (gridWidth: number, beatsToShow: number) => JSX.Element[]
 }
 
 export const InnerProgressionGrid = observer((props: PropsT) => {
@@ -20,12 +20,33 @@ export const InnerProgressionGrid = observer((props: PropsT) => {
 	const scrollContainerRef = useRef<HTMLDivElement>(null)
 	const totalBeats = $progression.totalBeats
 
-	// Calculate minimum width needed to show all beats properly
-	const minimumGridWidth = useMemo(() => {
-		const beatsPerBar = 4
-		const beatWidth = 60 // minimum width per beat for readability
-		return Math.max(totalBeats * beatWidth, 800) // minimum 800px width
-	}, [totalBeats])
+	// Use fixed beat width for consistent visual spacing
+	const FIXED_BEAT_WIDTH = 60 // pixels per beat - this never changes
+
+	// Calculate grid width based on beats to show (minimum 32 for visual consistency)
+	const beatsToShow = Math.max(totalBeats, 32)
+	const calculatedGridWidth = beatsToShow * FIXED_BEAT_WIDTH
+
+	// Get container width for comparison
+	const containerRef = props.ref
+	const [containerWidth, setContainerWidth] = useState(0)
+
+	useEffect(() => {
+		const updateContainerWidth = () => {
+			if (containerRef?.current) {
+				const rect = containerRef.current.getBoundingClientRect()
+				setContainerWidth(rect.width)
+			}
+		}
+
+		updateContainerWidth()
+		window.addEventListener('resize', updateContainerWidth)
+		return () => window.removeEventListener('resize', updateContainerWidth)
+	}, [containerRef])
+
+	// Grid width is always based on beats * fixed width, regardless of container size
+	// This ensures consistent visual spacing - the grid will scroll if it's wider than container
+	const finalGridWidth = calculatedGridWidth
 
 	const checkScrollability = () => {
 		const container = scrollContainerRef.current
@@ -61,15 +82,21 @@ export const InnerProgressionGrid = observer((props: PropsT) => {
 			container.removeEventListener('scroll', checkScrollability)
 			resizeObserver.disconnect()
 		}
-	}, [minimumGridWidth])
+	}, [finalGridWidth])
 
 	const generateGridBlocks = () => {
 		const blocks = []
 		const beatsPerBar = 4
+		// Always show at least 32 beats worth of grid blocks for visual consistency
+		const beatsToShow = Math.max(totalBeats, 32)
 
-		for (let i = 0; i < totalBeats; i++) {
-			const isDownbeat = i % beatsPerBar === 0
-			blocks.push(<span key={i} className={`gridBlock ${isDownbeat ? 'lighter' : ''}`}></span>)
+		// Generate blocks for each beat, but group them by bars
+		for (let i = 0; i < beatsToShow; i++) {
+			const barIndex = Math.floor(i / beatsPerBar)
+			const isEvenBar = barIndex % 2 === 0
+			// Even bars are light, odd bars are dark
+			const className = `gridBlock ${isEvenBar ? 'lighter' : 'darker'}`
+			blocks.push(<span key={i} className={className}></span>)
 		}
 		return blocks
 	}
@@ -116,11 +143,18 @@ export const InnerProgressionGrid = observer((props: PropsT) => {
 			>
 				<Flex.Row
 					height="100%"
-					width={`${minimumGridWidth}px`}
+					width="100%"
 					className="gridBackground"
-					style={{ position: 'relative', minWidth: `${minimumGridWidth}px` }}
+					style={{
+						position: 'relative',
+						minWidth: `${finalGridWidth}px`,
+						width: `${finalGridWidth}px`
+					}}
 				>
-					<PlaybackMarkerProgression containerWidth={minimumGridWidth} totalBeats={totalBeats} />
+					<PlaybackMarkerProgression
+						containerWidth={finalGridWidth}
+						totalBeats={Math.max(totalBeats, 32)} // Ensure at least 32 beats for visual consistency
+					/>
 					{generateGridBlocks()}
 				</Flex.Row>
 				<Flex.Row
@@ -128,12 +162,15 @@ export const InnerProgressionGrid = observer((props: PropsT) => {
 					position="absolute"
 					top="0"
 					left="0"
-					width={`${minimumGridWidth}px`}
+					width="100%"
 					height="100%"
 					gap="2px"
-					style={{ minWidth: `${minimumGridWidth}px` }}
+					style={{
+						minWidth: `${finalGridWidth}px`,
+						width: `${finalGridWidth}px`
+					}}
 				>
-					{props.renderChords()}
+					{props.renderChords(finalGridWidth, beatsToShow)}
 				</Flex.Row>
 			</Flex.Row>
 		</Flex.Row>

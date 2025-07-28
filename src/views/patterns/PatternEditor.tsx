@@ -3,10 +3,13 @@ import { Flex } from '#/components/common/Flex'
 import { IconButton, SegmentedControl, Separator, Slider, Text, TextField } from '@radix-ui/themes'
 import range from 'array-range'
 import { $pattern } from '#/stores/$pattern'
+import { $progression } from '#/stores'
 import { GridSignalRow } from './GridSignalRow'
 import { Icon } from '#/components/common/Icon'
 import { observer } from 'mobx-react-lite'
 import { PlaybackMarkerPattern } from './PlaybackMarkerPattern'
+import { ensureChordSelection, playPreviewNote } from '#/modules/patternPreview'
+import { useEffect } from 'react'
 
 const SIGNAL_INDEXES = range(1, 256)
 
@@ -53,6 +56,11 @@ const LeftColumnSpacerRow = () => {
 // And goingup, we have N1A1O, N2M1O, etc, etc.
 
 export const PatternEditor = observer(() => {
+	// Ensure a chord is selected when the pattern editor is displayed or progression changes
+	useEffect(() => {
+		ensureChordSelection({})
+	}, [$progression.steps.length])
+
 	const deselect = (event: React.MouseEvent) => {
 		event.preventDefault() // Prevent default context menu on right-click
 		event.stopPropagation() // Stop the event from bubbling up
@@ -76,11 +84,27 @@ const RowLabels = observer(() => {
 	return (
 		<>
 			{$pattern.activeToneIds.map((toneId) => (
-				<Flex.Row key={toneId} className="rowLabelBox" align="center">
-					<Text className="rowIdLabel">{toneId}</Text>
-				</Flex.Row>
+				<RowLabel key={toneId} toneId={toneId} />
 			))}
 		</>
+	)
+})
+
+const RowLabel = observer((props: { toneId: string }) => {
+	const onClick = () => {
+		playPreviewNote({ toneId: props.toneId, duration: 1.0 })
+
+		// TODO: Select all signals in this row
+		// const rowSignals = $pattern.toneMap[props.toneId]?.signalIds || []
+		// rowSignals.forEach(signalId => {
+		//   // Add logic to select multiple signals if needed
+		// })
+	}
+
+	return (
+		<Flex.Row key={props.toneId} className="rowLabelBox" align="center" onClick={onClick} style={{ cursor: 'pointer' }}>
+			<Text className="rowIdLabel">{props.toneId}</Text>
+		</Flex.Row>
 	)
 })
 
